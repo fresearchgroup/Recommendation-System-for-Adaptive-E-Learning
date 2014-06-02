@@ -1,0 +1,12 @@
+{% extends "base_staff.html"%}
+{% block body %}
+
+	<form method="post" enctype="multipart/form-data" class="content">
+		{% csrf_token %}
+	    Choose a File : <input type="file" name="myfile"/><br><br>
+	    Concept-Name : <input type="text" name="filename"/><br><br>
+
+	    <input type="submit" name="submit" value="Upload" />
+	</form>
+
+{% endblock %}

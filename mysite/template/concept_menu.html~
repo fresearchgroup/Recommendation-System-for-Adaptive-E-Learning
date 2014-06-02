@@ -1,0 +1,17 @@
+{% extends "base.html"%}
+{% block body %}
+	<h4>Concepts Passed</h4>
+	<ol class="content">
+		{% for concept in passed_list %}
+		<li><a href = "/concept_submenu/{{concept.id}}"/>{{concept}}</a></li>
+		{% endfor %}		
+	</ol>
+	<h4>Concepts To Be Taken - In order of Recommendation</h4>
+    <ol class="content">{%for concept in concept_list %}
+		{% if concept not in passed_list %}
+		<li class="content" id="content"><a href = "/concept_submenu/{{concept.id}}"/>{{concept}}</a></li>
+		{% endif %}
+	{%endfor%}
+    </ol>
+
+{% endblock %}

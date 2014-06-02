@@ -1,0 +1,21 @@
+{% extends "base_staff.html"%}
+{% block body %}
+{% for message in messages %}
+        {% if 'error' in message.tags %}<p style="color: red;">{{ message }}</p>{% endif %}
+<form action="/question_upload_handler/" method="get">
+ 	Course : <select name="course">
+ 			 {% for course in course_list %}
+				{% if course.name != 'foundation' %} 
+			<option value={{course.id}}>{{course.name}}</option>
+				{% endif %}
+			 {% endfor %}
+		 </select><br> 	
+	Question : <input type="text" name="question"><br />
+        Option 1 : <input type="text" name="option1"><br />
+        Option 2 : <input type="text" name="option2"><br />
+        Option 3 : <input type="text" name="option3"><br />
+        Option 4 : <input type="text" name="option4"><br />
+        Answer   : <input type="text" name="answer"><br />
+        <input type="submit" value="Submit">
+</form>
+{% endblock %}

@@ -1,0 +1,17 @@
+<html>
+<head>
+    <title>Search</title>
+</head>
+<body>
+    <form action="/signup/" method="get">
+ 	{% if error1 %}
+        <p style="color: red;">There is an error.</p>
+	{% endif %}        
+	UserName : <input type="text" name="username"><br />
+	E-mail : <input type="email" name="email"><br />
+        Password : <input type="password" name="password1"><br />
+        Confirm Password : <input type="password" name="password2"><br />
+        <input type="submit" value="Submit"><br />
+    </form>
+</body>
+</html>

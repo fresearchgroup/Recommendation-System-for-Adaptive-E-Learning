@@ -1,0 +1,23 @@
+{% extends "base.html"%}
+{% block body %}
+{% for message in messages %}
+        {% if 'error' in message.tags %}<p style="color: red;">{{ message }}</p>{% endif %}
+{% endfor %}
+<form method="get" action="/evaluate_quiz/" enctype="text/plain">
+    <ol>{%for question in question_list %}
+		<li><P>{{question.question}}<BR>
+		<input type="radio" name="{{question.id}}" value="1">{{question.option1}}<BR>
+		<input type="radio" name="{{question.id}}" value="2">{{question.option2}}<BR>
+		<input type="radio" name="{{question.id}}" value="3">{{question.option3}}<BR>
+		<input type="radio" name="{{question.id}}" value="4">{{question.option4}}<BR>
+		</p></li>
+	{%endfor%}
+
+    </ol>
+<input type="submit" value="Submit">
+<input type="reset" value="Clear Choices">
+</form>
+
+
+
+{% endblock %}

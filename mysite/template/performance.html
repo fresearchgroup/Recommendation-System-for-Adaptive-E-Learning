@@ -1,0 +1,43 @@
+{% extends "base.html"%}
+{% block body %}
+<table style="width:300px" border="1">
+<tr>
+  <td>Concept ID</td>
+  <td>Knowledge level</td>
+  <td>Unknown </td>
+  <td>Unsatisfactorily known </td>
+  <td>Known </td>
+  <td>Learned </td>
+</tr>
+{% for state in state_list %}
+	<tr>
+	  <td>{{state.course_id}}</td>
+	  <td>{{state.KL}}</td>
+	  <td>{{state.unknown}}</td>
+	  <td>{{state.unsat_known}}</td>
+	  <td>{{state.known}}</td>
+	  <td>{{state.learned}}</td>
+	</tr>
+{% endfor %}
+</table>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+<table style="width:300px" border="1">
+<tr>
+  <td>Concept ID</td>
+  <td>Concept Name</td>
+</tr>
+{% for course in course_list %}
+	<tr>
+	  <td>{{course.id}}</td>
+	  <td>{{course.name}}</td>
+	</tr>
+{% endfor %}
+</table>
+
+{% endblock %}
+

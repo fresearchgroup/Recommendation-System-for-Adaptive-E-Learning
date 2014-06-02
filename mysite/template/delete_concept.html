@@ -1,0 +1,10 @@
+{% extends "base_staff.html"%}
+{% block body %}
+<p> Check the course to delete it : </p><br><br>
+    <form method="get" action="/concept_deletion_handler/" enctype="text/plain">    
+    {% for course in course_list %}
+        <input type="radio" name={{course.id}} value=course><a href = "">{{concept.name}}</a><br><br>
+    {% endfor %}
+    <input type="submit" value="Submit">
+    </form>
+{% endblock %}
