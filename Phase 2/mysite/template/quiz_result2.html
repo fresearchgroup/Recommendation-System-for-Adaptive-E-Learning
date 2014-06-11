@@ -1,0 +1,51 @@
+{% extends "base.html"%}
+{% block body %}
+
+Your score is {{score}}.<br>
+
+Please give your feedback...<br>
+<form method="get" action="/feedback_handler/" enctype="text/plain">
+    <ol>
+	<li>
+	    <P>Does the program correspond to your educational needs level each time?<BR>
+		<input type="radio" name="5" value="1">1<BR>
+		<input type="radio" name="5" value="2">2<BR>
+		<input type="radio" name="5" value="3">3<BR>
+		<input type="radio" name="5" value="4">4<BR>
+		<input type="radio" name="5" value="5">5<BR>
+	    </p>
+	</li>
+	<li>
+	    <P>Does the test adapt to your educational needs?<BR>
+		<input type="radio" name="6" value="1">1<BR>
+		<input type="radio" name="6" value="2">2<BR>
+		<input type="radio" name="6" value="3">3<BR>
+		<input type="radio" name="6" value="4">4<BR>
+		<input type="radio" name="6" value="5">5<BR>
+	    </p>
+	</li>
+	<li>
+	    <P>Does the educational software affect positively your perception about computer programming?<BR>
+		<input type="radio" name="7" value="1">1<BR>
+		<input type="radio" name="7" value="2">2<BR>
+		<input type="radio" name="7" value="3">3<BR>
+		<input type="radio" name="7" value="4">4<BR>
+		<input type="radio" name="7" value="5">5<BR>
+	    </p>
+	</li>
+	<li>
+	    <P>Does the educational software draw your interest on computer programming?<BR>
+		<input type="radio" name="8" value="1">1<BR>
+		<input type="radio" name="8" value="2">2<BR>
+		<input type="radio" name="8" value="3">3<BR>
+		<input type="radio" name="8" value="4">4<BR>
+		<input type="radio" name="8" value="5">5<BR>
+	    </p>
+	</li>
+
+    </ol>
+<input type="submit" value="Submit">
+<input type="reset" value="Clear Choices">
+</form>
+
+{% endblock %}

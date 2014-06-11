@@ -1,0 +1,12 @@
+<html>
+<head>
+    <title>Search</title>
+</head>
+<body>
+    <ol>
+	<li>Read the material</li>
+	<li>Take a quiz</li>
+	<li><a href = "/logout/">Logout</a></li>
+    </ol>
+</body>
+</html>

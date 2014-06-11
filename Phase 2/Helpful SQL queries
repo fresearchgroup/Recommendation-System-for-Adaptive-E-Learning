@@ -1,0 +1,17 @@
+//represent grade databse as matrix sql query Please add more student if you want to. I have hardcoded the number of  students  by their IDs
+
+
+SELECT questionID_id, SUM(CASE WHEN studentID_id=12 THEN value else 0 end) S1, SUM(CASE WHEN studentID_id=13 THEN value else 0 end) S2, SUM(CASE WHEN studentID_id=14 THEN value else 0 end) S3 from firstapp_grade group by questionID_id;
+
+
+
+// create a trigger in mysql databse to add rows in grade matrix automatically after adding each question, default score = 0
+
+DELIMITER $$
+CREATE TRIGGER after_question_insert AFTER INSERT ON firstapp_question 
+FOR EACH ROW 
+BEGIN 
+INSERT INTO firstapp_grade(questionID_id,studentID_id,value) SELECT NEW.id,firstapp_student.id,0 FROM firstapp_student;
+END$$
+DELIMITER ;
+

@@ -1,0 +1,7 @@
+{% extends "base.html"%}
+{% block body %}
+    <ol>
+	<liclass="content" id="content"><a href = "/material/">Read the material</a></li>
+	<liclass="content" id="content"><a href = "/quiz/">Take a quiz</a></li>
+    </ol>
+{% endblock %}
