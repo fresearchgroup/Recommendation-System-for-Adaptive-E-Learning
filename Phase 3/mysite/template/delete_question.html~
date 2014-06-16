@@ -1,0 +1,34 @@
+{% extends "base_staff.html"%}
+{% block body %}
+<p> Check the question to delete it : </p><br><br>
+    <form method="get" action="/question_deletion_handler/" enctype="text/plain"> 
+	<table style="width:auto" border="1"> 
+		<tr>
+			<td>Check to delete</td>			
+			<td>Question Course</td>
+			<td>Question</td>
+			<td>Option 1</td>
+			<td>Option 2</td>
+			<td>Option 3</td>
+			<td>Option 4</td>
+			<td>Answer</td>
+		</tr>  
+    {% for question in question_list %}
+        <tr>
+			<td><input type="checkbox" name={{question.id}} value=question></td>
+			<td>{{question.course.name}}</td> 
+			<td>{{question.question}}</td>
+			<td>{{question.option1}}</td>
+			<td>{{question.option2}}</td>
+			<td>{{question.option3}}</td>
+			<td>{{question.option4}}</td>
+			<td>Option No. {{question.answer}}</td>
+		</tr>
+    {% endfor %}
+	<br>
+    
+	</table>
+	<br>
+	<input type="submit" value="Submit">
+    </form>
+{% endblock %}

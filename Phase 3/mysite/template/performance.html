@@ -1,0 +1,115 @@
+{% extends "base.html"%}
+{% block body %}
+
+<div>
+Choose a concept :
+
+<select>
+{% for course in course_list %}
+    {% if course.name != "foundation"%}
+        <option value="course.id">{{course.name}}</option>
+    {% endif %}
+{% endfor %}
+<option value="all">All Concepts</option>
+</select>
+
+</div>
+
+<div id="knowledgechart" style="min-width: 500px; height: 400px; margin: 0 auto"></div>
+<script>
+$(function () {
+            $('#knowledgechart').highcharts({
+                chart: {
+                    type: 'column'
+                },
+                title: {
+                    text: 'Knowledge Level in All Courses'
+                },
+                xAxis: {
+                    type: 'Courses',
+                    labels: {
+                        rotation: -45,
+                        style: {
+                            fontSize: '13px',
+                            fontFamily: 'Verdana, sans-serif'
+                        }
+                    }
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: 'Knowledge Gained'
+                    }
+                },
+                legend: {
+                    enabled: false
+                },
+                tooltip: {
+                    pointFormat: 'Knowledge Level: <b>{point.y:f} millions</b>',
+                },
+                series: [{
+                    name: 'Population',
+                    data: [
+                        {% for state in state_list %}
+                        ['{{ state.course.name }}', {{state.KL}}],
+                        {% endfor %}
+                    ],
+                    dataLabels: {
+                        enabled: true,
+                        rotation: -90,
+                        color: '#000000',
+                        align: 'right',
+                        x: 4,
+                        y: 10,
+                        style: {
+                            fontSize: '13px',
+                            fontFamily: 'Verdana, sans-serif',
+                            textShadow: '0 0 3px black'
+                        }
+                    }
+                }]
+            });
+        });
+</script>
+
+<table style="width:300px" border="1">
+<tr>
+  <td>Concept ID</td>
+  <td>Knowledge level</td>
+  <td>Unknown </td>
+  <td>Unsatisfactorily known </td>
+  <td>Known </td>
+  <td>Learned </td>
+</tr>
+{% for state in state_list %}
+	<tr>
+	  <td>{{state.course_id}}</td>
+	  <td>{{state.KL}}</td>
+	  <td>{{state.unknown}}</td>
+	  <td>{{state.unsat_known}}</td>
+	  <td>{{state.known}}</td>
+	  <td>{{state.learned}}</td>
+	</tr>
+{% endfor %}
+</table>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+<table style="width:300px" border="1">
+<tr>
+  <td>Concept ID</td>
+  <td>Concept Name</td>
+</tr>
+{% for course in course_list %}
+	<tr>
+	  <td>{{course.id}}</td>
+	  <td>{{course.name}}</td>
+	</tr>
+{% endfor %}
+</table>
+
+{% endblock %}
+

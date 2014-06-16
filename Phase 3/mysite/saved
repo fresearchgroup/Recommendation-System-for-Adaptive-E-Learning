@@ -1,0 +1,53 @@
+#This is where the concept mapping starts
+# STEP 1:
+'''	
+    questionList = list(Question.objects.all())
+    
+	eligibleList=[]
+	for question1 in questionList:
+		for question2 in questionList:
+			if question2 is question1:
+				continue
+			gradeList1 = list(Grade.objects.filter(questionID=question1).order_by("studentID"))
+			gradeList2 = list(Grade.objects.filter(questionID=question2).order_by("studentID"))
+    		n = Grade.objects.all().values("studentID").distinct().count()
+			xnor_number = 0
+			for object1 in gradeList1:
+				for object2 in gradeList2:
+					if object1.studentID == object2.studentID:
+						if object1.value == object2.value:
+							xnor_number = xnor_number + 1
+						gradeList2.remove(object2)
+						break
+				gradeList1.remove(object1)
+			if xnor_number > 0.4*n:
+				eligibleList.append({question1, question2})
+			print "XNOR number : " + str(xnor_number)
+		questionList.remove(question1)
+'''
+# STEP 2:
+
+
+
+# STEP 3:
+
+
+
+# STEP 4:
+
+
+
+# STEP 5:
+
+
+
+# STEP 6:
+
+
+
+# STEP 7:
+
+
+#This is where it ends
+
+

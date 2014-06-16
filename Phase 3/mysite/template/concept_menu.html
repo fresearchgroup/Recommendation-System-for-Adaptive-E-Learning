@@ -1,0 +1,25 @@
+{% extends "base.html"%}
+{% block body %}
+	<h4>Concepts Passed</h4>
+	<ol class="content">
+		{% for concept in passed_list %}
+		<li class="content" id="content"><a href = "/concept_submenu/{{concept.id}}"/>{{concept}}</a></li>
+		{% endfor %}		
+	</ol>
+	<h4>Concepts To Be Taken - In order of Recommendation</h4>
+    <ol class="content">{%for concept in concept_list %}
+		{% if concept not in passed_list %}
+		<li class="content" id="content"><a href = "/concept_submenu/{{concept.id}}"/>{{concept}}</a></li>
+		{% endif %}
+	{%endfor%}
+    </ol>
+
+	<h4>Recommendation Accoding to Collaborative Filtering</h4>
+	<ol class="content"> {% for concept in cf_predict_list %}
+		{% if concept.concept not in passed_list and concept.concept.name != "foundation" %}
+		<li class="content" id="content"><a href = "/concept_submenu/{{concept.concept.id}}"/>{{concept.concept}}</a></li>
+		{% endif %}
+		{% endfor %}
+	</ol>
+
+{% endblock %}
