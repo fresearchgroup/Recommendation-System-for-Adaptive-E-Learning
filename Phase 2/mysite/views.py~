@@ -1,4 +1,4 @@
-import time
+import time, os
 
 from django.http import HttpResponse
 from django.template import RequestContext
@@ -238,6 +238,7 @@ def pdf_view(request):
 	pdf.closed		
 
 def performance_view(request) :
+	print os.path.realpath(os.path.dirname(__file__))
 	if 'logged_in' not in request.session:
 		return HttpResponseRedirect("/login-form")
 	if request.session['staff_mode'] == 1:
@@ -550,6 +551,7 @@ def feedback_handler(request) :
 		feedback3(request)
 	if course_id == 15:
 		feedback4(request)
+	return(HttpResponse('Thank you for your feedback. Click <a href = "/concept_menu">here</a> to continue'))
 
 def feedback1(request):		
 	feedback = Feedback(q1=request.GET.get('1'), q2=request.GET.get('2'), q3=request.GET.get('3'), q4=request.GET.get('4'))
