@@ -1,5 +1,186 @@
 {% extends "base.html"%}
 {% block body %}
+
+<div>
+Choose a concept :
+
+<select id='concept_sel'>
+{% for course in course_list %}
+    {% if course.name != "foundation"%}
+        <option value="{{course.id}}">{{course.name}}</option>
+    {% endif %}
+{% endfor %}
+<option value="0">All Concepts</option>
+</select>
+
+</div>
+
+<div id="knowledgechart" style="min-width: 500px; height: 400px; margin: 0 auto;"></div>
+ <script type='text/javascript'>
+var state = [];
+$(document).ready(function() {
+	state = [];
+	Highcharts.getOptions().colors = Highcharts.map(Highcharts.getOptions().colors, function(color) {
+		    return {
+		        radialGradient: { cx: 0.5, cy: 0.3, r: 0.7 },
+		        stops: [
+		            [0, color],
+		            [1, Highcharts.Color(color).brighten(-0.3).get('rgb')] // darken
+		        ]
+		    };
+		});
+	{% for state in state_list %}
+		{% if state.course.name != 'foundation' %}
+			var temp = ["{{state.course.name}}"];
+			temp.push("{{state.unknown}}");
+			temp.push("{{state.unsat_known}}");
+			temp.push("{{state.known}}");
+			temp.push("{{state.learned}}");
+			state.push(temp);
+		{% endif %}
+	{% endfor %}
+
+	all_knowledge_draw();
+	});
+function all_knowledge_draw()
+{
+	$('#knowledgechart').highcharts({
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: 'Knowledge Levels in All Concepts'
+            },
+            xAxis: {
+                type: 'category',
+                labels: {
+                    rotation: 0,
+                    style: {
+                        fontSize: '20px',
+                        fontFamily: 'Verdana, sans-serif'
+                    }
+                },
+				title: {
+                    text: 'Concepts',
+					style: {
+                        fontSize: '30px',
+                        fontFamily: 'Verdana, sans-serif'
+                    }
+                }
+            },
+            yAxis: {
+                min: 0,
+				max: 1,
+                title: {
+                    text: 'Knowledge Gained',
+					style: {
+                        fontSize: '30px',
+                        fontFamily: 'Verdana, sans-serif'
+                    }
+                },
+				labels: {
+                    rotation: 0,
+                    style: {
+                        fontSize: '20px',
+                        fontFamily: 'Verdana, sans-serif'
+                    }
+				}
+            },
+            legend: {
+                enabled: false
+            },
+ 
+           tooltip: {
+                pointFormat: 'Knowledge Level: <b>{point.y:.2f}</b>',
+            },
+            series: [{
+                name: 'Population',
+                data: [
+					{% for state in state_list %}
+						['{{state.course.name}}', {{state.KL}}],
+					{% endfor %}
+                ],
+                dataLabels: {
+                    enabled: true,
+                    rotation: -90,
+                    color: '#FFFFFF',
+                    align: 'right',
+                    x: 4,
+                    y: 10,
+                    style: {
+                        fontSize: '13px',
+                        fontFamily: 'Verdana, sans-serif',
+                        textShadow: '0 0 3px black'
+                    }
+                }
+            }]
+        });
+}
+function concept_pie_draw(sel)
+{		
+		var course_name = sel.options[sel.selectedIndex].text;
+		var un = 0;
+		var uk =0;
+		var k = 0;
+		var l = 0;
+		
+		for(i=0;i<state.length;i++)
+			if(state[i][0] == course_name)
+			{
+				un = parseInt(state[i][1])*100;
+				uk = parseInt(state[i][2])*100;
+				k = parseInt(state[i][3])*100;
+				l = 100 - un - uk - k;
+				break;
+			}
+
+		alert(uk);
+		// Build the chart
+        $('#knowledgechart').highcharts({
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false
+            },
+            title: {
+                text: 'Knowledge Level of concept - ' + course_name
+            },
+            tooltip: {
+        	    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: true,
+                        format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                        style: {
+                            color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                        },
+                        connectorColor: 'silver'
+                    }
+                }
+            },
+            series: [{
+                type: 'pie',
+                name: 'Level',
+                data: [
+                    ['Unknown',   un],
+                    ['Unsatisfactorily Known',       uk],
+					['Known', k],
+                    ['Learned',    l]
+                ]
+            }]
+        });
+}
+$('#concept_sel').change(function(){
+		var sel = document.getElementById('concept_sel');
+		if(sel.value == '0') all_knowledge_draw();
+		else concept_pie_draw(sel);
+	});
+</script>
+
 <table style="width:300px" border="1">
 <tr>
   <td>Concept ID</td>
@@ -25,9 +206,6 @@
 <br>
 <br>
 <br>
-
-<div id="container" style="min-width: 500px; height: 400px; margin: 0 auto"></div>
-
 
 <table style="width:300px" border="1">
 <tr>
