@@ -1,4 +1,4 @@
-import time
+import time, os
 
 from django.http import HttpResponse
 from django.template import RequestContext
@@ -231,13 +231,19 @@ def pdf_view(request):
 		return HttpResponseRedirect("/concept_menu") 
 	
 	filename = str(Course.objects.get(id=request.session['course_id']).content)
-	with open('/home/devanshu/summer_django_iitb/mysite/media/'+filename,'r') as pdf:
+
+	print filename
+
+	MEDIA_DIR = os.path.join(os.path.join(os.path.dirname(os.path.realpath(__file__)), '..'), 'media')
+
+	with open(MEDIA_DIR + '/' + filename,'r') as pdf:
 		response = HttpResponse(pdf.read(),mimetype='application/pdf')
 		response['Content-Disposition'] = 'inline;filename=some_file.pdf'
 		return response
 	pdf.closed		
 
 def performance_view(request) :
+
 	if 'logged_in' not in request.session:
 		return HttpResponseRedirect("/login-form")
 	if request.session['staff_mode'] == 1:
