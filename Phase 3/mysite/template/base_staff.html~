@@ -75,6 +75,9 @@
     margin-top: 3px;
     margin-bottom: 3px;
 }
+.staff_editing: visited{
+	color:aquamarine;
+}
 </style>
 </head>
 <body class="mybody">
@@ -97,25 +100,10 @@
     Welcome {{staff_name}}
 </div>
 <br><br>
+
 {%block body%}{%endblock%}
 </body>
 
 
 
-<body>
-<h1><center>Learning C programming</center></h1><br>
-<hr>
-<div id ="menu" style="width:100%;
-    background-color:yellow;
-    color:green;
-    height:35px;
-    font-size:20px;
-    text-align:center;
-    padding-top:5px;">
-Welcome {{staff_name}}
-<a href = "/staff_menu/" style="padding-left:10px">Home</a>
-<a href = "/logout/" style="padding-left:10px">Logout</a>
-</div>
-{%block body%}{%endblock%}
-</body>
 </html>

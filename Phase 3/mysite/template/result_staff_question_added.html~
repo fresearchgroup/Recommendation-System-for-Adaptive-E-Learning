@@ -1,0 +1,8 @@
+{% extends "base_staff.html"%}
+{% block body %}
+
+
+<p class="content">Your question has been saved. Please click <a href="/staff_menu/" class="staff_editing">here</a> to continue...</p>
+
+{% endblock %}
+
