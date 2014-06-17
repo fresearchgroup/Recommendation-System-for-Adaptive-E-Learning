@@ -1,6 +1,7 @@
 from django.conf.urls import patterns, include, url
 from mysite.views import *
-
+from django.conf import settings
+from django.conf.urls.static import static
 from django.contrib import admin
 admin.autodiscover()
 
@@ -32,6 +33,6 @@ urlpatterns = patterns('',
     url(r'^question_upload_handler/$', question_upload_handler), 
     url(r'^question_deletion_handler/$', question_deletion_handler),
     url(r'^concept_deletion_handler/$', concept_deletion_handler),  
-    url(r'^add_stuff/$', add_stuff),  
+    url(r'^add_stuff/$', add_stuff),
 
-)
+)+static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

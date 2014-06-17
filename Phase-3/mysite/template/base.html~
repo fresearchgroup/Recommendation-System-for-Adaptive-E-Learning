@@ -2,9 +2,10 @@
     <head>
         <title>Learning C programming.</title>
         <meta charset='UTF-8'>
-        <script src="js/jquery.min.js" type='text/javascript'></script>
-        <script src="js/highcharts.js" type="text/javascript"></script>
-        <link rel="css/stylesheet" href="style.css">
+	{% load staticfiles %}
+        <script src="{% static "js/jquery.min.js" %}" type='text/javascript'></script>
+        <script src="{% static "js/highcharts.js" %}" type="text/javascript"></script>
+        <link rel="stylesheet" href="{% static "css/style.css" %}">
     </head>
 <body class="mybody">
     <div id="heading" class="heading">
