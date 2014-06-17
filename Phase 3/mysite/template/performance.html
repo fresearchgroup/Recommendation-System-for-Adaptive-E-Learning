@@ -70,7 +70,7 @@ function all_knowledge_draw()
             },
             yAxis: {
                 min: 0,
-				max: 1,
+		max: 1,
                 title: {
                     text: 'Knowledge Gained',
 					style: {
@@ -78,7 +78,7 @@ function all_knowledge_draw()
                         fontFamily: 'Verdana, sans-serif'
                     }
                 },
-				labels: {
+		labels: {
                     rotation: 0,
                     style: {
                         fontSize: '20px',
@@ -94,11 +94,13 @@ function all_knowledge_draw()
                 pointFormat: 'Knowledge Level: <b>{point.y:.2f}</b>',
             },
             series: [{
-                name: 'Population',
+                name: 'Knowledge',
                 data: [
-					{% for state in state_list %}
-						['{{state.course.name}}', {{state.KL}}],
-					{% endfor %}
+                    {% for state in state_list %}
+                        {% if state.course.name != 'foundation' %}
+                            ['{{state.course.name}}', {{state.KL}}],
+                        {% endif %}
+                    {% endfor %}
                 ],
                 dataLabels: {
                     enabled: true,
@@ -165,10 +167,10 @@ function concept_pie_draw(sel)
                 type: 'pie',
                 name: 'Level',
                 data: [
-                    ['Unknown',   un],
-                    ['Unsatisfactorily Known',       uk],
-					['Known', k],
-                    ['Learned',    l]
+                    ['Unknown', un],
+                    ['Unsatisfactorily Known', uk],
+                    ['Known', k],
+                    ['Learned', l]
                 ]
             }]
         });
@@ -179,45 +181,4 @@ $('#concept_sel').change(function(){
 		else concept_pie_draw(sel);
 	});
 </script>
-
-<table style="width:300px" border="1">
-<tr>
-  <td>Concept ID</td>
-  <td>Knowledge level</td>
-  <td>Unknown </td>
-  <td>Unsatisfactorily known </td>
-  <td>Known </td>
-  <td>Learned </td>
-</tr>
-{% for state in state_list %}
-	<tr>
-	  <td>{{state.course_id}}</td>
-	  <td>{{state.KL}}</td>
-	  <td>{{state.unknown}}</td>
-	  <td>{{state.unsat_known}}</td>
-	  <td>{{state.known}}</td>
-	  <td>{{state.learned}}</td>
-	</tr>
-{% endfor %}
-</table>
-<br>
-<br>
-<br>
-<br>
-<br>
-
-<table style="width:300px" border="1">
-<tr>
-  <td>Concept ID</td>
-  <td>Concept Name</td>
-</tr>
-{% for course in course_list %}
-	<tr>
-	  <td>{{course.id}}</td>
-	  <td>{{course.name}}</td>
-	</tr>
-{% endfor %}
-</table>
-
 {% endblock %}
-
