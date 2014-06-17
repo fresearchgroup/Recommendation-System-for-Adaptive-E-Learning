@@ -3,13 +3,14 @@
 	<h4>Concepts Passed</h4>
 	<ol class="content">
 		{% for concept in passed_list %}
-		<li class="content" id="content"><a href = "/concept_submenu/{{concept.id}}"/>{{concept}}</a></li>
+		<li class="content" id="content"><a href = "/concept_submenu/{{concept.id}}"/>{{concept}}</a></li><div class="rw-ui-container"></div>
+
 		{% endfor %}		
 	</ol>
 	<h4>Concepts To Be Taken - In order of Recommendation</h4>
     <ol class="content">{%for concept in concept_list %}
 		{% if concept not in passed_list %}
-		<li class="content" id="content"><a href = "/concept_submenu/{{concept.id}}"/>{{concept}}</a></li>
+		<li class="content" id="content"><a href = "/concept_submenu/{{concept.id}}"/>{{concept}}</a></li><div class="rw-ui-container"></div>
 		{% endif %}
 	{%endfor%}
     </ol>
@@ -17,8 +18,36 @@
 	<h4>Recommendation Accoding to Collaborative Filtering</h4>
 	<ol class="content"> {% for concept in cf_predict_list %}
 		{% if concept.concept not in passed_list and concept.concept.name != "foundation" %}
-		<li class="content" id="content"><a href = "/concept_submenu/{{concept.concept.id}}"/>{{concept.concept}}</a></li>
+		<li class="content" id="content"><a href = "/concept_submenu/{{concept.concept.id}}"/>{{concept.concept}}</a></li><div class="rw-ui-container"></div>
+		{% endif %}
 		{% endfor %}
 	</ol>
+<script type="text/javascript">(function(d, t, e, m){
+    // Async Rating-Widget initialization.
+    window.RW_Async_Init = function(){
+        RW.init({
+            huid: "177531",
+            uid: "419f94cd66ac135e00237736bb031aa7",
+            source: "website",
+            options: {
+                "urid": "3",
+                "size": "medium",
+                "style": "ratingwidget"
+            } 
+        });
+        RW.render();
+    };
 
+    // Append Rating-Widget JavaScript library.
+    var rw, s = d.getElementsByTagName(e)[0], id = "rw-js",
+        l = d.location, ck = "Y" + t.getFullYear() + 
+        "M" + t.getMonth() + "D" + t.getDate(), p = l.protocol,
+        f = (-1 < l.search.indexOf("DBG=") ? "" : ".min"),
+        a = ("https:" == p ? "secure." + m + "js/" : "js." + m);
+    if (d.getElementById(id)) return;              
+    rw = d.createElement(e);
+    rw.id = id; rw.async = true; rw.type = "text/javascript";
+    rw.src = p + "//" + a + "external" + f + ".js?ck=" + ck;
+    s.parentNode.insertBefore(rw, s);
+}(document, new Date(), "script", "rating-widget.com/"));</script>
 {% endblock %}

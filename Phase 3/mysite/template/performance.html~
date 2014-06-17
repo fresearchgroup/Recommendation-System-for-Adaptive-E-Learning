@@ -134,7 +134,6 @@ function concept_pie_draw(sel)
 				break;
 			}
 
-		alert(uk);
 		// Build the chart
         $('#knowledgechart').highcharts({
             chart: {
@@ -214,7 +213,7 @@ $('#concept_sel').change(function(){
 </tr>
 {% for course in course_list %}
 	<tr>
-	  <td>{{course.id}}</td>
+	  <td>{{course.id}}</td><a class="one_star" href="javascript: submitRating(1, 5)"></a>
 	  <td>{{course.name}}</td>
 	</tr>
 {% endfor %}
