@@ -510,8 +510,84 @@ def question_upload_handler(request):
 		
 	q = Question(course=course, question=question, option1=option1, option2=option2, option3=option3, option4=option4, answer=answer)
 	q.save()
-	return HttpResponse('Your question has been saved.Please <a href="/staff_menu/">click</a> to continue...')
 
+	item_id = 1
+	
+	dep_dict = {}
+	
+	dep_sum = 0
+
+	while item_id >= 0:
+		try:
+			print "hello " + str(item_id)
+			concept_string = "course" + str(item_id)
+			print 'course_string' + concept_string
+			dependency_string = "dependency" + str(item_id)
+			print 'dependency_string' + dependency_string
+			concept = int(request.GET.get(concept_string))
+			print 'course ' + str(concept)
+			dependency = int(request.GET.get(dependency_string))
+			print 'dependency' + str(dependency)
+			dep_dict.update({concept : dependency})
+			dep_sum = dep_sum + dependency
+			item_id = item_id + 1
+			print "hello " + str(item_id)
+		except:
+			break	
+		
+	for key in dep_dict:
+		print "hello"
+		concept = Course.objects.get(id=key)
+		value = float(dep_dict[key])/float(dep_sum)
+		try:
+			qc = Question_Concept.objects.get(question=q,concept=concept)
+			qc.value = value
+			qc.save()
+		except:
+			qc = Question_Concept(question=q,concept=concept,value=value)
+			qc.save()
+	
+	concept_list = Course.objects.all()
+	for item in concept_list:
+		try:
+			qc = Question_Concept.objects.get(question=q, concept=item)
+		except:
+			qc = Question_Concept(question=q, concept=item, value=0)
+			qc.save()
+
+	
+	for key in dep_dict:
+		concept = Course.objects.get(id=key)
+		vertical_column = Question_Concept.objects.filter(concept=concept)
+		sum1 = 0
+		for item2 in vertical_column:
+			sum1 += item2.value
+		
+		for item2 in vertical_column:
+			value = item2.value
+			if sum1 > value:
+				value = float(item2.value)/float(sum1)
+			else:
+				value = item2.value
+			
+			try:
+				object1 = Question_Concept_new.objects.get(question=item2.question, concept=concept)
+				object1.value = value
+				object1.save()
+			except:
+				object1 = Question_Concept_new(question=item2.question, concept=concept, value=value)
+				object1.save()
+
+	for item in concept_list:
+		try:
+			object1 = Question_Concept_new.objects.get(question=q, concept=item)
+		except:
+			object1 = Question_Concept_new(question=q, concept=item, value=0)
+			object1.save()
+
+	staff_name = User.objects.get(id=request.session['login_id']).username
+	return render(request, 'result_staff_question_added.html',{'staff_name':staff_name, 'save_question' : "0", 'delete_question' : "1"})
+			
 def edit_question_view(request):
 	return HttpResponse("Site Under Construction")
 
@@ -529,10 +605,66 @@ def question_deletion_handler(request):
 		return HttpResponseRedirect("/login-form")
 	if request.session['staff_mode'] == 0:
 		return HttpResponseRedirect("/concept_menu/")	
+	
 	for question in Question.objects.all():
 		if request.GET.get(str(question.id)):
+			QC_list = Question_Concept.objects.filter(question = question)
+			for item in QC_list:
+				item.delete()
+
+			QC_new_list = Question_Concept_new.objects.filter(question = question)
+
+			for item in QC_new_list:
+				if item.value > 0:
+					vertical_column = Question_Concept.objects.filter(concept = item.concept)
+					sum1 = 0
+					value = 0
+					for item2 in vertical_column:
+						sum1 = sum1 + item2.value
+	
+					for item2 in vertical_column:
+						if sum1 > item2.value:
+							value = float(item2.value)/float(sum1)
+						else:
+							value = item2.value
+						try:
+							object1 = Question_Concept_new.objects.get(question=item2.question, concept=item2.concept)
+							object1.value = value
+							object1.save()
+						except:
+							object1 = Question_Concept_new(question=item2.question, concept=item2.concept, value=value)
+							object1.save()
+			
+			for item in QC_new_list:
+				item.delete()
+			
+			confidencertor_list = ConfidenceRtoR.objects.filter(Q(questionSource=question) | Q(questionTarget=question))
+
+			for item in confidencertor_list:
+				item.delete()
+
+			confidencewtow_list = ConfidenceRtoR.objects.filter(Q(questionSource=question) | Q(questionTarget=question))
+
+			for item in confidencewtow_list:
+				item.delete()
+
+			q1q2rightwrong_list = Q1Q2RightWrong.objects.filter(Q(question_x=question) | Q(question_y=question))
+
+			for item in q1q2rightwrong_list:
+				item.delete()
+
+			grade_list = Grade.objects.filter(questionID=question)
+			
+			for item in grade_list:
+				item.delete()
+
 			question.delete()
-	return HttpResponse('Your request has been processed.Please <a href="/staff_menu/">click</a> to continue...') 
+			
+
+				
+					
+	staff_name = User.objects.get(id=request.session['login_id']).username
+	return render(request, 'result_staff_question_delete.html',{'staff_name':staff_name, 'save_question' : "1", 'delete_question' : "0"})
 
 def feedback_view(request):
 	student_name = Student.objects.get(user_id=request.session['login_id']).name
