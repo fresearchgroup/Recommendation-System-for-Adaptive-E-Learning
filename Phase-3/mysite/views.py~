@@ -660,9 +660,6 @@ def question_deletion_handler(request):
 
 			question.delete()
 			
-
-				
-					
 	staff_name = User.objects.get(id=request.session['login_id']).username
 	return render(request, 'result_staff_question_delete.html',{'staff_name':staff_name, 'save_question' : "1", 'delete_question' : "0"})
 

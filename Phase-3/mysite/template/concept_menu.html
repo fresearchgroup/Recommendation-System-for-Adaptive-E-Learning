@@ -22,4 +22,12 @@
 		{% endfor %}
 	</ol>
 
+	<h4>Concepts taken by other similar students</h4>
+	<ol class="content"> {% for concept in ss_reco_list %}
+		{% if concept not in passed_list and concept.name != "foundation" %}
+		<li class="content" id="content"><a href = "/concept_submenu/{{concept.id}}"/>{{concept}}</a></li>
+		{% endif %}
+		{% endfor %}
+	</ol>
+
 {% endblock %}
