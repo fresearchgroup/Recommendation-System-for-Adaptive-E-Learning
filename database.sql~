@@ -685,7 +685,6 @@ DROP TABLE IF EXISTS `firstapp_grade`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `firstapp_grade` (
-  `concept_id` int (11) NOT NULL,
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `questionID_id` int(11) NOT NULL,
   `studentID_id` int(11) NOT NULL,
@@ -705,7 +704,7 @@ CREATE TABLE `firstapp_grade` (
 
 LOCK TABLES `firstapp_grade` WRITE;
 /*!40000 ALTER TABLE `firstapp_grade` DISABLE KEYS */;
-INSERT INTO `firstapp_grade` VALUES (12,645,403,12,1,1),(12,646,403,13,0,0),(12,648,404,12,1,1),(12,649,404,13,0,0),(13,51,405,12,1,1),(12,652,405,13,0,0),(12,654,406,12,1,1),(14,655,406,13,0,0),(14,657,407,12,1,1),(13,658,407,13,1,1),(12,660,408,12,1,1),(13,661,408,13,1,1);
+INSERT INTO `firstapp_grade` VALUES (645,403,12,1,1),(646,403,13,0,0),(648,404,12,1,1),(649,404,13,0,0),(651,405,12,1,1),(652,405,13,0,0),(654,406,12,1,1),(655,406,13,0,0),(657,407,12,1,1),(658,407,13,1,1),(660,408,12,1,1),(661,408,13,1,1);
 /*!40000 ALTER TABLE `firstapp_grade` ENABLE KEYS */;
 UNLOCK TABLES;
 

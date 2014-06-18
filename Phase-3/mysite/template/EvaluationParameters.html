@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js" type='text/javascript'></script>
+    <script src="http://code.highcharts.com/highcharts.js" type="text/javascript"></script>
+    <script src="http://code.highcharts.com/highcharts.js"></script>
+    <script src="http://code.highcharts.com/modules/exporting.js"></script>
+    
+    <script src="http://code.highcharts.com/highcharts-more.js"></script>
+    <script src="http://code.highcharts.com/modules/solid-gauge.src.js"></script>
+</head>
+
+
+<body style="background-color:white;">
+
+<h1><center><font color="black">Lets calculate the parameters</font></center> </h1>
+
+<div style="width: 600px; height: 200px; margin: 0 auto">
+	<div id="container-speed" style="width: 300px; height: 200px; float: left"></div>
+	<div id="container-rpm" style="width: 300px; height: 200px; float: left"></div> 
+        
+</div> 
+
+<center><p>
+<div style="width: 300px; height: 200px; margin: 0 auto">
+
+           <div id="container-f1-metric" style="width: 300px; height: 200px; float: left;"></div> 
+</div>
+</p>
+</center>
+
+<h2> Average ratings : </h2>
+
+<!--{{ num_c1_stu }} students have rated concept1 and average rating is {{ c1_avg_rating }}-->
+
+<table class="reference" style="width:80%">
+	<tr style="background-color:red;">
+		<th>Concept ID</th>
+		<th>Concept name</th>		
+		<th>Average Rating</th>
+	</tr>
+	<tr>
+		<td>1 </td>
+		<td>Basics of C programming</td>		
+		<td>{{ concept_rating_array.0 }}</td>
+	</tr>
+	<tr>
+		<td>2</td>
+		<td>Decision Making</td>		
+		<td> {{ concept_rating_array.1 }} </td>
+	</tr>
+	<tr>
+		<td>3</td>
+		<td>Iterations</td>		
+		<td>{{ concept_rating_array.2 }}</td>
+	</tr>
+	<tr>
+		<td>4</td>
+		<td>Arrays and Structures</td>		
+		<td >{{ concept_rating_array.3 }}</td>
+	</tr>
+
+</table>
+
+<h2>Precision :</h2>
+Number of good recommendations displayed : {{ good_recommendation_displayed_count }}
+<br>
+Number of recommendations displayed : {{ num_recomendations_displayed }}
+<br>
+<br>
+<br>
+Therefore, the precision is <label id="pre"></label>
+
+<h2>Recall :</h2>
+Number of good recommendations displayed : {{ good_recommendation_displayed_count }}
+<br>
+Total number of good recommendations : {{ good_recommendation_displayed_count }}
+<br>
+<br>
+<br>
+Therefore, the recall is <label style="display:inline;" id="rec"></label>
+
+<h2>F1 Metric :</h2>
+
+F1 metric = 2 * ( recall * precision ) / ( recall + precision ) = <label style="display:inline;" id="f1m"></label>
+
+<script type="text/javascript">
+var precision;
+var recall;
+var f1_metric;
+function cal_precision(a,b)
+{
+   
+   return a/b;
+}
+
+function cal_f1_metric(p,r)
+{
+   var temp1 = ( 2 * p * r ) / ( p + r);
+   var temp2 = Math.round(temp1*100);
+   var temp3 = temp2/100;
+   return temp3;
+
+}
+
+$(document).ready(function() {
+       
+	precision = cal_precision({{ good_recommendation_displayed_count }}, {{ num_recomendations_displayed }});
+	document.getElementById("pre").innerHTML = precision; 
+         recall = cal_precision({{ good_recommendation_displayed_count }}, {{ good_recommendation_displayed_count }});
+	document.getElementById("rec").innerHTML = recall; 
+        f1_metric = cal_f1_metric(precision,recall);
+	document.getElementById("f1m").innerHTML = f1_metric; 
+});
+
+
+$(function () {
+	
+    var gaugeOptions = {
+	
+	    chart: {
+	        type: 'solidgauge'
+	    },
+	    
+	    title: null,
+	    
+	    pane: {
+	    	center: ['50%', '85%'],
+	    	size: '140%',
+	        startAngle: -90,
+	        endAngle: 90,
+            background: {
+                backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || '#EEE',
+                innerRadius: '60%',
+                outerRadius: '100%',
+                shape: 'arc'
+            }
+	    },
+
+	    tooltip: {
+	    	enabled: false
+	    },
+	       
+	    // the value axis
+	    yAxis: {
+			stops: [
+				[0.25, '#DF5353'], // red
+	        	[0.6, '#DDDF0D'], // yellow
+	        	[0.75, '#55BF3B'] // green
+			],
+			lineWidth: 0,
+            minorTickInterval: null,
+            tickPixelInterval: 400,
+            tickWidth: 0,
+	        title: {
+                y: -70
+	        },
+            labels: {
+                y: 16
+            }        
+	    },
+        
+        plotOptions: {
+            solidgauge: {
+                dataLabels: {
+                    y: 5,
+                    borderWidth: 0,
+                    useHTML: true
+                }
+            }
+        }
+    };
+    
+    // The speed gauge
+    $('#container-speed').highcharts(Highcharts.merge(gaugeOptions, {
+        yAxis: {
+	        min: 0,
+	        max: 1,
+	        title: {
+	            text: 'Precision'
+	        }       
+	    },
+
+	    credits: {
+	    	enabled: false
+	    },
+	
+	    series: [{
+	        name: 'Precision',
+	        data: [precision],
+	        dataLabels: {
+	        	format: '<div style="text-align:center"><span style="font-size:25px;color:' + 
+                    ((Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black') + '">{y}</span><br/>' + 
+                   	'<span style="font-size:12px;color:silver"></span></div>'
+	        },
+	        tooltip: {
+	            valueSuffix: ' '
+	        }
+	    }]
+	
+	}));
+    
+    // The RPM gauge
+    $('#container-rpm').highcharts(Highcharts.merge(gaugeOptions, {
+        yAxis: {
+        	min: 0,
+        	max: 1,
+	        title: {
+	            text: 'Recall'
+	        }       
+	    },
+	
+	    series: [{
+	        name: 'Recall',
+	        data: [recall],
+	        dataLabels: {
+	        	format: '<div style="text-align:center"><span style="font-size:25px;color:' + 
+                    ((Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black') + '">{y:.1f}</span><br/>' + 
+                   	'<span style="font-size:12px;color:silver"></span></div>'
+	        },
+	        tooltip: {
+	            valueSuffix: ''
+	        }      
+	    }]
+	
+	}));
+     // The f1 metric gauge
+    $('#container-f1-metric').highcharts(Highcharts.merge(gaugeOptions, {
+        yAxis: {
+	        min: 0,
+	        max: 1,
+	        title: {
+	            text: 'f1 metric'
+	        }       
+	    },
+
+	    credits: {
+	    	enabled: false
+	    },
+	
+	    series: [{
+	        name: 'fi metric',
+	        data: [f1_metric],
+	        dataLabels: {
+	        	format: '<div style="text-align:center"><span style="font-size:25px;color:' + 
+                    ((Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black') + '">{y}</span><br/>' + 
+                   	'<span style="font-size:12px;color:silver"></span></div>'
+	        },
+	        tooltip: {
+	            valueSuffix: ' '
+	        }
+	    }]
+	
+	}));
+    
+                               
+    // Bring life to the dials
+    setInterval(function () {
+    	// Speed
+        var chart = $('#container-speed').highcharts();
+        if (chart) {
+            var point = chart.series[0].points[0],
+                newVal,
+                inc = Math.round((Math.random() - 0.5) * 100);
+            
+            newVal = point.y + inc;
+            if (newVal < 0 || newVal > 200) {
+                newVal = point.y - inc;
+            }
+            
+            //point.update(newVal);
+        }
+
+        // RPM
+        chart = $('#container-rpm').highcharts();
+        if (chart) {
+            var point = chart.series[0].points[0],
+                newVal,
+                inc = Math.random() - 0.5;
+            
+            newVal = point.y + inc;
+            if (newVal < 0 || newVal > 5) {
+                newVal = point.y - inc;
+            }
+            
+            //point.update(newVal);
+        }
+    }, 2000);  
+    
+	
+});
+
+
+</script>
+
+
+
+</body> 
+</html> 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

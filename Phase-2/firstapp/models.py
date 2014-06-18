@@ -99,6 +99,7 @@ class Question_Concept_new(models.Model):
 	value = models.DecimalField(max_digits=3,decimal_places=2)
 
 class Grade(models.Model):
+        conceptID =  models.ForeignKey(Course)
 	questionID = models.ForeignKey(Question)
 	studentID = models.ForeignKey(Student)
 	value = models.IntegerField()

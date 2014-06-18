@@ -207,7 +207,80 @@ def concept_menu_view(request):
 	for ii in predict_course_list :
 		print str(ii.concept) + str(" ") + str(ii.prediction_value)
 	print predict_course_list
-	return render(request, 'concept_menu.html',{'concept_list':clist, 'passed_list':plist, 'student_name' : student.name, 'cf_predict_list' : predict_course_list})
+
+	# calculation student_similarity with other students who have taken this concept.
+	ss_reco_list = []		#student_similarity_recommendation_list
+	current_student_history_list = Student_History.objects.filter(student = student)
+	if current_student_history_list:
+		current_student_concept_list = []
+		for history_item in current_student_history_list:
+			current_student_concept_list.append(history_item.concept)
+
+		for other_student in Student.objects.all().exclude(id=student.id):
+			other_student_history_list = Student_History.objects.filter(student = other_student)
+			if other_student_history_list:
+				other_student_concept_list = []
+				for history_item in other_student_history_list:
+					other_student_concept_list.append(history_item.concept)
+				concept_union = list(set(current_student_concept_list).union(set(other_student_concept_list)))
+				concept_common = list(set(current_student_concept_list).intersection(set(other_student_concept_list)))
+				if len(concept_common) > 0:
+					concept_factor = float(len(concept_common))/len(concept_union)
+					average_marks_difference = 0.0
+					for concept in concept_common:
+						current_student_marks = Student_History.objects.get(student=student,concept=concept).score
+						other_student_marks = Student_History.objects.get(student=other_student,concept=concept).score
+						if current_student_marks >= other_student_marks:
+							average_marks_difference = average_marks_difference + float(current_student_marks - other_student_marks)
+						else:
+							average_marks_difference = average_marks_difference + float(other_student_marks - current_student_marks)
+					average_marks_difference = average_marks_difference/len(concept_common)
+					marks_factor = 1.0 - average_marks_difference
+					similarity = concept_factor*marks_factor
+					sim_found_1 = Student_Similarity.objects.filter(student1=student,student2=other_student)
+					if sim_found_1:
+						sim_found = Student_Similarity.objects.get(student1=student,student2=other_student)
+						sim_found.similarity = similarity
+						sim_found.save()
+					else:
+						sim_found_2 = Student_Similarity.objects.filter(student1=other_student,student2=student)
+						if sim_found_2:
+							sim_found = Student_Similarity.objects.get(student1=other_student,student2=student)
+							sim_found.similarity = similarity
+							sim_found.save()
+						else:
+							sim_created = Student_Similarity(student1=student,student2=other_student,similarity=similarity)
+							sim_created.save()  
+		# Done! Student Similarity stored/updated!
+		# Now to show recommended courses of similar students.
+		# Recommend concepts taken by top similar students. but not taken by the current student
+		sim1 = Student_Similarity.objects.filter(student1 = student,similarity__gt=0.4)
+		sim2 = Student_Similarity.objects.filter(student2 = student,similarity__gt=0.4)
+		sim_list = (sim1 | sim2).order_by('-similarity')
+		if sim_list:
+			concept_limit = 3;
+			concept_count = 0;
+			for sim in sim_list:
+				
+				if sim.student1==student:
+					other_student = sim.student2
+				else:
+					other_student = sim.student1
+				other_student_history_list = Student_History.objects.filter(student = other_student)
+				other_student_concept_list = []
+				for history_item in other_student_history_list:
+					other_student_concept_list.append(history_item.concept)
+				concept_common = list(set(current_student_concept_list).intersection(set(other_student_concept_list)))
+				concept_in_other_not_common = list(set(other_student_concept_list) - set(concept_common))
+				for concept in concept_in_other_not_common:
+					if concept_count>=concept_limit:
+						break;
+					ss_reco_list.append(concept)
+					concept_count = concept_count + 1;
+				if concept_count>=concept_limit:
+					break;
+	return render(request, 'concept_menu.html',{'concept_list':clist, 'passed_list':plist, 'student_name' : student.name, 'cf_predict_list' : predict_course_list, 'ss_reco_list':ss_reco_list})
+
 def concept_submenu_view(request, course_id):
 	if 'logged_in' not in request.session:
 		return HttpResponseRedirect("/login-form")
@@ -432,7 +505,15 @@ def evaluate_quiz_view(request):
 		dep2.save()
 
 	score = knowledge * 100
-
+	
+	# Logging the quiz into student_history
+	history_found = Student_History.objects.filter(student=student,concept=curr_item)
+	if history_found:
+		history_object = Student_History.objects.get(student=student,concept=curr_item)
+		history_object.score = knowledge
+	else: 
+		history_object = Student_History(student=student,concept=curr_item,score=knowledge)
+	history_object.save()
 	if course_id == 12:
 		return render(request, 'quiz_result1.html', {'score':score})
 	if course_id == 13:

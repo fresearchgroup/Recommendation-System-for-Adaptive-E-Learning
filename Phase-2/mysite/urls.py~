@@ -8,7 +8,12 @@ urlpatterns = patterns('',
     # Examples:
     # url(r'^$', 'mysite.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
-
+    
+    url(r'^EvaluationWelcome/$',Evaluation_welcome),
+    url(r'FeedbackEvaluation/$',Feedback_evaluation),
+    url(r'MaterialEvaluation/$',Material_evaluation),
+    url(r'EvaluationParameters/$',Parameter_evaluation),
+ 
     url(r'^admin/', include(admin.site.urls)),
     url(r'^login-form/$', login_form), 
     url(r'^login/$', login_handler), 
@@ -33,5 +38,5 @@ urlpatterns = patterns('',
     url(r'^question_deletion_handler/$', question_deletion_handler),
     url(r'^concept_deletion_handler/$', concept_deletion_handler),  
     url(r'^add_stuff/$', add_stuff),  
-    url(r'^quiz-result/$', quiz_result),  
+
 )

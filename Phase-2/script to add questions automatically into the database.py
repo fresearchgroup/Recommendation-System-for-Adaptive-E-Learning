@@ -2,9 +2,8 @@
 
 import MySQLdb
 
-
 #connect to the database
-db = MySQLdb.connect("localhost","devanshu","123456","django_db")
+db = MySQLdb.connect("localhost","root","windows","django_db")
 
 #get the cursor
 cursor = db.cursor()
@@ -13,16 +12,6 @@ sql = "DELETE FROM firstapp_q1q2rightwrong WHERE 1=1;"
 cursor.execute(sql)
 db.commit()
 print "deleting from q1q2rightwrong"
-
-sql = "DELETE FROM firstapp_question_concept WHERE 1=1;"
-cursor.execute(sql)
-db.commit()
-print "deleting from question_concept"
-
-sql = "DELETE FROM firstapp_question_concept_new WHERE 1=1;"
-cursor.execute(sql)
-db.commit()
-print "deleting from question_concept_new"
 
 sql = "DELETE FROM firstapp_grade WHERE 1=1;"
 cursor.execute(sql)
@@ -50,26 +39,26 @@ print "deleting from question"
 sqlList=[]
 
 sql1 = """INSERT INTO firstapp_question(COURSE_ID, QUESTION, OPTION1, 
-OPTION2, OPTION3, OPTION4, ANSWER) VALUES (12,'C programs are converted 
+OPTION2, OPTION3, OPTION4, ANSWER) VALUES (2,'C programs are converted 
 into machine language with the help of ','Editor','Compiler','OS',
 'None of the above',2)"""
 sqlList.append(sql1)
 
 sql2 = """INSERT INTO firstapp_question(COURSE_ID, QUESTION, OPTION1, 
-OPTION2, OPTION3, OPTION4, ANSWER) VALUES (12,'A character variable can at a time store','1 character','8 characters','256 characters','None of the above',1)"""
+OPTION2, OPTION3, OPTION4, ANSWER) VALUES (2,'A character variable can at a time store','1 character','8 characters','256 characters','None of the above',1)"""
 sqlList.append(sql2)
 
 
 sql3 = """INSERT INTO firstapp_question(COURSE_ID, QUESTION, OPTION1, 
-OPTION2, OPTION3, OPTION4, ANSWER) VALUES (12,'The maximum value that an integer constant can have is','-32767','32767','1.7014e+38','depends on the machine',4) """
+OPTION2, OPTION3, OPTION4, ANSWER) VALUES (2,'The maximum value that an integer constant can have is','-32767','32767','1.7014e+38','depends on the machine',4) """
 sqlList.append(sql3)
 
 sql4 = """INSERT INTO firstapp_question(COURSE_ID, QUESTION, OPTION1, 
-OPTION2, OPTION3, OPTION4, ANSWER) VALUES (12,'Which of the following is not a keyword in C ?','for','char','print','case',3) """
+OPTION2, OPTION3, OPTION4, ANSWER) VALUES (2,'Which of the following is not a keyword in C ?','for','char','print','case',3) """
 sqlList.append(sql4)
 
 sql5 = """INSERT INTO firstapp_question(COURSE_ID, QUESTION, OPTION1, 
-OPTION2, OPTION3, OPTION4, ANSWER) VALUES (13,'What would be the output of the following program:  main( ) 
+OPTION2, OPTION3, OPTION4, ANSWER) VALUES (3,'What would be the output of the following program:  main( ) 
 		{ 
 			int a = 300, b = 0, c = 10 ; 
 			if ( a >= 400 ) 
@@ -80,7 +69,7 @@ OPTION2, OPTION3, OPTION4, ANSWER) VALUES (13,'What would be the output of the f
 sqlList.append(sql5)
 
 sql6 = """INSERT INTO firstapp_question(COURSE_ID, QUESTION, OPTION1, 
-OPTION2, OPTION3, OPTION4, ANSWER) VALUES (13,'What would be the output of the following program:
+OPTION2, OPTION3, OPTION4, ANSWER) VALUES (3,'What would be the output of the following program:
  main( ) 
 			{ 
 			int   x = 10, y = 20 ; 
@@ -89,7 +78,7 @@ OPTION2, OPTION3, OPTION4, ANSWER) VALUES (13,'What would be the output of the f
 sqlList.append(sql6)
 
 sql7 = """INSERT INTO firstapp_question(COURSE_ID, QUESTION, OPTION1, 
-OPTION2, OPTION3, OPTION4, ANSWER) VALUES (13,'What would be the output of the following program:
+OPTION2, OPTION3, OPTION4, ANSWER) VALUES (3,'What would be the output of the following program:
 main( ) 
 			{  
 			int   k, num = 30 ;  
@@ -100,7 +89,7 @@ main( )
 sqlList.append(sql7)
 
 sql8 = """INSERT INTO firstapp_question(COURSE_ID, QUESTION, OPTION1, 
-OPTION2, OPTION3, OPTION4, ANSWER) VALUES (13,'What would be the output of the following program:
+OPTION2, OPTION3, OPTION4, ANSWER) VALUES (3,'What would be the output of the following program:
 main( ) 
 			{
 			int x = 2; 
@@ -113,12 +102,12 @@ main( )
 sqlList.append(sql8)
 
 sql9 = """INSERT INTO firstapp_question(COURSE_ID, QUESTION, OPTION1, 
-OPTION2, OPTION3, OPTION4, ANSWER) VALUES (14,'How many times does the for loop iterate?
+OPTION2, OPTION3, OPTION4, ANSWER) VALUES (4,'How many times does the for loop iterate?
 			for ( i = 0; i< 10 ; i = i+2)','5','10','6','11',1) """
 sqlList.append(sql9)
 
 sql10 = """INSERT INTO firstapp_question(COURSE_ID, QUESTION, OPTION1, 
-OPTION2, OPTION3, OPTION4, ANSWER) VALUES (14,'In the following code :
+OPTION2, OPTION3, OPTION4, ANSWER) VALUES (4,'In the following code :
 			do 
 			{
 				printf("Hello");
@@ -127,7 +116,7 @@ OPTION2, OPTION3, OPTION4, ANSWER) VALUES (14,'In the following code :
 sqlList.append(sql10)
 
 sql11 = """INSERT INTO firstapp_question(COURSE_ID, QUESTION, OPTION1, 
-OPTION2, OPTION3, OPTION4, ANSWER) VALUES (14,'Output of following code is
+OPTION2, OPTION3, OPTION4, ANSWER) VALUES (4,'Output of following code is
                         main( )
                         {  
                         float  x = 11 ;
@@ -142,7 +131,7 @@ OPTION2, OPTION3, OPTION4, ANSWER) VALUES (14,'Output of following code is
 sqlList.append(sql11)
 
 sql12 = """INSERT INTO firstapp_question(COURSE_ID, QUESTION, OPTION1, 
-OPTION2, OPTION3, OPTION4, ANSWER) VALUES (14,'The value of variable " count" after the outer for loop is :	
+OPTION2, OPTION3, OPTION4, ANSWER) VALUES (4,'The value of variable " count" after the outer for loop is :	
 			int count = 0;	
 			for ( i = 0; i < 5 ; i++)
 				for ( j = 0; j<10; j++)
@@ -150,7 +139,7 @@ OPTION2, OPTION3, OPTION4, ANSWER) VALUES (14,'The value of variable " count" af
 sqlList.append(sql12)
 
 sql13 = """INSERT INTO firstapp_question(COURSE_ID, QUESTION, OPTION1, 
-OPTION2, OPTION3, OPTION4, ANSWER) VALUES (15,'What will be the output of following code :
+OPTION2, OPTION3, OPTION4, ANSWER) VALUES (5,'What will be the output of following code :
 {
 		int  num[26], temp ;
 		num[0] = 100 ;  
@@ -162,20 +151,20 @@ OPTION2, OPTION3, OPTION4, ANSWER) VALUES (15,'What will be the output of follow
 sqlList.append(sql13)
 
 sql14 = """INSERT INTO firstapp_question(COURSE_ID, QUESTION, OPTION1, 
-OPTION2, OPTION3, OPTION4, ANSWER) VALUES (15,'What is the starting index of an array?','1','2','3','0',4) """
+OPTION2, OPTION3, OPTION4, ANSWER) VALUES (5,'What is the starting index of an array?','1','2','3','0',4) """
 sqlList.append(sql14)
 
 sql15 = """INSERT INTO firstapp_question(COURSE_ID, QUESTION, OPTION1, 
-OPTION2, OPTION3, OPTION4, ANSWER) VALUES (15,'When an array is passed from main function to other function through call by reference, if the values of array elements in the function change, then the values in main ','change','do not change','change only in the case of call by value','none of the above',1) """
+OPTION2, OPTION3, OPTION4, ANSWER) VALUES (5,'When an array is passed from main function to other function through call by reference, if the values of array elements in the function change, then the values in main ','change','do not change','change only in the case of call by value','none of the above',1) """
 sqlList.append(sql15)
 
 sql16 = """INSERT INTO firstapp_question(COURSE_ID, QUESTION, OPTION1, 
-OPTION2, OPTION3, OPTION4, ANSWER) VALUES (15,'The memory locations of consecutive elements in array are :','consecutive','differ by 2','differ by 6','differ by 8',1) """
+OPTION2, OPTION3, OPTION4, ANSWER) VALUES (5,'The memory locations of consecutive elements in array are :','consecutive','differ by 2','differ by 6','differ by 8',1) """
 sqlList.append(sql16)
 
 '''
 sql17 = """INSERT INTO firstapp_question(COURSE_ID, QUESTION, OPTION1, 
-OPTION2, OPTION3, OPTION4, ANSWER) VALUES (15,'The memory locations of consecutive elements in array are :','consecutive','differ by 2','differ by 6','differ by 8',1) """
+OPTION2, OPTION3, OPTION4, ANSWER) VALUES (5,'The memory locations of consecutive elements in array are :','consecutive','differ by 2','differ by 6','differ by 8',1) """
 sqlList.append(sql17)
 
 sql18 = """INSERT INTO firstapp_question(COURSE_ID, QUESTION, OPTION1, 
@@ -275,11 +264,8 @@ length = len(results)
 print length
 while i < length:
 	print "i = " + str(i) + " results[i][0] " + str(results[i][0])
-	j = i+1
+	j = i + 1
 	while j < length:
-		if results[i][0] == results[j][0]:
-			j = j + 1
-			continue
 		print "j = " + str(j) + " results[j][0] " + str(results[j][0])
 		sql = """INSERT INTO firstapp_q1q2rightwrong(`question_x_id`, `question_y_id`, `right`,`wrong`) VALUES ('%s','%s','%d','%d');""" % (results[i][0],results[j][0],0,wrong)
 		cursor.execute(sql)
