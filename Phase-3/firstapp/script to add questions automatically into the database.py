@@ -87,7 +87,7 @@ OPTION2, OPTION3, OPTION4, ANSWER) VALUES (13,'What would be the output of the f
 			x == 20 && y != 10 ? printf( "True" ) : printf( "False" ) ; 
 			} ','true','flase','compilation error','none of the above',2) """
 sqlList.append(sql6)
-'''
+
 sql7 = """INSERT INTO firstapp_question(COURSE_ID, QUESTION, OPTION1, 
 OPTION2, OPTION3, OPTION4, ANSWER) VALUES (13,'What would be the output of the following program:
 main( ) 
@@ -172,7 +172,7 @@ sqlList.append(sql15)
 sql16 = """INSERT INTO firstapp_question(COURSE_ID, QUESTION, OPTION1, 
 OPTION2, OPTION3, OPTION4, ANSWER) VALUES (15,'The memory locations of consecutive elements in array are :','consecutive','differ by 2','differ by 6','differ by 8',1) """
 sqlList.append(sql16)
-'''
+
 '''
 sql17 = """INSERT INTO firstapp_question(COURSE_ID, QUESTION, OPTION1, 
 OPTION2, OPTION3, OPTION4, ANSWER) VALUES (15,'The memory locations of consecutive elements in array are :','consecutive','differ by 2','differ by 6','differ by 8',1) """

@@ -124,3 +124,14 @@ class Ratings(models.Model):
 	student = models.ForeignKey(Student)
 	item = models.ForeignKey(Course)
 	rating = models.IntegerField()
+
+class Student_History(models.Model):
+	student = models.ForeignKey(Student)
+	concept = models.ForeignKey(Course)
+	score = models.DecimalField(max_digits=3,decimal_places=2)
+	last_update = models.DateTimeField(auto_now=True)
+
+class Student_Similarity(models.Model):
+	student1 = models.ForeignKey(Student, related_name="student1")
+	student2 = models.ForeignKey(Student, related_name="student2")
+	similarity = models.DecimalField(max_digits=3,decimal_places=2)

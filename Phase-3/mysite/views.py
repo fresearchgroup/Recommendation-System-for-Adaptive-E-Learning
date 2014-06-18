@@ -28,35 +28,39 @@ def Evaluation_welcome(request):
     return render (request,'EvaluationWelcome.html')
 
 def Feedback_evaluation(request):
-    r1 =  Feedback.objects.get(id='1')
-    numstu = Feedback.objects.latest('id')
-    a1 = Feedback.objects.aggregate(Sum('q1'))
-    a2 = Feedback.objects.aggregate(Sum('q2'))
-    a3 = Feedback.objects.aggregate(Sum('q3'))
-    a4 = Feedback.objects.aggregate(Sum('q4'))
-    a5 = Feedback.objects.aggregate(Sum('q5'))
-    a6 = Feedback.objects.aggregate(Sum('q6'))
-    a7 = Feedback.objects.aggregate(Sum('q7'))
-    a8 = Feedback.objects.aggregate(Sum('q8'))
-    a9 = Feedback.objects.aggregate(Sum('q9'))
-    a10 = Feedback.objects.aggregate(Sum('q10'))
-    a11 = Feedback.objects.aggregate(Sum('q11'))
-    a12 = Feedback.objects.aggregate(Sum('q12'))
-    a13 = Feedback.objects.aggregate(Sum('q13'))
-    a14 = Feedback.objects.aggregate(Sum('q14'))
-    a15 = Feedback.objects.aggregate(Sum('q15'))
-    
-    print 'number of students '+ str(numstu)    
 
-    avg1 = cal_avg(a1['q1__sum'],a2['q2__sum'],a3['q3__sum'],numstu.id)    
-    avg2 = cal_avg(a4['q4__sum'],a5['q5__sum'],a6['q6__sum'],numstu.id)
-    avg3 = cal_avg(a7['q7__sum'],a8['q8__sum'],a9['q9__sum'],numstu.id)
-    avg4 = cal_avg(a10['q10__sum'],a11['q11__sum'],a12['q12__sum'],numstu.id)
-    avg5 = cal_avg(a13['q13__sum'],a14['q14__sum'],a15['q15__sum'],numstu.id)
-    	
-    return render (request,'FeedbackEvaluation.html',{'response1':r1, 'ans1':a1,'ans2':a2,'ans3':a3,'ans4':a4,'ans5':a5,'ans6':a6,'ans7':a7,'ans8':a8,'ans9':a9,'ans10':a10,
-'ans15':a15,'ans11':a11,'ans12':a12,'ans13':a13,'ans14':a14,'mystr':str,'num_stu':numstu,'average1':avg1,'average5':avg5 ,
-'average2':avg2 ,'average3':avg3 ,'average4':avg4  })  
+	try :
+		r1 =  Feedback.objects.get(id='1')
+		numstu = Feedback.objects.latest('id')
+		a1 = Feedback.objects.aggregate(Sum('q1'))
+		a2 = Feedback.objects.aggregate(Sum('q2'))
+		a3 = Feedback.objects.aggregate(Sum('q3'))
+		a4 = Feedback.objects.aggregate(Sum('q4'))
+		a5 = Feedback.objects.aggregate(Sum('q5'))
+		a6 = Feedback.objects.aggregate(Sum('q6'))
+		a7 = Feedback.objects.aggregate(Sum('q7'))
+		a8 = Feedback.objects.aggregate(Sum('q8'))
+		a9 = Feedback.objects.aggregate(Sum('q9'))
+		a10 = Feedback.objects.aggregate(Sum('q10'))
+		a11 = Feedback.objects.aggregate(Sum('q11'))
+		a12 = Feedback.objects.aggregate(Sum('q12'))
+		a13 = Feedback.objects.aggregate(Sum('q13'))
+		a14 = Feedback.objects.aggregate(Sum('q14'))
+		a15 = Feedback.objects.aggregate(Sum('q15'))
+
+		print 'number of students '+ str(numstu)    
+
+		avg1 = cal_avg(a1['q1__sum'],a2['q2__sum'],a3['q3__sum'],numstu.id)    
+		avg2 = cal_avg(a4['q4__sum'],a5['q5__sum'],a6['q6__sum'],numstu.id)
+		avg3 = cal_avg(a7['q7__sum'],a8['q8__sum'],a9['q9__sum'],numstu.id)
+		avg4 = cal_avg(a10['q10__sum'],a11['q11__sum'],a12['q12__sum'],numstu.id)
+		avg5 = cal_avg(a13['q13__sum'],a14['q14__sum'],a15['q15__sum'],numstu.id)
+
+		return render(request,'FeedbackEvaluation.html',{'response1':r1, 'ans1':a1, 'ans2':a2, 'ans3':a3, 'ans4':a4, 'ans5':a5, 'ans6':a6, 'ans7':a7, 'ans8':a8, 'ans9':a9, 'ans10':a10, 'ans15':a15, 'ans11':a11, 'ans12':a12, 'ans13':a13, 'ans14':a14, 'mystr':str, 'num_stu':numstu, 'average1':avg1, 'average5':avg5, 'average2':avg2, 'average3':avg3, 'average4':avg4})  
+
+	except:
+		message = "No feedbacks found"
+		return HttpResponse(message)
 
 
 def cal_avg(a,b,c,d):
@@ -64,38 +68,17 @@ def cal_avg(a,b,c,d):
 
 def Material_evaluation(request):
 
-    num_concepts = Course.objects.all().count()                           # total number of concepts in the model
-    concept_score = []			       # stores scores of all students in each concept
-    concept_student = []		# stores number of students in each concept
-    for i in range(num_concepts):
-        concept_score.append(Grade.objects.aggregate(Sum('value')))
-    for j in range(num_concepts):
-        concept_student.append(Grade.objects.all().filter(conceptID=Course.objects.get(id=j+1)).count())
-        #print 'hi'
-    print 'toatal number of concepts'
-    print num_concepts
-    
-    # Number of questions attempted in the concept quizes
-
-    num_ques_c1 = Grade.objects.filter(conceptID=1).count()
-    num_ques_c2 = Grade.objects.filter(conceptID=2).count()
-    num_ques_c3 = Grade.objects.filter(conceptID=3).count()
-    num_ques_c4 = Grade.objects.filter(conceptID=4).count()
-
-    # Number of right answers in the concepts    
-
-    num_ques_correct_c1 = Grade.objects.filter(conceptID=1).filter(value = 1).count()
-    num_ques_correct_c2 = Grade.objects.filter(conceptID=2).filter(value = 1).count()
-    num_ques_correct_c3 = Grade.objects.filter(conceptID=3).filter(value = 1).count()
-    num_ques_correct_c4 = Grade.objects.filter(conceptID=4).filter(value = 1).count()
-
-    #num_stu_c1 = Grade.objects.aggregate.(Sum('value'))
-    #print 'students given concept1'
-    #print num_stu_c1['value__sum']
-    #print 'students giving concept 2'
-    
-    return render (request,'MaterialEvaluation.html',{'num_concepts':num_concepts,'num_ques_c1':num_ques_c1, 'num_ques_c2':num_ques_c2,
-'num_ques_c3':num_ques_c3,'num_ques_c4':num_ques_c4, 'num_ques_correct_c1':num_ques_correct_c1, 'num_ques_correct_c2':num_ques_correct_c2, 'num_ques_correct_c3':num_ques_correct_c3, 'num_ques_correct_c4':num_ques_correct_c4, })  
+    concept_list = Course.objects.all()                # list of all concepts in the course
+    num_concepts = concept_list.count()                         # total number of concepts in the model
+    concept_correct_questions = []                   # stores number of questions correctly solved in that concept
+    concept_total_questions = []                       # stores number of questions attempted in that concept
+    for i in concept_list:
+        concept_correct_questions.append(Grade.objects.all().filter(conceptID=Course.objects.get(id=i.id)).aggregate(Sum('value')))
+    for j in concept_list:
+        concept_total_questions.append(Grade.objects.all().filter(conceptID=Course.objects.get(id=j.id)).count())
+       
+    return render (request,'MaterialEvaluation.html',{'num_concepts':num_concepts,'concept_correct_questions':concept_correct_questions,
+'concept_total_questions':concept_total_questions })  
 
 def Parameter_evaluation(request):
 
@@ -119,13 +102,7 @@ def Parameter_evaluation(request):
     for j in range(0,total_concepts):
         concept_student_array.insert(j,Ratings.objects.filter(item_id=j+1).count())      
 
-    # Average ratings of each concept    
-
-    c1_avg_rating = cal_avg_rating(Ratings.objects.filter(item_id=1).aggregate(Sum('rating'))['rating__sum'],num_c1_stu)
-    c2_avg_rating = cal_avg_rating(Ratings.objects.filter(item_id=2).aggregate(Sum('rating'))['rating__sum'],num_c2_stu)
-    c3_avg_rating = cal_avg_rating(Ratings.objects.filter(item_id=3).aggregate(Sum('rating'))['rating__sum'],num_c3_stu)
-    c4_avg_rating = cal_avg_rating(Ratings.objects.filter(item_id=4).aggregate(Sum('rating'))['rating__sum'],num_c4_stu) 
-
+    
     num_good_recommendations = Ratings.objects.filter(rating__gte=4).count()
 
 
@@ -149,6 +126,8 @@ def Parameter_evaluation(request):
 
 
 def cal_avg_rating(a,b):
+    if b == 0 :
+       return 0
     avg = a/b  
     avg1 = int (avg*100)
     avg2 = avg1/100
@@ -250,7 +229,7 @@ def signup_handler(request):
 			rr.save()
 		questionList = Question.objects.all()
 		for question in questionList:
-			grade = Grade(studentID=student,questionID=question,value=0,prev=0)
+			grade = Grade(studentID=student,questionID=question,value=0,prev=0,conceptID=question.course)
 			grade.save()
 		
 		questionList = Question.objects.all()		
@@ -511,7 +490,7 @@ def evaluate_quiz_view(request):
 		try:
 			gradeObject = Grade.objects.get(questionID = question.id, studentID = studentid)
 		except Grade.DoesNotExist:
-			gradeObject = Grade(questionID=question, studentID=student, value=0)
+			gradeObject = Grade(conceptID=question.course,questionID=question, studentID=student, value=0)
 
 		if chosen == question.answer:
 			score=score+1
@@ -657,13 +636,13 @@ def evaluate_quiz_view(request):
 	else: 
 		history_object = Student_History(student=student,concept=curr_item,score=knowledge)
 	history_object.save()
-	if course_id == 12:
+	if course_id == 1:
 		return render(request, 'quiz_result1.html', {'score':score})
-	if course_id == 13:
+	if course_id == 2:
 		return render(request, 'quiz_result2.html', {'score':score})
-	if course_id == 14:
+	if course_id == 3:
 		return render(request, 'quiz_result3.html', {'score':score})
-	if course_id == 15:
+	if course_id == 4:
 		return render(request, 'quiz_result4.html', {'score':score})
 
 
@@ -901,13 +880,13 @@ def feedback_handler(request) :
 
 	course_id = request.session['course_id']
 
-	if course_id == 12:
+	if course_id == 1:
 		feedback1(request)
-	if course_id == 13:
+	if course_id == 2:
 		feedback2(request)
-	if course_id == 14:
+	if course_id == 3:
 		feedback3(request)
-	if course_id == 15:
+	if course_id == 4:
 		feedback4(request)
 	return(HttpResponse('Thank you for your feedback. Click <a href = "/concept_menu">here</a> to continue'))
 
@@ -929,6 +908,159 @@ def feedback4(request):
 		
 def add_stuff(request):
 	
+
+	List = Q1Q2RightWrong.objects.all()
+	for item in List:
+		item.delete()
+
+	List = Question_Concept.objects.all()
+	for item in List:
+		item.delete()
+
+	List = Question_Concept_new.objects.all()
+	for item in List:
+		item.delete()
+
+	List = Grade.objects.all()
+	for item in List:
+		item.delete()
+
+	List = ConfidenceRtoR.objects.all()
+	for item in List:
+		item.delete()
+
+
+	List = ConfidenceWtoW.objects.all()
+	for item in List:
+		item.delete()
+
+	List = Question.objects.all()
+	for item in List:
+		item.delete()
+
+	concept_list = Course.objects.all()
+	for concept in concept_list:
+		if concept.name == "Basics of C Programming":
+			q = Question(course=concept, question="""C programs are converted 
+into machine language with the help of""" , option1="Editor", option2="Compiler", option3="OS", option4="None of the above", answer=2)
+			q.save()
+			q = Question(course=concept, question="""A character variable can at a time store""" , option1="1 character", option2="8 character", option3="256 characters", option4="None of the above", answer=1)
+			q.save()
+			q = Question(course=concept, question="""The maximum value that an integer constant can have is""" , option1="-32767", option2="32767", option3="1.7014e+38", option4="depends on the machine", answer=4)
+			q.save()
+			q = Question(course=concept, question="""Which of the following is not a keyword in C ?""" , option1="for", option2="char", option3="print", option4="case", answer=3)
+			q.save()
+
+		elif concept.name == "Decision making":
+			q = Question(course=concept, question="""What would be the output of the following program:  main( ) 
+		{ 
+			int a = 300, b = 0, c = 10 ; 
+			if ( a >= 400 ) 
+			b = 300 ; 
+			c = 200 ; 
+			printf ( "\n%d %d", b, c ) ; 		
+		}""", option1="0 10", option2="10 0", option3="0 200", option4="200 300", answer=3)
+			q.save()	
+			q = Question(course=concept, question="""What would be the output of the following program:
+ main( ) 
+			{ 
+			int   x = 10, y = 20 ; 
+			x == 20 && y != 10 ? printf( "True" ) : printf( "False" ) ; 
+			}""", option1="true", option2="false", option3="compilation error", option4="none of the above", answer=2)
+			q.save()	
+			q = Question(course=concept, question="""What would be the output of the following program:
+main( ) 
+			{  
+			int   k, num = 30 ;  
+			k = ( num > 5 ? ( num <= 10 ? 100 : 200 ) : 500 ) ;  
+			printf ( "\n%d", k ) ;
+			}""", option1="500", option2="30", option3="200", option4="100", answer=3)
+			q.save()	
+			q = Question(course=concept, question="""What would be the output of the following program:
+main( ) 
+			{
+			int x = 2; 
+			if ( x == 2 && x != 0 ) 
+				{  
+				printf( "\nHello" ) ;  
+				} 
+			else   
+				printf( "Bye" ) ; }""", option1="Hello", option2="Bye", option3="Compilation error", option4="Segmentaion fault", answer=1)
+			q.save()	
+		elif concept.name == "Iterations":
+			q = Question(course=concept, question="""How many times does the for loop iterate?
+			for ( i = 0; i< 10 ; i = i+2)""", option1="5", option2="10", option3="6", option4="11", answer=1)
+			q.save()
+			q = Question(course=concept, question="""In the following code :
+			do 
+			{
+				printf("Hello");
+			}
+			while ( 4<1);""", option1="hello will be printed", option2="hello will not be printed", option3="depends on compiler", option4="depends on interpreter", answer=2)
+			q.save()
+			q = Question(course=concept, question="""Output of following code is
+                        main( )
+                        {  
+                        float  x = 11 ;
+                        char c = ""a"";
+                        while ( x == 11 )  
+                                {   
+                                        printf ( "\n %d %f",c, x ) ;  
+                                        x = x - 1 ; 
+                                }
+                        }
+""", option1="datatype mismatch error", option2="97 11.00", option3="65 1.10", option4="65 1.00", answer=2)
+			q.save()
+			q = Question(course=concept, question="""The value of variable " count" after the outer for loop is :	
+			int count = 0;	
+			for ( i = 0; i < 5 ; i++)
+				for ( j = 0; j<10; j++)
+					count++;""", option1="5", option2="10", option3="50", option4="100", answer=3)
+			q.save()
+		elif concept.name == "Arrays and Structures":
+			q = Question(course=concept, question="""What will be the output of following code :
+{
+		int  num[26], temp ;
+		num[0] = 100 ;  
+		num[25] = 200 ;
+		temp = num[25] ;
+		num[25] = num[0] ;
+		num[0] = temp ;
+		printf ( "\n%d %d", num[0], num[25] ) ; }""", option1="100 200", option2="200 100", option3="100 100", option4="200 200", answer=2)
+			q.save()
+			q = Question(course=concept, question="""What is the starting index of an array?""", option1="1", option2="2", option3="3", option4="0", answer=4)
+			q.save()
+			q = Question(course=concept, question="""When an array is passed from main function to other function through call by reference, if the values of array elements in the function change, then the values in main """, option1="change", option2="do not change", option3="change only in the case of call by value", option4="none of the above", answer=1)
+			q.save()
+			q = Question(course=concept, question="""The memory locations of consecutive elements in array are :""", option1="consecutive", option2="differ by 2", option3="differ by 6", option4="differ by 8", answer=2)
+			q.save()
+
+
+
+	wrong = Student.objects.all().count()
+	question_list = Question.objects.all()
+	num_questions = question_list.count()
+	
+	i = 0
+	while i < num_questions:
+		j = i + 1
+		while j < num_questions:
+			if question_list[i] == question_list[j]:
+				j = j + 1
+				continue
+			object1 = Q1Q2RightWrong(question_x=question_list[i],question_y=question_list[j],right=0,wrong=wrong)
+			object1.save()
+			j = j + 1
+		i = i + 1
+
+	for question in question_list:
+		object1 = Q1Q2RightWrong(question_x=question, question_y=question, right=0, wrong=wrong)
+		object1.save()
+
+
+
+
+
 	List = Question.objects.all()
 
 	print len(List)

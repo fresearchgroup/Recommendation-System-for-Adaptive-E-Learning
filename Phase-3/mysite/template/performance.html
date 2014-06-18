@@ -15,7 +15,7 @@ Choose a concept :
 
 </div>
 
-<div id="knowledgechart" style="min-width: 500px; height: 400px; margin: 0 auto;"></div>
+<div id="knowledgechart" style="min-width: 500px; height: 600px; margin: 0 auto;"></div>
  <script type='text/javascript'>
 var state = [];
 $(document).ready(function() {
@@ -54,9 +54,9 @@ function all_knowledge_draw()
             xAxis: {
                 type: 'category',
                 labels: {
-                    rotation: 0,
+                    rotation: -45,
                     style: {
-                        fontSize: '20px',
+                        fontSize: '12px',
                         fontFamily: 'Verdana, sans-serif'
                     }
                 },
@@ -157,6 +157,7 @@ function concept_pie_draw(sel)
                         enabled: true,
                         format: '<b>{point.name}</b>: {point.percentage:.1f} %',
                         style: {
+                            fontSize: '20px',
                             color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
                         },
                         connectorColor: 'silver'
