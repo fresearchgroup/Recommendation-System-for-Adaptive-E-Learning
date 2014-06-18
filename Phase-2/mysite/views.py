@@ -63,38 +63,17 @@ def cal_avg(a,b,c,d):
 
 def Material_evaluation(request):
 
-    num_concepts = Course.objects.all().count()                           # total number of concepts in the model
-    concept_score = []			       # stores scores of all students in each concept
-    concept_student = []		# stores number of students in each concept
-    for i in range(num_concepts):
-        concept_score.append(Grade.objects.aggregate(Sum('value')))
-    for j in range(num_concepts):
-        concept_student.append(Grade.objects.all().filter(conceptID=Course.objects.get(id=j+1)).count())
-        #print 'hi'
-    print 'toatal number of concepts'
-    print num_concepts
-    
-    # Number of questions attempted in the concept quizes
-
-    num_ques_c1 = Grade.objects.filter(conceptID=1).count()
-    num_ques_c2 = Grade.objects.filter(conceptID=2).count()
-    num_ques_c3 = Grade.objects.filter(conceptID=3).count()
-    num_ques_c4 = Grade.objects.filter(conceptID=4).count()
-
-    # Number of right answers in the concepts    
-
-    num_ques_correct_c1 = Grade.objects.filter(conceptID=1).filter(value = 1).count()
-    num_ques_correct_c2 = Grade.objects.filter(conceptID=2).filter(value = 1).count()
-    num_ques_correct_c3 = Grade.objects.filter(conceptID=3).filter(value = 1).count()
-    num_ques_correct_c4 = Grade.objects.filter(conceptID=4).filter(value = 1).count()
-
-    #num_stu_c1 = Grade.objects.aggregate.(Sum('value'))
-    #print 'students given concept1'
-    #print num_stu_c1['value__sum']
-    #print 'students giving concept 2'
-    
-    return render (request,'MaterialEvaluation.html',{'num_concepts':num_concepts,'num_ques_c1':num_ques_c1, 'num_ques_c2':num_ques_c2,
-'num_ques_c3':num_ques_c3,'num_ques_c4':num_ques_c4, 'num_ques_correct_c1':num_ques_correct_c1, 'num_ques_correct_c2':num_ques_correct_c2, 'num_ques_correct_c3':num_ques_correct_c3, 'num_ques_correct_c4':num_ques_correct_c4, })  
+    concept_list = Course.objects.all()				# list of all concepts in the course
+    num_concepts = concept_list.count()                         # total number of concepts in the model
+    concept_correct_questions = []			       # stores number of questions correctly solved in that concept
+    concept_total_questions = []		               # stores number of questions attempted in that concept
+    for i in concept_list:
+        concept_correct_questions.append(Grade.objects.all().filter(conceptID=Course.objects.get(id=i.id)).aggregate(Sum('value')))
+    for j in concept_list:
+        concept_total_questions.append(Grade.objects.all().filter(conceptID=Course.objects.get(id=j.id)).count())
+        
+    return render (request,'MaterialEvaluation.html',{'num_concepts':num_concepts,'concept_correct_questions':concept_correct_questions,
+'concept_total_questions':concept_total_questions })  
 
 def Parameter_evaluation(request):
 
@@ -154,6 +133,8 @@ def cal_avg_rating(a,b):
     return avg2
  
 #changes by sameer end here
+
+
 
 def login_form(request):
 	return render(request, 'login.html')

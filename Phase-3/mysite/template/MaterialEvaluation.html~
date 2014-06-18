@@ -48,30 +48,30 @@ border-collapse:collapse;
 	<tr>
 		<td>1 </td>
 		<td>Basics of C Programming</td>		
-		<td>{{ concept_total_questions.0 }}</td>
-                <td>{{concept_correct_questions.0.value__sum}}</td>
-                <td>{% widthratio concept_correct_questions.0.value__sum concept_total_questions.0 100 %} %</td>
+		<td>{{ num_ques_c1 }}</td>
+                <td>{{ num_ques_correct_c1 }}</td>
+                <td>{% widthratio num_ques_correct_c1 num_ques_c1 100 %} %</td>
 	</tr>
 	<tr>
 		<td>2 </td>
 		<td>Decision Making</td>		
-		<td>{{ concept_total_questions.1 }}</td>
-                <td>{{concept_correct_questions.1.value__sum}}</td>
-                <td>{% widthratio concept_correct_questions.1.value__sum concept_total_questions.1 100 %} %</td>
+		<td>{{ num_ques_c2 }}</td>
+                <td>{{ num_ques_correct_c2 }}</td>
+                <td>{% widthratio num_ques_correct_c2 num_ques_c2 100 %} %</td>
 	</tr>
 	<tr>
 		<td>3 </td>
 		<td>Iterations</td>		
-		<td>{{ concept_total_questions.2 }}</td>
-                <td>{{concept_correct_questions.2.value__sum}}</td>
-                <td>{% widthratio concept_correct_questions.2.value__sum concept_total_questions.2 100 %} %</td>
+		<td>{{ num_ques_c3 }}</td>
+                <td>{{ num_ques_correct_c3 }}</td>
+                <td>{% widthratio num_ques_correct_c3 num_ques_c3 100 %} %</td>
 	</tr>
 	<tr>
 		<td>4 </td>
 		<td>Arrays and Structures</td>		
-		<td>{{ concept_total_questions.3}}</td>
-                <td>{{concept_correct_questions.3.value__sum}}</td>
-                <td>{% widthratio concept_correct_questions.3.value__sum concept_total_questions.3 100 %} %</td>
+		<td>{{ num_ques_c4 }}</td>
+                <td>{{ num_ques_correct_c4 }}</td>
+                <td>{% widthratio num_ques_correct_c4 num_ques_c4 100 %} %</td>
 	</tr>
 	
 
@@ -139,13 +139,13 @@ function inference(percent)
    return str;
 }
 
-var inference_c1 = inference({% widthratio concept_correct_questions.0.value__sum concept_total_questions.0 100 %});
+var inference_c1 = inference({% widthratio num_ques_correct_c1 num_ques_c1 100 %});
 document.getElementById("inf_c1").innerHTML = inference_c1;
-var inference_c2 = inference({% widthratio concept_correct_questions.1.value__sum concept_total_questions.1 100 %});
+var inference_c2 = inference({% widthratio num_ques_correct_c2 num_ques_c2 100 %});
 document.getElementById("inf_c2").innerHTML = inference_c2;
-var inference_c3 = inference({% widthratio concept_correct_questions.2.value__sum concept_total_questions.2 100 %});
+var inference_c3 = inference({% widthratio num_ques_correct_c3 num_ques_c3 100 %});
 document.getElementById("inf_c3").innerHTML = inference_c3;
-var inference_c4 = inference({% widthratio concept_correct_questions.3.value__sum concept_total_questions.3 100 %});
+var inference_c4 = inference({% widthratio num_ques_correct_c4 num_ques_c4 100 %});
 document.getElementById("inf_c4").innerHTML = inference_c4;
 
 $(function () {
@@ -185,10 +185,10 @@ $(function () {
             series: [{
                 name: 'Learning model Accuracies',
                 data: [
-                    ['Basics of C programming', {% widthratio concept_correct_questions.0.value__sum concept_total_questions.0 100 %}],
-                    ['Decision Making', {% widthratio concept_correct_questions.1.value__sum concept_total_questions.1 100 %}],
-                    ['Iterations', {% widthratio concept_correct_questions.2.value__sum concept_total_questions.2 100 %}],
-                    ['Arrays and Structures', {% widthratio concept_correct_questions.3.value__sum concept_total_questions.3 100 %}],
+                    ['Basics of C programming', {% widthratio num_ques_correct_c1 num_ques_c1 100 %}],
+                    ['Decision Making', {% widthratio num_ques_correct_c2 num_ques_c2 100 %}],
+                    ['Iterations', {% widthratio num_ques_correct_c3 num_ques_c3 100 %}],
+                    ['Arrays and Structures', {% widthratio num_ques_correct_c4 num_ques_c4 100 %}],
                     
                                         
                 ],

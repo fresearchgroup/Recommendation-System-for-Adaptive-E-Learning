@@ -17,12 +17,12 @@
 <!--We are checking response  numbered 1  whose value is {{ response1.q15 }} and whose sum is {{ ans1.q1__sum }} and {{ mystr }} with total students {{ num_stu.id }} so average is {% widthratio ans1.q1__sum  num_stu.id 1 %} -->
 <font color="black">
 
-<!--<div id="container" style="min-width: 500px; height: 400px; margin: 0 auto"></div> -->
+<div id="container" style="min-width: 500px; height: 400px; margin: 0 auto"></div> 
 
-<div style="width: 600px; height: 400px; margin: 0 auto">
+<!--<div style="width: 600px; height: 400px; margin: 0 auto">
 	<div id="container-speed" style="width: 300px; height: 200px; float: left"></div>
 	<div id="container-rpm" style="width: 300px; height: 200px; float: left"></div>
-</div>
+</div> -->
 
 <h1> Analysis of student scores :</h1>
 
@@ -48,29 +48,29 @@ border-collapse:collapse;
 	<tr>
 		<td>1 </td>
 		<td>Basics of C Programming</td>		
-		<td>{{ num_ques_c1 }}</td>
-                <td>{{ num_ques_correct_c1 }}</td>
+		<td>{{ concept_total_questions.0 }}</td>
+                <td>{{concept_correct_questions.0.value__sum}}</td>
                 <td>{% widthratio num_ques_correct_c1 num_ques_c1 100 %} %</td>
 	</tr>
 	<tr>
 		<td>2 </td>
 		<td>Decision Making</td>		
-		<td>{{ num_ques_c2 }}</td>
-                <td>{{ num_ques_correct_c2 }}</td>
+		<td>{{ concept_total_questions.1 }}</td>
+                <td>{{concept_correct_questions.1.value__sum}}</td>
                 <td>{% widthratio num_ques_correct_c2 num_ques_c2 100 %} %</td>
 	</tr>
 	<tr>
 		<td>3 </td>
 		<td>Iterations</td>		
-		<td>{{ num_ques_c3 }}</td>
-                <td>{{ num_ques_correct_c3 }}</td>
+		<td>{{ concept_total_questions.2 }}</td>
+                <td>{{concept_correct_questions.2.value__sum}}</td>
                 <td>{% widthratio num_ques_correct_c3 num_ques_c3 100 %} %</td>
 	</tr>
 	<tr>
 		<td>4 </td>
 		<td>Arrays and Structures</td>		
-		<td>{{ num_ques_c4 }}</td>
-                <td>{{ num_ques_correct_c4 }}</td>
+		<td>{{ concept_total_questions.3}}</td>
+                <td>{{concept_correct_questions.3.value__sum}}</td>
                 <td>{% widthratio num_ques_correct_c4 num_ques_c4 100 %} %</td>
 	</tr>
 	
@@ -148,7 +148,7 @@ document.getElementById("inf_c3").innerHTML = inference_c3;
 var inference_c4 = inference({% widthratio num_ques_correct_c4 num_ques_c4 100 %});
 document.getElementById("inf_c4").innerHTML = inference_c4;
 
-/*$(function () {
+$(function () {
         $('#container').highcharts({
             chart: {
                 type: 'column'
@@ -207,9 +207,9 @@ document.getElementById("inf_c4").innerHTML = inference_c4;
                 }
             }]
         });
-    });*/
+    });
     
-$(function () {
+/*$(function () {
 	
     var gaugeOptions = {
 	
@@ -354,7 +354,7 @@ $(function () {
     }, 2000);  
     
 	
-});
+});*/
 </script>
 
 
