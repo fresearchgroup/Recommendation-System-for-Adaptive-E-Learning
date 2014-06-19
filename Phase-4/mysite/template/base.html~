@@ -1,0 +1,36 @@
+<html>
+    <head>
+        <title>Learning C programming.</title>
+        <meta charset='UTF-8'>
+	{% load staticfiles %}
+        <script src="{% static "js/jquery.min.js" %}" type='text/javascript'></script>
+        <script src="{% static "js/highcharts.js" %}" type="text/javascript"></script>
+        <link rel="stylesheet" href="{% static "css/style.css" %}">
+    </head>
+<body class="mybody">
+    <div id="heading" class="heading">
+        <center><h1>Learning C programming</h1></center>
+    </div>
+<hr>
+
+<div id ="content" class="top_menu">
+    <div class="link" id="content">
+        <a href = "/concept_menu/" style="padding-left:10px">Home</a>
+    </div>
+    
+    <div class="link" id="content">
+        <a href = "/logout/" style="padding-left:10px">Logout</a>
+    </div>
+    
+    <div class="link" id="content">
+        <a href = "/performance/" style="padding-left:10px">See Performance</a>
+    </div>
+   
+</div>
+<div id="welcome" class="welcome">
+    Welcome {{student_name}}
+</div>
+<br><br>
+{%block body%}{%endblock%}
+</body>
+</html>

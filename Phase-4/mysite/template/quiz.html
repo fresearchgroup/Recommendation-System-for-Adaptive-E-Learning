@@ -1,0 +1,57 @@
+{% extends "base.html"%}
+{% block body %}
+{% for message in messages %}
+        {% if 'error' in message.tags %}<p style="color: red;">{{ message }}</p>{% endif %}
+{% endfor %}
+<form method="get" action="/evaluate_quiz/" enctype="text/plain">
+    <ol>
+	{%for question in question_list %}
+		<li><P>{{question.question}}<BR>
+		<input type="radio" name="{{question.id}}" value="1">{{question.option1}}<BR>
+		<input type="radio" name="{{question.id}}" value="2">{{question.option2}}<BR>
+		<input type="radio" name="{{question.id}}" value="3">{{question.option3}}<BR>
+		<input type="radio" name="{{question.id}}" value="4">{{question.option4}}<BR>
+		</p></li>
+	{%endfor%}
+    </ol>
+    
+    <div id="rating_quiz_main">
+        <label>Rating :</label>
+        <input type="number" name="rate" id="rate" style="visibility: hidden; width: 0px;" value=0>
+        <div class="rating_quiz">
+            <span title="Gorgeous" id="rating_quiz_5">☆</span>
+            <span title="Good" id="rating_quiz_4">☆</span>
+            <span title="Average" id="rating_quiz_3">☆</span>
+            <span title="Not So Good" id="rating_quiz_2">☆</span>
+            <span title="Poor" id="rating_quiz_1">☆</span>
+        </div>
+    </div>
+    
+    <script type="text/javascript">
+        function change_rating(index)
+            {
+                $('#rate').val(index);
+                var str = '#rating_quiz_';
+                for(i=1;i<=index;i++)
+                {
+                    $(str.concat(i.toString())).css("color","gold");
+                    $(str.concat(i.toString())).text('★');
+                }
+                for(;i<=5;i++)
+                {
+                    $(str.concat(i.toString())).css("color","black");
+                    $(str.concat(i.toString())).text('☆');
+                }
+            }
+
+            $('#rating_quiz_1').click(function() {change_rating(1);});
+            $('#rating_quiz_2').click(function() {change_rating(2);});
+            $('#rating_quiz_3').click(function() {change_rating(3);});
+            $('#rating_quiz_4').click(function() {change_rating(4);});
+            $('#rating_quiz_5').click(function() {change_rating(5);});
+    </script>
+<input type="submit" value="Submit">
+<input type="reset" value="Clear Choices">
+</form>
+
+{% endblock %}

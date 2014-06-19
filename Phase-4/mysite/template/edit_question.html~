@@ -1,0 +1,4 @@
+{% extends "base_staff.html"%}
+{% block body %}
+<p> Click on the question to delete the question </p>
+{% endblock %}

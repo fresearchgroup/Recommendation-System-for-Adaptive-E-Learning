@@ -1,0 +1,8 @@
+{% extends "base_staff.html"%}
+{% block body %}
+
+<p>Your questions have been deleted. Please click <a href="/staff_menu/" class="link">here</a> to continue...</p>
+
+
+{% endblock %}
+

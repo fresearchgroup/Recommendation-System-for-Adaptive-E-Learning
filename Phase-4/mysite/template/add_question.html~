@@ -1,0 +1,60 @@
+{% extends "base_staff.html"%}
+{% block body %}
+{% for message in messages %}
+        {% if 'error' in message.tags %}<p style="color: red;">{{ message }}</p>{% endif %}
+{% endfor %}
+<script type="text/javascript" src="http://code.jquery.com/jquery.js"></script>
+<script>
+	var id = 2;
+	function addnew()
+	{
+		$("#dependence").append("<select name='course" + id + "' id='course" + id + "'>{% for course in course_list %}{% if course.name != 'foundation' %} <option value={{course.id}}>{{course.name}}</option>{% endif %}{% endfor %}</select> <select name='dependency" + id + "' id='dependency" + id + "'><option value='1'>Slightly dependent</option>	<option value='1'>Moderately dependent</option><option value='1'>Highly dependent</option></select><br>");
+		id ++;
+	}
+</script>
+<form action="/question_upload_handler/" method="get">
+ 	Course : <select name="course">
+ 			 {% for course in course_list %}
+				{% if course.name != 'foundation' %} 
+			<option value={{course.id}}>{{course.name}}</option>
+				{% endif %}
+			 {% endfor %}
+		 </select><br> 	
+	Question : <input type="text" name="question"><br />
+        Option 1 : <input type="text" name="option1"><br />
+        Option 2 : <input type="text" name="option2"><br />
+        Option 3 : <input type="text" name="option3"><br />
+        Option 4 : <input type="text" name="option4"><br />
+        Answer   : <input type="text" name="answer"><br /><br />
+
+		<div name="dependence" id="dependence">
+			<select name='course1' id='course1'>
+				{% for course in course_list %}
+					{% if course.name != 'foundation' %} 
+						<option value={{course.id}}>
+							{{course.name}}
+						</option>
+					{% endif %}
+				{% endfor %}
+			</select>
+			<select name='dependency1' id='dependency1'>
+				<option value='1'>
+					Slightly dependent
+				</option>
+				<option value='2'>
+					Moderately dependent
+				</option>
+				<option value='3'>
+					Highly dependent
+				</option>
+			</select><br>
+		</div><br>
+
+	    
+
+<button onclick="addnew(); return false;" id="new">Add new dependency</button>
+
+		<input type="submit" value="Submit">
+</form>
+	
+{% endblock %}
