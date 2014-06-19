@@ -17,12 +17,14 @@ from firstapp.tasks import concept_map
 from array import *
 from decimal import *
 
-
 # changes by sameer
 
 from django.db.models import Sum
 
 import datetime
+
+EVALUATE_QUIZ_VIEW_VAR = 0
+
 
 def Evaluation_welcome(request):
     return render (request,'EvaluationWelcome.html')
@@ -507,8 +509,11 @@ def evaluate_quiz_view(request):
 	#print "course_id = " + str(course_id)
 
 
-
-	concept_map.delay(course_id, student)
+	global EVALUATE_QUIZ_VIEW_VAR
+	EVALUATE_QUIZ_VIEW_VAR = EVALUATE_QUIZ_VIEW_VAR + 1
+	if EVALUATE_QUIZ_VIEW_VAR == 100:
+		EVALUATE_QUIZ_VIEW_VAR = 0
+		concept_map.delay(course_id, student)
 
 	knowledge = float(score)/num_of_questions
 	knowledge = int(knowledge * 100)
@@ -537,26 +542,25 @@ def evaluate_quiz_view(request):
 		if (studentstate.course_id is not request.session['course_id']) and (studentstate.course.name != 'foundation'):
 			dependency = CourseDependency.objects.filter(course_source_id=request.session['course_id'],course_target_id=studentstate.course_id)
 			if dependency:
-					if oldKL==0:
-						change = knowledge*float(dependency[0].value)
-						studentstate.KL = change
-						if studentstate.KL>1:
-							studentstate.KL = 1
-						if studentstate.KL<0:
-							studentstate.KL = 0
-						studentstate.save()
-						update_student_state(studentstate)
-					else:
-						change = (knowledge-oldKL)*(float(dependency[0].value))/oldKL
-						studentstate.KL = float(studentstate.KL)
-						studentstate.KL = (studentstate.KL) + (studentstate.KL)*change
-						if studentstate.KL>1:
-							studentstate.KL = 1
-						if studentstate.KL<0:
-							studentstate.KL = 0						
-						studentstate.save()
-						update_student_state(studentstate)
-
+				if oldKL==0:
+					change = knowledge*float(dependency[0].value)
+					studentstate.KL = change
+					if studentstate.KL>1:
+						studentstate.KL = 1
+					if studentstate.KL<0:
+						studentstate.KL = 0
+					studentstate.save()
+					update_student_state(studentstate)
+				else:
+					change = (knowledge-oldKL)*(float(dependency[0].value))/oldKL
+					studentstate.KL = float(studentstate.KL)
+					studentstate.KL = (studentstate.KL) + (studentstate.KL)*change
+					if studentstate.KL>1:
+						studentstate.KL = 1
+					if studentstate.KL<0:
+						studentstate.KL = 0						
+					studentstate.save()
+					update_student_state(studentstate)
 	sumFL = 0
 	for studentstate in StudentState.objects.filter(student_id=studentid) :
 		if studentstate.course.name != 'foundation' :
