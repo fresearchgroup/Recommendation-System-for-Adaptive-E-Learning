@@ -44,7 +44,7 @@
 		
 		<td>{{ con.0 }}</td>		
 		<td>{{ con.1 }}</td>        
-		<td>{{ con.2 }} %</td>
+		<td>{{ concept_rating_array.forloop.counter }} %</td>
 	</tr>
 	{% endfor %}
 </table>

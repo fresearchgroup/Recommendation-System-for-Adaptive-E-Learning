@@ -1,6 +1,6 @@
 {% extends "base_staff.html"%}
 {% block body %}
-<h1><center><font color="white">Welcome to my evaluation model</font></center> </h1>
+<h1><center><font color="grey">Welcome to my evaluation model</font></center> </h1>
 <br><br><br><br><br>
 
     <div id ="evaluation" class="top_menu">
