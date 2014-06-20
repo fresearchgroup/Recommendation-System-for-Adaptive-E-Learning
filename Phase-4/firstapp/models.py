@@ -4,22 +4,9 @@ from django.db.models.signals import post_save
 
 # Create your models here.
 
-class Feedback(models.Model):
-    q1 = models.CharField(max_length=1)
-    q2 = models.CharField(max_length=1)
-    q3 = models.CharField(max_length=1)
-    q4 = models.CharField(max_length=1)
-    q5 = models.CharField(max_length=1)
-    q6 = models.CharField(max_length=1)
-    q7 = models.CharField(max_length=1)
-    q8 = models.CharField(max_length=1)
-    q9 = models.CharField(max_length=1)
-    q10 = models.CharField(max_length=1)
-    q11 = models.CharField(max_length=1)
-    q12 = models.CharField(max_length=1)
-    q13 = models.CharField(max_length=1)
-    q14 = models.CharField(max_length=1)
-    q15 = models.CharField(max_length=1)
+class Feedback_Questions(models.Model):
+	ques = models.CharField(max_length=300)
+	category = models.IntegerField()
 
 class Course(models.Model):
     name = models.CharField(max_length=30)
@@ -37,6 +24,12 @@ class Student(models.Model):
     rated_concepts = models.IntegerField()
     def __unicode__(self):
 	return self.name
+
+class Feedback(models.Model):
+	student = models.ForeignKey(Student)
+	question = models.ForeignKey(Feedback_Questions)
+	response = models.IntegerField()
+
 
 def update_student_state(sender, instance, **kwargs):
     state_list = StudentState.objects.filter(course_id = instance.id)

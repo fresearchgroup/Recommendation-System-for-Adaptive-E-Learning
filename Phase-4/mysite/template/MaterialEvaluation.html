@@ -1,6 +1,6 @@
 {% extends "base_staff.html"%}
 {% block body %}
-<div id="Material_Evaluation_Chart" style="min-width: 500px; height: 600px; margin: 0 auto"></div> 
+<div id="Material_Evaluation_Chart" style="min-width: 500px; height: 700px; margin: 0 auto"></div> 
 <h1> Analysis of student scores :</h1>
 <table class="reference" style="width:80%">
     <tr style="background-color:red;">
@@ -44,18 +44,32 @@ $(function () {
                 type: 'column'
             },
             title: {
-                text: 'Accuracy of Students in Concepts'
+                text: 'Accuracy of Students in Concepts',
+				style: {
+					fontSize: '25px',
+					fontFamily: 'Verdana, sans-serif',
+					color: 'rgb(255, 0, 0)'
+				}
             },
             subtitle: {
                 text: ''
             },
             xAxis: {
                 type: 'category',
+				title: {
+					text: 'Concepts',
+					style: {
+						fontSize: '20px',
+						fontFamily: 'Verdana, sans-serif',
+						color: 'rgb(255, 0, 0)'
+					}
+				},
                 labels: {
-                    rotation: '-45',
+                    rotation: -45,
                     style: {
-                        fontSize: '13px',
-                        fontFamily: 'Verdana, sans-serif'
+                        fontSize: '16px',
+                        fontFamily: 'Verdana, sans-serif',
+						color: 'rgb(255, 0, 0)'
                     }
                 }
             },
@@ -63,8 +77,21 @@ $(function () {
                 min: 0,
                 max: 100,
                 title: {
-                    text: 'Accuracy'
-                }
+                    text: 'Accuracy',
+					style: {
+						fontSize: '20px',
+						fontFamily: 'Verdana, sans-serif',
+						color: 'rgb(255, 0, 0)'
+					}
+                },
+				labels: {
+                    rotation: 0,
+                    style: {
+                        fontSize: '16px',
+                        fontFamily: 'Verdana, sans-serif',
+						color: 'rgb(255, 0, 0)'
+                    }
+				}
             },
             legend: {
                 enabled: false
@@ -76,7 +103,7 @@ $(function () {
                 name: 'Learning model Accuracies',
                 data: [
                     {% for con in mat_list %}
-                    ['{{ con.0 }}', {{ con.3 }}]
+                    ['{{ con.0 }}', {{ con.3 }}],
                     {% endfor %}        
                 ],
                 dataLabels: {

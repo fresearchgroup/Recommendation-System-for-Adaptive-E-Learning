@@ -15,7 +15,7 @@
 		<th>Conclusion</th>
 	</tr>
 	<tr>
-		<td>Does the educational software meet your expectations?</td>
+		<td>Does the educational software meet your expectations?  </td>
 		<td >{% widthratio ans1.q1__sum  num_stu.id 1 %}</td>		
 		<td id="inf1"></td>
 	</tr>
