@@ -1,7 +1,7 @@
 {% extends "base_staff.html"%}
 {% block body %}
 <div id="Material_Evaluation_Chart" style="min-width: 500px; height: 700px; margin: 0 auto"></div> 
-<h1 style="color: gold;"> Analysis of student scores :</h1>
+<h1> Analysis of student scores :</h1>
 <table class="reference" style="width:80%">
     <tr style="background-color:red;">
         <th>Serial No</th>
@@ -21,7 +21,7 @@
     {% endfor %}
 </table>
 
-<h1 style="color: gold;">Analysis of learning material :</h1>
+<h1>Analysis of learning material :</h1>
 
 <table class="reference" style="width:80%">
     <tr style="background-color:red;">

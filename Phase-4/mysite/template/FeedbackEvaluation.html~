@@ -59,8 +59,9 @@ $(function () {
                 type: 'column'
             },
             title: {
-                text: 'Learning Model Evaluation Results'
+                text: 'Accuracy of Students in Concepts',
 				
+            },		
             },
             subtitle: {
                 text: 'Average Ratings'

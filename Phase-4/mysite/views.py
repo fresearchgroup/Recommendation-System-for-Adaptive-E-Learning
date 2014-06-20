@@ -38,37 +38,66 @@ def Feedback_evaluation(request):
 	if request.session['staff_mode'] == 0:
 		return HttpResponseRedirect("/concept_menu/")
 
-	try :
-		r1 =  Feedback.objects.get(id='1')
-		numstu = Feedback.objects.latest('id')
-		a1 = Feedback.objects.aggregate(Sum('q1'))
-		a2 = Feedback.objects.aggregate(Sum('q2'))
-		a3 = Feedback.objects.aggregate(Sum('q3'))
-		a4 = Feedback.objects.aggregate(Sum('q4'))
-		a5 = Feedback.objects.aggregate(Sum('q5'))
-		a6 = Feedback.objects.aggregate(Sum('q6'))
-		a7 = Feedback.objects.aggregate(Sum('q7'))
-		a8 = Feedback.objects.aggregate(Sum('q8'))
-		a9 = Feedback.objects.aggregate(Sum('q9'))
-		a10 = Feedback.objects.aggregate(Sum('q10'))
-		a11 = Feedback.objects.aggregate(Sum('q11'))
-		a12 = Feedback.objects.aggregate(Sum('q12'))
-		a13 = Feedback.objects.aggregate(Sum('q13'))
-		a14 = Feedback.objects.aggregate(Sum('q14'))
-		a15 = Feedback.objects.aggregate(Sum('q15'))
+	if 3 == 3 :
+		question_list = Feedback_Questions.objects.all()
+		num_feedback_questions = question_list.count()
+		num_feedback_categories = Feedback_Questions.objects.latest('category')
+		print 'num_feedback_categories'
+		print num_feedback_categories.category
+		mat_list3 = []
+		mat_list4 = []
+		category_list = ['Effectiveness of system','Adaptivity of system','State on Computer Programming','Students progress in future','Necessity of revision']
+		for i in question_list :
+			temp3 = []
+			temp3.append(i.ques)
+			sum_responses = Feedback.objects.all().filter(question=i.id).aggregate(Sum('response'))
+			num_students = Feedback.objects.all().filter(question=i.id).count()   # number of students who have given response
+			if num_students == 0 :
+				avg = 0
+			else :
+				avg = sum_responses['response__sum']/num_students
+			
+			temp3.append("{0:.2f}".format(avg))
+			if avg <= 1.0 :
+				temp3.append("Not at all")
+			elif avg <= 2.0 :
+				temp3.append("Somewhat")
+			elif avg <= 3.0 :
+				temp3.append("To some extent")
+			elif avg <= 4.0 :
+				temp3.append("Surely")
+			else :
+				temp3.append("Very much")
+			mat_list3.append(temp3)
+		
+		for j in range(0,num_feedback_categories.category):
+			temp4 = []
+			temp4.append(category_list[j])
+			sum_responses = Feedback.objects.all().filter(question = Feedback_Questions.objects.all().filter(category=j+1)).aggregate(Sum('response'))
+			num_students = Feedback.objects.all().filter(question = Feedback_Questions.objects.all().filter(category=j+1)).count()
+			if num_students == 0 :
+				avg = 0
+			else :
+				avg = sum_responses['response__sum']/num_students			
+			
+			temp4.append("{0:.2f}".format(avg))
+			if avg <= 1.0 :
+				temp4.append("Not at all")
+			elif avg <= 2.0 :
+				temp4.append("Somewhat")
+			elif avg <= 3.0 :
+				temp4.append("To some extent")
+			elif avg <= 4.0 :
+				temp4.append("Surely")
+			else :
+				temp4.append("Very much")
+			mat_list4.append(temp4)
+		print 'mat_list4'
+		print mat_list4
+		return render(request,'FeedbackEvaluation.html',{'mat_list3':mat_list3,'mat_list4':mat_list4})
 
-		print 'number of students '+ str(numstu)    
-
-		avg1 = cal_avg(a1['q1__sum'],a2['q2__sum'],a3['q3__sum'],numstu.id)    
-		avg2 = cal_avg(a4['q4__sum'],a5['q5__sum'],a6['q6__sum'],numstu.id)
-		avg3 = cal_avg(a7['q7__sum'],a8['q8__sum'],a9['q9__sum'],numstu.id)
-		avg4 = cal_avg(a10['q10__sum'],a11['q11__sum'],a12['q12__sum'],numstu.id)
-		avg5 = cal_avg(a13['q13__sum'],a14['q14__sum'],a15['q15__sum'],numstu.id)
-
-		return render(request,'FeedbackEvaluation.html',{'response1':r1, 'ans1':a1, 'ans2':a2, 'ans3':a3, 'ans4':a4, 'ans5':a5, 'ans6':a6, 'ans7':a7, 'ans8':a8, 'ans9':a9, 'ans10':a10, 'ans15':a15, 'ans11':a11, 'ans12':a12, 'ans13':a13, 'ans14':a14, 'mystr':str, 'num_stu':numstu, 'average1':avg1, 'average5':avg5, 'average2':avg2, 'average3':avg3, 'average4':avg4, 'staff_name':User.objects.get(id=request.session['login_id']).username})  
-
-	except:
-		message = "No feedbacks found"
+	else :
+		message = "No feedbacks found baby!"
 		return HttpResponse(message)
 
 
