@@ -17,9 +17,6 @@ from firstapp.tasks import concept_map
 from array import *
 from decimal import *
 
-
-# changes by sameer
-
 from django.db.models import Sum
 
 import datetime
@@ -69,16 +66,27 @@ def cal_avg(a,b,c,d):
 def Material_evaluation(request):
 
     concept_list = Course.objects.all()                # list of all concepts in the course
-    num_concepts = concept_list.count()                         # total number of concepts in the model
-    concept_correct_questions = []                   # stores number of questions correctly solved in that concept
+    num_concepts = concept_list.count()                # total number of concepts in the model
+    concept_correct_questions = []                     # stores number of questions correctly solved in that concept
     concept_total_questions = []                       # stores number of questions attempted in that concept
+    mat_list = []
     for i in concept_list:
-        concept_correct_questions.append(Grade.objects.all().filter(conceptID=Course.objects.get(id=i.id)).aggregate(Sum('value')))
-    for j in concept_list:
-        concept_total_questions.append(Grade.objects.all().filter(conceptID=Course.objects.get(id=j.id)).count())
-       
-    return render (request,'MaterialEvaluation.html',{'num_concepts':num_concepts,'concept_correct_questions':concept_correct_questions,
-'concept_total_questions':concept_total_questions })  
+        temp = []
+        temp.append(i.name)
+        temp.append(Grade.objects.all().filter(conceptID=Course.objects.get(id=i.id)).aggregate(Sum('value')))
+        temp.append(Grade.objects.all().filter(conceptID=Course.objects.get(id=i.id)).count())
+        pertemp = (float(temp[1].value__sum*100))/float(temp[2])
+        temp.append("{0:.2f}".format(pertemp))
+        if pertemp <= 25 :
+            temp.append("Poor")
+        elif pertemp <= 50 :
+            temp.append("Average")
+        elif pertemp <= 75 :
+            temp.append("Good")
+        elif pertemp <= 100 :
+            temp.append("Excellent")
+        mat_list.append(temp)
+    return render (request,'MaterialEvaluation.html',{'num_concepts':num_concepts, 'mat_list':mat_list })  
 
 def Parameter_evaluation(request):
 

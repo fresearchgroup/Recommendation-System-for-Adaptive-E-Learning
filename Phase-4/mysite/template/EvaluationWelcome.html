@@ -1,11 +1,23 @@
-<!DOCTYPE html>
-<html>
-<body style="background-color:white;">
-
+{% extends "base_staff.html"%}
+{% block body %}
 <h1><center><font color="blue">Welcome to my evaluation model</font></center> </h1>
+<br><br><br><br><br>
 
+    <div id ="evaluation" class="top_menu">
+        <div class="link" id="evaluation_tech">
+            <a href = "/FeedbackEvaluation/" style="padding-left:10px">Evaluation techniques used</a>
+        </div>
+        
+        <div class="link" id="evaluation_tech">
+            <a href = "/FeedbackEvaluation/" style="padding-left:10px">Evaluate a student model</a>
+        </div>
 
-<p><br><br><br><br><br>
-<center><font color="red"><a href="http://127.0.0.1:8000/FeedbackEvaluation/">Evaluation techniques used</a> &nbsp; &nbsp; &nbsp; &nbsp; <a href="http://127.0.0.1:8000/FeedbackEvaluation/">    Evaluate a student model</a>&nbsp; &nbsp; &nbsp; &nbsp; <a href="http://127.0.0.1:8000/MaterialEvaluation/">Evaluate the study material</a> &nbsp; &nbsp; <a href="http://127.0.0.1:8000/EvaluationParameters/">Evaluation parameters</a></font> </center> </p>
-</body> 
-</html> 
+        <div class="link" id="evaluation_material">
+            <a href = "/MaterialEvaluation/" style="padding-left:10px">Evaluate the study material</a>
+        </div>
+        
+        <div class="link" id="evaluation_material">
+            <a href = "/EvaluationParameters/" style="padding-left:10px">Evaluation parameters</a>
+        </div>
+    </div>
+{% endblock %}
