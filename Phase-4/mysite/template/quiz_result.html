@@ -12,12 +12,44 @@ Please give your feedback...<br>
                         <br>
                         <input type='hidden' id="dummy_input{{forloop.counter}}" name='{{question.id}}' value='0' style='width: 0px;'>
                         <div class="rating_quiz">
+<<<<<<< HEAD
                             <span title="Gorgeous" id="feedback_quiz_5">☆</span>
                             <span title="Good" id="feedback_quiz_4">☆</span>
                             <span title="Average" id="feedback_quiz_3">☆</span>
                             <span title="Not So Good" id="feedback_quiz_2">☆</span>
                             <span title="Poor" id="feedback_quiz_1">☆</span>                
+=======
+                            <span title="Gorgeous" id="feedback_quiz_{{forloop.counter}}_5">☆</span>
+                            <span title="Good" id="feedback_quiz_{{forloop.counter}}_4">☆</span>
+                            <span title="Average" id="feedback_quiz_{{forloop.counter}}_3">☆</span>
+                            <span title="Not So Good" id="feedback_quiz_{{forloop.counter}}_2">☆</span>
+                            <span title="Poor" id="feedback_quiz_{{forloop.counter}}_1">☆</span>
+>>>>>>> d1ea04d207acc493d0c89b90fa70e3969e6ede82
                         </div>
+                    <script type="text/javascript">
+                        function change_rating(index)
+                            {
+                                $('#dummy_input{{forloop.counter}}').val(index);
+                                var str = '#feedback_quiz_{{forloop.counter}}_';
+                                for(i=1;i<=index;i++)
+                                {
+                                    $(str.concat(i.toString())).css("color","gold");
+                                    $(str.concat(i.toString())).text('★');
+                                }
+                                for(;i<=5;i++)
+                                {
+                                    $(str.concat(i.toString())).css("color","black");
+                                    $(str.concat(i.toString())).text('☆');
+                                }
+                            }
+
+
+                            $('#feedback_quiz_{{forloop.counter}}_1').click(function() {change_rating(1);});
+                            $('#feedback_quiz_{{forloop.counter}}_2').click(function() {change_rating(2);});
+                            $('#feedback_quiz_{{forloop.counter}}_3').click(function() {change_rating(3);});
+                            $('#feedback_quiz_{{forloop.counter}}_4').click(function() {change_rating(4);});
+                            $('#feedback_quiz_{{forloop.counter}}_5').click(function() {change_rating(5);});
+                    </script>
                     </p>
                 </li>
 	{%endfor%}
@@ -25,27 +57,4 @@ Please give your feedback...<br>
 <input type="submit" value="Submit">
 <input type="reset" value="Clear Choices">
 </form>
-<script type="text/javascript">
-    function change_rating(index)
-        {
-            $('#dummy_input').val(index);
-            var str = '#feedback_quiz_';
-            for(i=1;i<=index;i++)
-            {
-                $(str.concat(i.toString())).css("color","gold");
-                $(str.concat(i.toString())).text('★');
-            }
-            for(;i<=5;i++)
-            {
-                $(str.concat(i.toString())).css("color","black");
-                $(str.concat(i.toString())).text('☆');
-            }
-        }
-
-        $('#feedback_quiz_1').click(function() {change_rating(1);});
-        $('#feedback_quiz_2').click(function() {change_rating(2);});
-        $('#feedback_quiz_3').click(function() {change_rating(3);});
-        $('#feedback_quiz_4').click(function() {change_rating(4);});
-        $('#feedback_quiz_5').click(function() {change_rating(5);});
-</script>
 {% endblock %}
