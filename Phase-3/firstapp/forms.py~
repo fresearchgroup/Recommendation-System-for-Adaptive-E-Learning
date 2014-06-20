@@ -1,6 +1,0 @@
-from django import forms
-from models import Course
-
-class CourseAddForm(forms.ModelForm):
-	name = forms.CharField(max_length=30)
-	
