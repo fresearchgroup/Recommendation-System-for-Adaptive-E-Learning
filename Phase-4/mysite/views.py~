@@ -1064,7 +1064,7 @@ def add_stuff(request):
 	concept_list = Course.objects.all()
 	for concept in concept_list:
 		print concept.name
-		if concept.name == "basics of c programming":
+		if concept.name == "Basics of C Programming":
 			print concept.name
 			q = Question(course=concept, question="""C programs are converted 
 into machine language with the help of""" , option1="Editor", option2="Compiler", option3="OS", option4="None of the above", answer=2)
@@ -1076,7 +1076,7 @@ into machine language with the help of""" , option1="Editor", option2="Compiler"
 			q = Question(course=concept, question="""Which of the following is not a keyword in C ?""" , option1="for", option2="char", option3="print", option4="case", answer=3)
 			q.save()
 
-		elif concept.name == "decision making":
+		elif concept.name == "Decision making":
 			print concept.name
 			q = Question(course=concept, question="""What would be the output of the following program:  main( ) 
 		{ 
@@ -1113,7 +1113,7 @@ main( )
 			else   
 				printf( "Bye" ) ; }""", option1="Hello", option2="Bye", option3="Compilation error", option4="Segmentaion fault", answer=1)
 			q.save()	
-		elif concept.name == "iterations":
+		elif concept.name == "Iterations":
 			print concept.name
 			q = Question(course=concept, question="""How many times does the for loop iterate?
 			for ( i = 0; i< 10 ; i = i+2)""", option1="5", option2="10", option3="6", option4="11", answer=1)
@@ -1144,7 +1144,7 @@ main( )
 				for ( j = 0; j<10; j++)
 					count++;""", option1="5", option2="10", option3="50", option4="100", answer=3)
 			q.save()
-		elif concept.name == "arrays and structures":
+		elif concept.name == "Arrays and Structures":
 			print concept.name
 			q = Question(course=concept, question="""What will be the output of following code :
 {

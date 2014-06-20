@@ -16,7 +16,7 @@
 						                    [1, 'rgb(144,144,144)']
 					                    ]
             				},
-			            borderWidth: 0,
+			            borderWidth: 2,
             			plotBackgroundColor: 'rgba(255, 255, 255, .9)',
 			            plotShadow: true,
 			            plotBorderWidth: 1
