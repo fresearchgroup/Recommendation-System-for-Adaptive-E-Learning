@@ -7,17 +7,45 @@ Please give your feedback...<br>
 <form method="get" action="/feedback_handler/" enctype="text/plain">
     <ol>
 	{%for question in question_list %}
-		<li><P>{{question.ques}}<BR>
-		<input type="radio" name="{{question.id}}" value="1">1<BR>
-		<input type="radio" name="{{question.id}}" value="2">2<BR>
-		<input type="radio" name="{{question.id}}" value="3">3<BR>
-		<input type="radio" name="{{question.id}}" value="4">4<BR>
-		<input type="radio" name="{{question.id}}" value="5">5<BR>
-		</p></li>
+		<li>
+                    <p>{{question.ques}}
+                        <br>
+                        <input type='hidden' id="dummy_input" name='{{question.id}}' value='0' style='width: 0px;'>
+                        <div class="rating_quiz">
+                            <span title="Gorgeous" id="feedback_quiz_5">☆</span>
+                            <span title="Good" id="feedback_quiz_4">☆</span>
+                            <span title="Average" id="feedback_quiz_3">☆</span>
+                            <span title="Not So Good" id="feedback_quiz_2">☆</span>
+                            <span title="Poor" id="feedback_quiz_1">☆</span>
+                        </div>
+                    </p>
+                </li>
 	{%endfor%}
     </ol>
 <input type="submit" value="Submit">
 <input type="reset" value="Clear Choices">
 </form>
+<script type="text/javascript">
+    function change_rating(index)
+        {
+            $('#dummy_input').val(index);
+            var str = '#feedback_quiz_';
+            for(i=1;i<=index;i++)
+            {
+                $(str.concat(i.toString())).css("color","gold");
+                $(str.concat(i.toString())).text('★');
+            }
+            for(;i<=5;i++)
+            {
+                $(str.concat(i.toString())).css("color","black");
+                $(str.concat(i.toString())).text('☆');
+            }
+        }
 
+        $('#feedback_quiz_1').click(function() {change_rating(1);});
+        $('#feedback_quiz_2').click(function() {change_rating(2);});
+        $('#feedback_quiz_3').click(function() {change_rating(3);});
+        $('#feedback_quiz_4').click(function() {change_rating(4);});
+        $('#feedback_quiz_5').click(function() {change_rating(5);});
+</script>
 {% endblock %}
