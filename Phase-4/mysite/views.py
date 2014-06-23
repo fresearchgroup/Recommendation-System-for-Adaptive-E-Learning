@@ -97,7 +97,11 @@ def Feedback_evaluation(request):
 		return render(request,'FeedbackEvaluation.html',{'mat_list3':mat_list3,'mat_list4':mat_list4})
 
 	else :
+<<<<<<< HEAD
 		message = "No feedbacks found!"
+=======
+		message = "No feedbacks found baby!"
+>>>>>>> a4e19996d57ab6356e1b3b9d54eb9643142363cd
 		return HttpResponse(message)
 
 

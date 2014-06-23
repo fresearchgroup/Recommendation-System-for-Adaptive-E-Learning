@@ -44,7 +44,7 @@
 		
 		<td>{{ con.0 }}</td>		
 		<td>{{ con.1 }}</td>        
-		<td>{{ concept_rating_array.forloop.counter }} %</td>
+		<td>{{ con.2 }} %</td>
 	</tr>
 	{% endfor %}
 </table>
@@ -174,7 +174,7 @@ $(function () {
 	
 	    series: [{
 	        name: 'Precision',
-	        data: [precision],
+	        data: [0.5],
 	        dataLabels: {
 	        	format: '<div style="text-align:center"><span style="font-size:25px;color:' + 
                     ((Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black') + '">{y}</span><br/>' + 
@@ -199,7 +199,7 @@ $(function () {
 	
 	    series: [{
 	        name: 'Recall',
-	        data: [recall],
+	        data: [0.5],
 	        dataLabels: {
 	        	format: '<div style="text-align:center"><span style="font-size:25px;color:' + 
                     ((Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black') + '">{y:.1f}</span><br/>' + 
@@ -227,7 +227,7 @@ $(function () {
 	
 	    series: [{
 	        name: 'fi metric',
-	        data: [f1_metric],
+	        data: [0.5],
 	        dataLabels: {
 	        	format: '<div style="text-align:center"><span style="font-size:25px;color:' + 
                     ((Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black') + '">{y}</span><br/>' + 
