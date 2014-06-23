@@ -837,6 +837,20 @@ def question_upload_handler(request):
 	q = Question(course=course, question=question, option1=option1, option2=option2, option3=option3, option4=option4, answer=answer)
 	q.save()
 
+	student_list = Student.objects.all()
+	for student in student_list:
+		g = Grade(conceptID=course,questionID=q,studentID=student,value=0,prev=0,attempted=0)
+		g.save()
+
+	question_list = Question.objects.all()
+	for item in question_list:
+		if item is q:
+			object1 = Q1Q2RightWrong(question_x = item, question_y = item, right = 0, wrong = Student.objects.all().count())
+			object1.save()
+		else:
+			object1 = Q1Q2RightWrong(question_x = q, question_y = item, right = 0, wrong = len(Grade.objects.filter(questionID=item, value=0)))
+			object1.save()
+
 	item_id = 1
 	
 	dep_dict = {}

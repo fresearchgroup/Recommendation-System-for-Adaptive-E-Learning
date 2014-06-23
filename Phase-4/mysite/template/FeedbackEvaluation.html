@@ -1,6 +1,6 @@
 {% extends "base_staff.html"%}
 {% block body %}
-<font color="black">
+<!--<font color="black"> -->
 
 <div id="container" style="min-width: 500px; height: 400px; margin: 0 auto"></div>
 
@@ -14,82 +14,14 @@
 		<th>Average rating</th>		
 		<th>Conclusion</th>
 	</tr>
+	{% for con in mat_list3 %}
 	<tr>
-		<td>Does the educational software meet your expectations?</td>
-		<td >{% widthratio ans1.q1__sum  num_stu.id 1 %}</td>		
-		<td id="inf1"></td>
+		
+		<td>{{ con.0 }}</td>		
+		<td>{{ con.1 }}</td>        
+		<td>{{ con.2 }} </td>
 	</tr>
-	<tr>
-		<td>Does the educational software help you understanding the logic of programming?</td>
-		<td>{% widthratio ans2.q2__sum  num_stu.id 1 %} </td>		
-		<td id="inf2"></td>
-	</tr>
-	<tr>
-		<td>Do you think that this educational software is useful as an educational tool?</td>
-		<td>{% widthratio ans3.q3__sum  num_stu.id 1 %}</td>		
-		<td id="inf3"></td>
-	</tr>
-	<tr>
-		<td>Does the program correspond to your knowledge level each time?</td>
-		<td>{% widthratio ans4.q4__sum  num_stu.id 1 %}</td>		
-		<td id="inf4"></td>
-	</tr>
-	<tr>
-		<td>Does the program correspond to your educational needs level each time?</td>
-		<td>{% widthratio ans5.q5__sum  num_stu.id 1 %}</td>		
-		<td id="inf5"></td>
-	</tr>
-	<tr>
-		<td>Does the test adapt to your educational needs?</td>
-		<td>{% widthratio ans6.q6__sum  num_stu.id 1 %}</td>		
-		<td id="inf6"></td>
-	</tr>
-	<tr>
-		<td>Does the educational software affect positively your perception about computer programming?</td>
-		<td>{% widthratio ans7.q7__sum  num_stu.id 1 %}</td>		
-		<td id="inf7"></td>
-	</tr>
-	<tr>
-		<td>Does the educational software draw your interest on computer programming?</td>
-		<td>{% widthratio ans8.q8__sum  num_stu.id 1 %}</td>		
-		<td id="inf8"></td>
-	</tr>
-		<tr>
-		<td>Does the educational software motivate you to be involved in computer programming?</td>
-		<td>{% widthratio ans9.q9__sum  num_stu.id 1 %}</td>		
-		<td id="inf9"></td>
-	</tr>
-	<tr>
-		<td>Does the educational software help you understanding better the logic of programming?</td>
-		<td>{% widthratio ans10.q10__sum  num_stu.id 1 %}</td>		
-		<td id="inf10"></td>
-	</tr>
-	<tr>
-		<td>Does the educational software help you to learn other programming languages?</td>
-		<td>{% widthratio ans11.q11__sum  num_stu.id 1 %}</td>		
-		<td id="inf11"></td>
-	</tr>
-	<tr>
-		<td>Does the educational software help you in your studies?</td>
-		<td>{% widthratio ans12.q12__sum  num_stu.id 1 %}</td>		
-		<td id="inf12"></td>
-	</tr>
-	<tr>
-		<td>Do you think that your returns to a previous chapter in order to revise it are a waste of time?</td>
-		<td>{% widthratio ans13.q13__sum  num_stu.id 1 %}</td>		
-		<td id="inf13"></td>
-	</tr>
-	<tr>
-		<td>Do the returns to a previous chapter correspond to your need for revision?</td>
-		<td>{% widthratio ans14.q14__sum  num_stu.id 1 %}</td>		
-		<td id="inf14"></td>
-	</tr>
-	<tr>
-		<td>Does your return to a previous level, that happened each time the system discovered that you made errors of previous chapters,help you learning programming</td>
-		<td>{% widthratio ans15.q15__sum  num_stu.id 1 %}</td>		
-		<td id="inf15"></td>
-	</tr>	
-	
+	{% endfor %}
 
 </table>
 </center>
@@ -102,31 +34,14 @@
 		<th>Average rating</th>		
 		<th>Conclusion</th>
 	</tr>
+	{% for con in mat_list4 %}
 	<tr>
-		<td>Effectiveness of the model  </td>
-		<td>{% widthratio average1 3 1 %}</td>		
-		<td id="model_inf1"></td>
+		
+		<td>{{ con.0 }}</td>		
+		<td>{{ con.1 }}</td>        
+		<td>{{ con.2 }} </td>
 	</tr>
-	<tr>
-		<td>Adaptivity of the system</td>
-		<td>{% widthratio average2 3 1 %}</td>		
-		<td id="model_inf2"></td>
-	</tr>
-	<tr>
-		<td>State on computer programming</td>
-		<td>{% widthratio average3 3 1 %}</td>		
-		<td id="model_inf3"></td>
-	</tr>
-	<tr>
-		<td>Student's progress in future</td>
-		<td>{% widthratio average4 3 1 %}</td>		
-		<td id="model_inf4"></td>
-	</tr>
-	<tr>
-		<td>Necessity of revision</td>
-		<td>{% widthratio average5 3 1 %}</td>		
-		<td id="model_inf5"></td>
-	</tr>
+	{% endfor %}
 
 
 </table>
@@ -137,100 +52,6 @@
 
 <script type="text/javascript">
 
-function model_inference(a,b,c,d)
-{
-   var str;
-   var n = (a+b+c)/(3*d);
-   if (n < 1.5)
-   {
-    str = "not at all";
-   } 
-   else if ( n < 2.5)
-   {
-    str = "somewhat";
-   }
-   else if ( n < 3.5)
-   {
-    str = "to some extent yes";
-   }
-   else if ( n < 4.5)
-   {
-    str = "surely";
-   }
-   else
-   {
-    str = "very much"; 
-   }
-   return str;
-}
-
-function inference(a,b)
-{
-   var str;
-   var n = a/b;
-   if (n < 1.5)
-   {
-    str = "not at all";
-   } 
-   else if ( n < 2.5)
-   {
-    str = "somewhat";
-   }
-   else if ( n < 3.5)
-   {
-    str = "to some extent yes";
-   }
-   else if ( n < 4.5)
-   {
-    str = "surely";
-   }
-   else
-   {
-    str = "very much"; 
-   }
-   return str;
-}
-var inference1 = inference({{ans1.q1__sum}} ,{{num_stu.id}});
-document.getElementById("inf1").innerHTML = inference1;
-var inference2 = inference({{ans2.q2__sum}} ,{{num_stu.id}});
-document.getElementById("inf2").innerHTML = inference2;
-var inference3 = inference({{ans3.q3__sum}} ,{{num_stu.id}});
-document.getElementById("inf3").innerHTML = inference3;
-var inference4 = inference({{ans4.q4__sum}} ,{{num_stu.id}});
-document.getElementById("inf4").innerHTML = inference4;
-var inference5 = inference({{ans5.q5__sum}} ,{{num_stu.id}});
-document.getElementById("inf5").innerHTML = inference5;
-var inference6 = inference({{ans6.q6__sum}} ,{{num_stu.id}});
-document.getElementById("inf6").innerHTML = inference6;
-var inference7 = inference({{ans7.q7__sum}} ,{{num_stu.id}});
-document.getElementById("inf7").innerHTML = inference7;
-var inference8 = inference({{ans8.q8__sum}} ,{{num_stu.id}});
-document.getElementById("inf8").innerHTML = inference8;
-var inference9 = inference({{ans9.q9__sum}} ,{{num_stu.id}});
-document.getElementById("inf9").innerHTML = inference9;
-var inference10 = inference({{ans10.q10__sum}} ,{{num_stu.id}});
-document.getElementById("inf10").innerHTML = inference10;
-var inference11 = inference({{ans11.q11__sum}} ,{{num_stu.id}});
-document.getElementById("inf11").innerHTML = inference11;
-var inference12 = inference({{ans12.q12__sum}} ,{{num_stu.id}});
-document.getElementById("inf12").innerHTML = inference12;
-var inference13 = inference({{ans13.q13__sum}} ,{{num_stu.id}});
-document.getElementById("inf13").innerHTML = inference13;
-var inference14 = inference({{ans14.q14__sum}} ,{{num_stu.id}});
-document.getElementById("inf14").innerHTML = inference14;
-var inference15 = inference({{ans15.q15__sum}} ,{{num_stu.id}});
-document.getElementById("inf15").innerHTML = inference15;
-
-var model_inference1 = model_inference({{ans1.q1__sum}},{{ans2.q2__sum}},{{ans3.q3__sum}},{{num_stu.id}})
-document.getElementById("model_inf1").innerHTML = model_inference1;
-var model_inference2 = model_inference({{ans4.q4__sum}},{{ans5.q5__sum}},{{ans6.q6__sum}},{{num_stu.id}})
-document.getElementById("model_inf2").innerHTML = model_inference2;
-var model_inference3 = model_inference({{ans7.q7__sum}},{{ans8.q8__sum}},{{ans9.q9__sum}},{{num_stu.id}})
-document.getElementById("model_inf3").innerHTML = model_inference3;
-var model_inference4 = model_inference({{ans10.q10__sum}},{{ans11.q11__sum}},{{ans12.q12__sum}},{{num_stu.id}})
-document.getElementById("model_inf4").innerHTML = model_inference4;
-var model_inference5 = model_inference({{ans13.q13__sum}},{{ans14.q14__sum}},{{ans15.q15__sum}},{{num_stu.id}})
-document.getElementById("model_inf5").innerHTML = model_inference5;
 
 $(function () {
         $('#container').highcharts({
@@ -239,6 +60,7 @@ $(function () {
             },
             title: {
                 text: 'Learning Model Evaluation Results'
+				
             },
             subtitle: {
                 text: 'Average Ratings'
@@ -250,6 +72,7 @@ $(function () {
                     style: {
                         fontSize: '13px',
                         fontFamily: 'Verdana, sans-serif'
+			
                     }
                 }
             },
@@ -269,11 +92,9 @@ $(function () {
             series: [{
                 name: 'Learning model Characteristics',
                 data: [
-                    ['Effectiveness of Model', {% widthratio average1 3 1 %}],
-                    ['Adaptivity of System', {% widthratio average2 3 1 %}],
-                    ['State on Computer Programming', {% widthratio average3 3 1 %}],
-                    ['Progress in Future', {% widthratio average4 3 1 %}],
-                    ['Necessity of Revision', {% widthratio average5 3 1 %}],
+                    {% for con in mat_list4 %}
+                    ['{{ con.0 }}', {{ con.1 }}],
+                    {% endfor %} 
                                         
                 ],
                 dataLabels: {
