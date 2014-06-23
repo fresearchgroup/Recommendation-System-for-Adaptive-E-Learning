@@ -92,10 +92,12 @@ def Feedback_evaluation(request):
 			else :
 				temp4.append("Very much")
 			mat_list4.append(temp4)
+		print 'mat_list4'
+		print mat_list4
 		return render(request,'FeedbackEvaluation.html',{'mat_list3':mat_list3,'mat_list4':mat_list4})
 
 	else :
-		message = "No feedbacks found baby!"
+		message = "No feedbacks found!"
 		return HttpResponse(message)
 
 
@@ -862,13 +864,15 @@ def question_upload_handler(request):
 		return HttpResponseRedirect('/add_question/')
 		
 	q = Question(course=course, question=question, option1=option1, option2=option2, option3=option3, option4=option4, answer=answer)
-	q.save()
+	q.save() #question is saved
 
+	# Now, for consistency the grade for all the students in that question is 0
 	student_list = Student.objects.all()
 	for student in student_list:
 		g = Grade(conceptID=course,questionID=q,studentID=student,value=0,prev=0,attempted=0)
 		g.save()
 
+	# We change the Q1Q2RightWrong table too. no. of students right in oth questions is 0 and no. of students wrong in both questions is the number of students wrong in the question which existed previously in the database.
 	question_list = Question.objects.all()
 	for item in question_list:
 		if item is q:
@@ -884,6 +888,7 @@ def question_upload_handler(request):
 	
 	dep_sum = 0
 
+	# Here, we retrieve the dependency between questions and concepts
 	while item_id >= 0:
 		try:
 			print "hello " + str(item_id)
@@ -902,6 +907,7 @@ def question_upload_handler(request):
 		except:
 			break	
 		
+	# Here, we store those values in question concept matrix
 	for key in dep_dict:
 		print "hello"
 		concept = Course.objects.get(id=key)
@@ -923,6 +929,7 @@ def question_upload_handler(request):
 			qc.save()
 
 	
+	# We calculate the QC' matrix on the basis of QC matrix
 	for key in dep_dict:
 		concept = Course.objects.get(id=key)
 		vertical_column = Question_Concept.objects.filter(concept=concept)
@@ -945,6 +952,7 @@ def question_upload_handler(request):
 				object1 = Question_Concept_new(question=item2.question, concept=concept, value=value)
 				object1.save()
 
+	# Filling out the other values, whose dependency wasn't mentioned
 	for item in concept_list:
 		try:
 			object1 = Question_Concept_new.objects.get(question=q, concept=item)
@@ -975,12 +983,15 @@ def question_deletion_handler(request):
 	
 	for question in Question.objects.all():
 		if request.GET.get(str(question.id)):
+			# We delete that question's item from QC matrix table
 			QC_list = Question_Concept.objects.filter(question = question)
 			for item in QC_list:
 				item.delete()
 
+			# Retrieve the related items from QC' matrix
 			QC_new_list = Question_Concept_new.objects.filter(question = question)
 
+			# Change the values in vertical column
 			for item in QC_new_list:
 				if item.value > 0:
 					vertical_column = Question_Concept.objects.filter(concept = item.concept)
@@ -1002,29 +1013,35 @@ def question_deletion_handler(request):
 							object1 = Question_Concept_new(question=item2.question, concept=item2.concept, value=value)
 							object1.save()
 			
+			# delete the items
 			for item in QC_new_list:
 				item.delete()
 			
 			confidencertor_list = ConfidenceRtoR.objects.filter(Q(questionSource=question) | Q(questionTarget=question))
 
+			# delete from confidence_R_to_R matrix
 			for item in confidencertor_list:
 				item.delete()
 
 			confidencewtow_list = ConfidenceRtoR.objects.filter(Q(questionSource=question) | Q(questionTarget=question))
 
+			# delete from confidence_W_to_W matrix
 			for item in confidencewtow_list:
 				item.delete()
 
 			q1q2rightwrong_list = Q1Q2RightWrong.objects.filter(Q(question_x=question) | Q(question_y=question))
 
+			# delete from Q1Q2RightWrong matrix
 			for item in q1q2rightwrong_list:
 				item.delete()
 
 			grade_list = Grade.objects.filter(questionID=question)
-			
+
+			# delete from Grade table
 			for item in grade_list:
 				item.delete()
 
+			# finally delte the question
 			question.delete()
 			
 	staff_name = User.objects.get(id=request.session['login_id']).username
@@ -1033,8 +1050,6 @@ def question_deletion_handler(request):
 def feedback_view(request):
 	student_name = Student.objects.get(user_id=request.session['login_id']).name
 	return render(request, 'feedback.html',{'student_name':student_name})
-
-
 
 def add_stuff(request):
 
