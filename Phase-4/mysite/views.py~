@@ -42,8 +42,6 @@ def Feedback_evaluation(request):
 		question_list = Feedback_Questions.objects.all()
 		num_feedback_questions = question_list.count()
 		num_feedback_categories = Feedback_Questions.objects.latest('category')
-		print 'num_feedback_categories'
-		print num_feedback_categories.category
 		mat_list3 = []
 		mat_list4 = []
 		category_list = ['Effectiveness of system','Adaptivity of system','State on Computer Programming','Students progress in future','Necessity of revision']
@@ -92,8 +90,7 @@ def Feedback_evaluation(request):
 			else :
 				temp4.append("Very much")
 			mat_list4.append(temp4)
-		print 'mat_list4'
-		print mat_list4
+
 		return render(request,'FeedbackEvaluation.html',{'mat_list3':mat_list3,'mat_list4':mat_list4})
 
 	else :
@@ -229,7 +226,6 @@ def login_handler(request):
 			message = "You provided a correct username and password!"
 			request.session['logged_in'] = 1
 			request.session['login_id'] = user.id
-			print user.is_staff
 			request.session['staff_mode'] = user.is_staff
 			if user.is_staff==0: 
 				return HttpResponseRedirect("/concept_menu/")
@@ -392,16 +388,6 @@ def concept_menu_view(request):
 
 	predict_course_list.sort(key=lambda x: x.prediction_value, reverse = True)
 
-	#print ("plist")
-	#print (plist)
-
-	#print("clist")
-	#print(clist)
-	print "predict_course_list"
-	for ii in predict_course_list :
-		print str(ii.concept) + str(" ") + str(ii.prediction_value)
-	print predict_course_list
-
 	# calculation student_similarity with other students who have taken this concept.
 	ss_reco_list = []		#student_similarity_recommendation_list
 	current_student_history_list = Student_History.objects.filter(student = student)
@@ -478,11 +464,6 @@ def concept_menu_view(request):
 	attempted_wrongly_grade_list1 = Grade.objects.filter(studentID=student, value=0)
 	attempted_wrongly_grade_list = attempted_wrongly_grade_list1.filter(~Q(attempted = 0)) 
 
-	print "Wrongly attempted questions"
-
-	for item in attempted_wrongly_grade_list:
-		print item.questionID.id
-
 	concept_list = Course.objects.all()
 	num_questions = Question.objects.all().count()
 	wrong_concept_importance = []
@@ -493,10 +474,8 @@ def concept_menu_view(request):
 	for concept in concept_list:
 		num_attempted = 0
 		dep_sum = 0
-		print "for concept : " + str(concept.name)
+
 		for object1 in attempted_wrongly_grade_list:
-			print "for wrongly attempted question, " + str(object1.questionID.id)
-			print object1.attempted
 			qc = Question_Concept.objects.get(question=object1.questionID, concept=concept)
 			if qc.value > 0:
 				num_attempted = num_attempted + object1.attempted
@@ -505,13 +484,11 @@ def concept_menu_view(request):
 			continue
 		importance = 0.5 * float(num_attempted) + 0.5 * float(dep_sum)
 		wrong_concept_importance.append((concept,importance))
-		print str(num_attempted) + "    " + str(dep_sum) + "     " + str(importance)
 
 	sorted_importance = sorted(wrong_concept_importance, key = operator.itemgetter(1), reverse = True)
 
 	for item in sorted_importance:
 		question_recco.append(item[0])	
-		print item[0]	
 
 	return render(request, 'concept_menu.html',{'concept_list':clist, 'passed_list':plist, 'student_name' : student.name, 'cf_predict_list' : predict_course_list, 'ss_reco_list':ss_reco_list, 'question_recco':question_recco})
 
@@ -537,8 +514,6 @@ def pdf_view(request, concept_id):
 	request.session['course_id'] = concept_id
 	
 	filename = str(Course.objects.get(id=request.session['course_id']).content)
-
-	print filename
 
 	MEDIA_DIR = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'media')
 
@@ -613,12 +588,7 @@ def evaluate_quiz_view(request):
 
 		gradeObject.save()
 
-	print 'score = ' + str(score)
-
 	course_id = int(request.session['course_id'])
-	#print "course_id = " + str(course_id)
-
-
 
 	concept_map.delay(course_id, student)
 
@@ -629,12 +599,7 @@ def evaluate_quiz_view(request):
 	sumKL = -1
 	for studentstate in studentstate_list :
 		sumKL = sumKL + float(studentstate.KL)
-		#print(studentstate.course.name)
-		#print(sumKL)
 
-	#print("SumKl Before")
-	#print(sumKL)
-	
 	studentstate_this_course = StudentState.objects.get(student_id = studentid,course_id=request.session['course_id'])
 	
 	oldKL = float(studentstate_this_course.KL)
@@ -673,18 +638,10 @@ def evaluate_quiz_view(request):
 	for studentstate in StudentState.objects.filter(student_id=studentid) :
 		if studentstate.course.name != 'foundation' :
 			sumFL = sumFL + float(studentstate.KL)
-		#print(studentstate.course.name)
-		#print(sumFL)
-
-	#print("Final Sum")
-	#print(sumFL)
 
 	diff = float(sumFL) - float(sumKL)
 	diff = diff / (noOfCourse - 1)
 	curr_stu = Student.objects.get(user_id=request.session['login_id'])
-
-	print "prev_id" + str(curr_stu.prev_course.id)
-	print "course_id" + str(request.session['course_id'])	
 
 	if (curr_stu.prev_course.id != request.session['course_id']) :
 		dep = CourseDependency.objects.get(course_source_id = curr_stu.prev_course.id, course_target_id = request.session['course_id'])
@@ -714,10 +671,8 @@ def evaluate_quiz_view(request):
 		denominator1 = 0
 		denominator2 = 0		
 		for rater in list_i :
-			print "rater.student.rated_concepts : " + str(rater.student.rated_concepts)
 			rater_u_avg = float(rater.student.rating_sum)/float(rater.student.rated_concepts)
 			rater_u_i = rater.rating
-			print "sim = "
 			rater_u_j = Ratings.objects.get(item = sim.course_target, student = rater.student).rating
 			
 			numerator += (rater_u_i - rater_u_avg)*(rater_u_j - rater_u_avg)
@@ -756,11 +711,6 @@ def evaluate_quiz_view(request):
 	if to_be_displayed == 0:
 		to_be_displayed = 1
 	
-	print "to be displayed" + str(to_be_displayed)
-
-	print "course_id : " + str(request.session['course_id'])
-	print "min id : " + str(Course.objects.aggregate(Min('id'))['id__min'])
-
 	starting = int(request.session['course_id']) - int(Course.objects.aggregate(Min('id'))['id__min'])
 	ending = starting + to_be_displayed
 
@@ -811,10 +761,8 @@ def add_concept_view(request):
 	if request.session['staff_mode'] == 0:
 		return HttpResponseRedirect("/concept_menu/")
 	if request.method == 'POST':
-		print("hello")		
 		form = CourseAddForm(request.POST, request.FILES)
 		if request.FILES:		
-			print("hello2")			
 			instance = Course(name=request.POST.get('filename'), content=request.FILES['myfile'])		
 			instance.save()
 			return HttpResponse('Your file has been saved.Please <a href="/staff_menu/">click</a> to continue...')
@@ -837,11 +785,8 @@ def delete_concept_view(request):
 def concept_deletion_handler(request):
 	concept_list = Course.objects.all()
 	for concept in concept_list:
-		print concept.name
 		if request.GET.get(str(concept.id)):
-			print concept.content
 			path = os.path.join(os.path.join(os.path.realpath(os.path.dirname(__file__)),'media'),str(concept.content))
-			print path
 			os.remove(path)
 			concept.delete()		
 			
@@ -901,25 +846,18 @@ def question_upload_handler(request):
 	# Here, we retrieve the dependency between questions and concepts
 	while item_id >= 0:
 		try:
-			print "hello " + str(item_id)
 			concept_string = "course" + str(item_id)
-			print 'course_string' + concept_string
 			dependency_string = "dependency" + str(item_id)
-			print 'dependency_string' + dependency_string
 			concept = int(request.GET.get(concept_string))
-			print 'course ' + str(concept)
 			dependency = int(request.GET.get(dependency_string))
-			print 'dependency' + str(dependency)
 			dep_dict.update({concept : dependency})
 			dep_sum = dep_sum + dependency
 			item_id = item_id + 1
-			print "hello " + str(item_id)
 		except:
 			break	
 		
 	# Here, we store those values in question concept matrix
 	for key in dep_dict:
-		print "hello"
 		concept = Course.objects.get(id=key)
 		value = float(dep_dict[key])/float(dep_sum)
 		try:
@@ -1066,10 +1004,7 @@ def add_stuff(request):
 	concept_list = Course.objects.all()
 
 	for concept in concept_list:
-		print concept.name
-		print concept.content
 		path = os.path.join(os.path.join(os.path.realpath(os.path.dirname(__file__)),'media'),str(concept.content))
-		print path
 		try:
 			os.remove(path)
 		except OSError:
@@ -1117,56 +1052,37 @@ def add_stuff(request):
 	name = "foundation"
 	SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
 	path = os.path.join(os.path.join(os.path.join(os.path.join(SITE_ROOT,'..'),'media'),'documents'),'dummy')
-#	print path
 	new_file = Course(name=name)
 	new_file.content = DjangoFile(file(path))
-#	print "added file1"
 	new_file.save()
-#	print "added file2"
 
 	name = "Basics of C Programming"
 	SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
 	path = os.path.join(os.path.join(os.path.join(os.path.join(SITE_ROOT,'..'),'media'),'documents'),'part_1.pdf')
-#	print path
 	new_file = Course(name=name)
 	new_file.content = DjangoFile(file(path))
-#	print "added file1"
 	new_file.save()
-#	print "added file2"
 
 	name = "Decision making"
 	SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
 	path = os.path.join(os.path.join(os.path.join(os.path.join(SITE_ROOT,'..'),'media'),'documents'),'part_2.pdf')
-#	print path
 	new_file = Course(name=name)
 	new_file.content = DjangoFile(file(path))
-#	print "added file1"
 	new_file.save()
-#	print "added file2"
-
 
 	name = "Iterations"
 	SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
 	path = os.path.join(os.path.join(os.path.join(os.path.join(SITE_ROOT,'..'),'media'),'documents'),'part_3.pdf')
-#	print path
 	new_file = Course(name=name)
 	new_file.content = DjangoFile(file(path))
-#	print "added file1"
 	new_file.save()
-#	print "added file2"
-
 
 	name = "Arrays and Structures"
 	SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
 	path = os.path.join(os.path.join(os.path.join(os.path.join(SITE_ROOT,'..'),'media'),'documents'),'part_4.pdf')
-#	print path
 	new_file = Course(name=name)
 	new_file.content = DjangoFile(file(path))
-#	print "added file1"
 	new_file.save()
-#	print "added file2"
-
-
 
 	concept_list = Course.objects.all()
 	for concept in concept_list:
@@ -1368,18 +1284,6 @@ main( )
 	for ff in fq:
 		ff.save()
 
-	return HttpResponse('Your Stuff has been added') 
-
-def test_concept_add(request):
-	name = "red"
-	SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
-	path = os.path.join(os.path.join(os.path.join(os.path.join(SITE_ROOT,'..'),'media'),'documents'),'part_1.pdf')
-	print path
-	new_file = Course(name=name)
-	new_file.content = DjangoFile(file(path))
-	print "added file1"
-	new_file.save()
-	print "added file2"
 	return HttpResponse('Your Stuff has been added') 
 
 def update_student_state(studentstate):
