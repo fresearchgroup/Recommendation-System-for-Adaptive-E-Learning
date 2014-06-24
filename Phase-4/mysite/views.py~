@@ -1,5 +1,5 @@
 import time, os, operator
-
+from django.core.files.base import File as DjangoFile
 from django.http import HttpResponse
 from django.template import RequestContext
 from django.http import HttpResponseRedirect, HttpResponse
@@ -541,7 +541,7 @@ def pdf_view(request):
 
 	print filename
 
-	MEDIA_DIR = os.path.join(os.path.join(os.path.dirname(os.path.realpath(__file__)), '..'), 'media')
+	MEDIA_DIR = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'media')
 
 	with open(MEDIA_DIR + '/' + filename,'r') as pdf:
 		response = HttpResponse(pdf.read(),mimetype='application/pdf')
@@ -832,10 +832,22 @@ def concept_upload_handler(request):
 	return HttpResponse("under construction")
 
 def delete_concept_view(request):
-    return HttpResponse("Under Construction")
+	concept_list = Course.objects.all()
+	staff_name = User.objects.get(id=request.session['login_id']).username
+	return render(request, 'concept_delete.html', {'concept_list':concept_list,'staff_name':staff_name})
 
 def concept_deletion_handler(request):
-	return HttpResponse("Under Construction")
+	concept_list = Course.objects.all()
+	for concept in concept_list:
+		print concept.name
+		if request.GET.get(str(concept.id)):
+			print concept.content
+			path = os.path.join(os.path.join(os.path.realpath(os.path.dirname(__file__)),'media'),str(concept.content))
+			print path
+			os.remove(path)
+			concept.delete()		
+			
+	return HttpResponse("Your concept has been deleted")
 
 def add_question_view(request):
 	if 'logged_in' not in request.session:
@@ -1053,6 +1065,19 @@ def feedback_view(request):
 
 def add_stuff(request):
 
+	concept_list = Course.objects.all()
+
+	for concept in concept_list:
+		print concept.name
+		print concept.content
+		path = os.path.join(os.path.join(os.path.realpath(os.path.dirname(__file__)),'media'),str(concept.content))
+		print path
+		try:
+			os.remove(path)
+		except OSError:
+			print "OSError"
+		concept.delete()
+
 	List = Q1Q2RightWrong.objects.all()
 	for item in List:
 		item.delete()
@@ -1089,6 +1114,61 @@ def add_stuff(request):
 	List = Feedback_Questions.objects.all()
 	for item in List:
 		item.delete()	
+
+	
+	name = "foundation"
+	SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
+	path = os.path.join(os.path.join(os.path.join(os.path.join(SITE_ROOT,'..'),'media'),'documents'),'dummy.pdf')
+#	print path
+	new_file = Course(name=name)
+	new_file.content = DjangoFile(file(path))
+#	print "added file1"
+	new_file.save()
+#	print "added file2"
+
+	name = "Basics of C Programming"
+	SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
+	path = os.path.join(os.path.join(os.path.join(os.path.join(SITE_ROOT,'..'),'media'),'documents'),'part_1.pdf')
+#	print path
+	new_file = Course(name=name)
+	new_file.content = DjangoFile(file(path))
+#	print "added file1"
+	new_file.save()
+#	print "added file2"
+
+	name = "Decision making"
+	SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
+	path = os.path.join(os.path.join(os.path.join(os.path.join(SITE_ROOT,'..'),'media'),'documents'),'part_2.pdf')
+#	print path
+	new_file = Course(name=name)
+	new_file.content = DjangoFile(file(path))
+#	print "added file1"
+	new_file.save()
+#	print "added file2"
+
+
+	name = "Iterations"
+	SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
+	path = os.path.join(os.path.join(os.path.join(os.path.join(SITE_ROOT,'..'),'media'),'documents'),'part_3.pdf')
+#	print path
+	new_file = Course(name=name)
+	new_file.content = DjangoFile(file(path))
+#	print "added file1"
+	new_file.save()
+#	print "added file2"
+
+
+	name = "Arrays and Structures"
+	SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
+	path = os.path.join(os.path.join(os.path.join(os.path.join(SITE_ROOT,'..'),'media'),'documents'),'part_4.pdf')
+#	print path
+	new_file = Course(name=name)
+	new_file.content = DjangoFile(file(path))
+#	print "added file1"
+	new_file.save()
+#	print "added file2"
+
+
 
 	concept_list = Course.objects.all()
 	for concept in concept_list:
@@ -1292,6 +1372,17 @@ main( )
 
 	return HttpResponse('Your Stuff has been added') 
 
+def test_concept_add(request):
+	name = "red"
+	SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
+	path = os.path.join(os.path.join(os.path.join(os.path.join(SITE_ROOT,'..'),'media'),'documents'),'part_1.pdf')
+	print path
+	new_file = Course(name=name)
+	new_file.content = DjangoFile(file(path))
+	print "added file1"
+	new_file.save()
+	print "added file2"
+	return HttpResponse('Your Stuff has been added') 
 
 def update_student_state(studentstate):
 	u_un = studentstate.unknown

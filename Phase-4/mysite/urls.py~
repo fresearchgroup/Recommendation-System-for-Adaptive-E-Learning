@@ -43,6 +43,5 @@ urlpatterns = patterns('',
     url(r'^question_deletion_handler/$', question_deletion_handler),
     url(r'^concept_deletion_handler/$', concept_deletion_handler),  
     url(r'^add_stuff/$', add_stuff),
-    url(r'^test_concept_add/$', test_concept_add),
 
 )+static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
