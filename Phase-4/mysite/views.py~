@@ -244,7 +244,7 @@ def login_handler(request):
 		
 
 def registeration_form(request):
-	return render(request, 'registeration.html')
+	return render(request, 'registeration.html', {'error1':False})
 
 def logout_handler(request):
 	if 'logged_in' in request.session : 	

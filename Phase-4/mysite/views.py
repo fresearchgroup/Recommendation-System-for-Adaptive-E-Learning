@@ -244,7 +244,7 @@ def login_handler(request):
 		
 
 def registeration_form(request):
-	return render(request, 'registeration.html')
+	return render(request, 'registeration.html', {'error1':False})
 
 def logout_handler(request):
 	if 'logged_in' in request.session : 	
@@ -263,6 +263,7 @@ def signup_handler(request):
 		username = request.GET['username']
 
 	else:
+		print "how you doin?"
 		return render(request, 'registeration.html', {'error1':True})
 	
 	if 'email' in request.GET and request.GET['email']:

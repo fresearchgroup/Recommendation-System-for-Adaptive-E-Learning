@@ -146,7 +146,7 @@
 	{% for concept in concept_list %}
 		{% if concept.name != "foundation" %}
 		<div class="panel panel-default">
-    		<div class="panel-heading" onclick="handler('available', {{concept.id}});return false;">
+    		<div class="panel-heading" onclick="handler('available', {{concept.id}});return false;" style="background:green;">
 				<h4 class="panel-title">
 			        <a data-toggle="collapse" data-parent="#accordion6" href="#panel_{{concept.id}}">
 			          {{concept.name}}
