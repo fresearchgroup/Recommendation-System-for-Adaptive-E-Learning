@@ -1,22 +1,6 @@
 {% extends "base.html"%}
 {% block body %}
-
-<div>
-Choose a concept :
-
-<select id='concept_sel'>
-{% for course in course_list %}
-    {% if course.name != "foundation"%}
-        <option value="{{course.id}}">{{course.name}}</option>
-    {% endif %}
-{% endfor %}
-<option value="0">All Concepts</option>
-</select>
-
-</div>
-
-<div id="knowledgechart" style="min-width: 500px; height: 750px; margin: 0 auto;"></div>
- <script type='text/javascript'>
+<script type='text/javascript'>
 var state = [];
 $(document).ready(function() {
 	state = [];
@@ -50,9 +34,9 @@ function all_knowledge_draw()
             },
             title: {
                 text: 'Knowledge Levels in All Concepts',
-				y: 40,
+				y: 30,
 				style: {
-					fontSize: '35px',
+					fontSize: '25px',
 					color: 'gold'
 				}
             },
@@ -61,17 +45,17 @@ function all_knowledge_draw()
                 labels: {
                     rotation: -25,
                     style: {
-                        fontSize: '20px',
+                        fontSize: '15px',
                         fontFamily: 'Verdana, sans-serif',
-						color: 'lightgreen'
+			color: 'lightgreen'
                     }
                 },
-				title: {
+		title: {
                     text: 'Concepts',
-					style: {
-                        fontSize: '30px',
+                    style: {
+                        fontSize: '25px',
                         fontFamily: 'Verdana, sans-serif',
-						color: 'red'
+			color: 'red'
                     }
                 }
             },
@@ -83,7 +67,7 @@ function all_knowledge_draw()
 					style: {
                         fontSize: '30px',
                         fontFamily: 'Verdana, sans-serif',
-						color: 'red'
+			color: 'red'
                     }
                 },
 		labels: {
@@ -91,7 +75,7 @@ function all_knowledge_draw()
                     style: {
                         fontSize: '20px',
                         fontFamily: 'Verdana, sans-serif',
-						color: 'lightgreen'
+			color: 'lightgreen'
                     }
 				}
             },
@@ -127,25 +111,23 @@ function all_knowledge_draw()
             }]
         });
 }
-function concept_pie_draw(sel)
-{		
-		var course_name = sel.options[sel.selectedIndex].text;
-		var un = 0;
-		var uk =0;
-		var k = 0;
-		var l = 0;
-		
-		for(i=0;i<state.length;i++)
-			if(state[i][0] == course_name)
-			{
-				un = parseInt(state[i][1])*100;
-				uk = parseInt(state[i][2])*100;
-				k = parseInt(state[i][3])*100;
-				l = 100 - un - uk - k;
-				break;
-			}
+function concept_pie_draw(sel, course_name)
+{
+        var un = 0;
+        var uk =0;
+        var k = 0;
+        var l = 0;
 
-		// Build the chart
+        for(i=0;i<state.length;i++)
+                if(state[i][0] == course_name)
+                {
+                        un = parseInt(state[i][1])*100;
+                        uk = parseInt(state[i][2])*100;
+                        k = parseInt(state[i][3])*100;
+                        l = 100 - un - uk - k;
+                        break;
+                }
+        // Build the chart
         $('#knowledgechart').highcharts({
             chart: {
                 plotBackgroundColor: null,
@@ -189,10 +171,30 @@ function concept_pie_draw(sel)
             }]
         });
 }
-$('#concept_sel').change(function(){
-		var sel = document.getElementById('concept_sel');
-		if(sel.value == '0') all_knowledge_draw();
-		else concept_pie_draw(sel);
-	});
 </script>
+        <div class="masthead">
+            <h3 class="welcome">Welcome {{student_name}}</h3>
+            <ul class="nav nav-justified">
+                <li><a href="/concept_menu/">Home</a></li>
+                <li class="active"><a href="/performance/">See Performance</a></li>
+                <li><a href="/logout/">Log Out</a></li>
+            </ul>
+        </div>
+        <br><br>
+<div>
+    <div class="dropdown">
+        <a id="dLabel" role="button" data-toggle="dropdown" data-target="#" href="" style="font-size: 25px;">
+        Choose A Concept <span class="caret"></span> </a>
+        <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel" style="width: fit-content;">
+            {% for course in course_list %}
+                {% if course.name != "foundation"%}
+                <li class="performance_drop_li" id="concept_draw_id_{{course.id}}" onclick="concept_pie_draw({{course.id}}, '{{course.name}}')">{{course.name}}</li>
+                {% endif %}
+            {% endfor %}
+            <li class="performance_drop_li" id="all_concept_draw" onclick="all_knowledge_draw(); return false;">All Concept</li>
+        </ul>
+    </div>
+    <br>
+    <br>
+<div id="knowledgechart" style="min-width: 500px; height: 500px; margin: 0 auto;"></div>
 {% endblock %}

@@ -3,16 +3,21 @@
     color: whitesmoke;
 }
 
-.heading{
+.heading_main{
     
     font-family:serif, cursive;
     color: orangered;
     height:90px;
-    font-size: 30px;
+    font-size: 60px;
     text-align: center;
     color: white;
     alignment-adjust: central;
     text-shadow: 0px 0px 4px white, 0px -1px 5px yellow, 0px -3px 4px #ff8000, 0px -3px 5px red;
+}
+
+.main_body_content{
+    padding-left: 10px;
+    padding-right: 10px;
 }
 .top_menu{
     width:100%;
@@ -50,26 +55,29 @@
     color:deeppink;
     font-size: 30px;
 }
-
-.content a{
+.concept_section_heading{
+    font-size: 25px;
+}
+.concept_content_ol li a{
     color:aquamarine;
     text-decoration: none;
 }
-.content a:visited{
+.concept_content_ol li a:visited{
     color:aquamarine;
     text-decoration: none;
 }
 
-.content a:hover{
+.concept_content_ol li a:hover{
     text-decoration: underline;
 }
 
-.content{
-    font-size: 25px;
+.concept_content_ol{
+    font-size: 15px;
 }
-.content ul li, .co ol li {
+.concept_content_ol li {
     margin-top: 3px;
     margin-bottom: 3px;
+    margin-left: 15px;
 }
 .rating_quiz {
     unicode-bidi: bidi-override;
@@ -93,4 +101,19 @@
     position: absolute;
     left: 0;
     color: gold;
+}
+
+.performance_drop_li{
+    color: navy;
+    padding-left: 20px;
+    padding-right: 20px;
+    font-size: 18px;
+}
+
+.performance_drop_li:hover{
+    background:gainsboro;
+    color:deepskyblue;
+    padding-right: 20px;
+    font-size: 18px;
+    cursor: pointer;
 }

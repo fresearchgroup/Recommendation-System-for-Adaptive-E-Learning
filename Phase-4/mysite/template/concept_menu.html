@@ -1,41 +1,49 @@
 {% extends "base.html"%}
 {% block body %}
-	<h4>Concepts Passed</h4>
-	<ol class="content">
+        <div class="masthead">
+            <h3 class="welcome">Welcome {{student_name}}</h3>
+            <ul class="nav nav-justified">
+                <li class="active"><a href="/concept_menu/">Home</a></li>
+                <li><a href="/performance/">See Performance</a></li>
+                <li><a href="/logout/">Log Out</a></li>
+            </ul>
+        </div>
+        <br><br>
+	<h4 class="concept_section_heading">Concepts Passed</h4>
+	<ol class="concept_content_ol">
 		{% for concept in passed_list %}
-		<li class="content" id="content"><a href = "/concept_submenu/{{concept.id}}"/>{{concept}}</a></li>
+		<li><a href = "/concept_submenu/{{concept.id}}"/>{{concept}}</a></li>
 		{% endfor %}		
 	</ol>
-	<h4>Concepts To Be Taken - In order of Recommendation</h4>
-    <ol class="content">{%for concept in concept_list %}
+	<h4 class="concept_section_heading">Recommendation According to Maximum Knowledge Gain</h4>
+    <ol class="concept_content_ol">{%for concept in concept_list %}
 		{% if concept not in passed_list %}
-		<li class="content" id="content"><a href = "/concept_submenu/{{concept.id}}"/>{{concept}}</a></li>
+		<li><a href = "/concept_submenu/{{concept.id}}"/>{{concept}}</a></li>
 		{% endif %}
 	{%endfor%}
     </ol>
 
-	<h4>Recommendation Accoding to Collaborative Filtering</h4>
-	<ol class="content"> {% for concept in cf_predict_list %}
+	<h4 class="concept_section_heading">Recommendation According to Collaborative Filtering</h4>
+	<ol class="concept_content_ol"> {% for concept in cf_predict_list %}
 		{% if concept.concept not in passed_list and concept.concept.name != "foundation" %}
-		<li class="content" id="content"><a href = "/concept_submenu/{{concept.concept.id}}"/>{{concept.concept}}</a></li>
+		<li><a href = "/concept_submenu/{{concept.concept.id}}"/>{{concept.concept}}</a></li>
 		{% endif %}
 		{% endfor %}
 	</ol>
 
-	<h4>Recommendation according to you forgetting stuff</h4>
-	<ol class="content"> {% for concept in question_recco %}
+	<h4 class="concept_section_heading">To be Taken Again</h4>
+	<ol class="concept_content_ol"> {% for concept in question_recco %}
 		{% if concept.name != "foundation" %}
-		<li class="content" id="content"><a href = "/concept_submenu/{{concept.concept.id}}"/>{{concept.name}}</a></li>
+		<li><a href = "/concept_submenu/{{concept.concept.id}}"/>{{concept.name}}</a></li>
 		{% endif %}
 		{% endfor %}
 	</ol>
 
-	<h4>Concepts taken by other similar students</h4>
-	<ol class="content"> {% for concept in ss_reco_list %}
+	<h4 class="concept_section_heading">Recommendation According to Similar Student</h4>
+	<ol class="concept_content_ol"> {% for concept in ss_reco_list %}
 		{% if concept not in passed_list and concept.name != "foundation" %}
-		<li class="content" id="content"><a href = "/concept_submenu/{{concept.id}}"/>{{concept}}</a></li>
+		<li><a href = "/concept_submenu/{{concept.id}}"/>{{concept}}</a></li>
 		{% endif %}
 		{% endfor %}
 	</ol>
-
 {% endblock %}
