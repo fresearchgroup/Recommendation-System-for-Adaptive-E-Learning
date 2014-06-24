@@ -117,3 +117,25 @@
     font-size: 18px;
     cursor: pointer;
 }
+.quiz_question_block input[type="radio"]:checked + label{
+    color: coral;
+    text-shadow: 0 0 10px #9ecaed;
+    text-decoration: underline;
+}
+.quiz_question{
+    color:gold;
+    font-size: 22px;
+}
+.quiz_option_label{
+    color:antiquewhite;
+    font-size: 20px;
+}
+
+.quiz_option_label:hover{
+    color:orchid;
+    text-shadow: 0 0 5px greenyellow;
+}
+
+.quiz_error_box{
+    
+}

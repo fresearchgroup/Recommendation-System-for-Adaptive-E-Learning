@@ -12,15 +12,26 @@
 {% for message in messages %}
         {% if 'error' in message.tags %}<p style="color: red;">{{ message }}</p>{% endif %}
 {% endfor %}
-<form method="get" action="/evaluate_quiz/" enctype="text/plain">
+<div class="quiz_error_box" id="error_box">
+
+</div>
+<form method="get" action="/evaluate_quiz/" enctype="text/plain" id="quiz_form" onsubmit="return check_form();">
     <ol>
 	{%for question in question_list %}
-		<li><P>{{question.question}}<BR>
-		<input type="radio" name="{{question.id}}" value="1">{{question.option1}}<BR>
-		<input type="radio" name="{{question.id}}" value="2">{{question.option2}}<BR>
-		<input type="radio" name="{{question.id}}" value="3">{{question.option3}}<BR>
-		<input type="radio" name="{{question.id}}" value="4">{{question.option4}}<BR>
-		</p></li>
+		<li>
+                    <div class="quiz_question_block">
+                        <span class="quiz_question">{{question.question}}</span><br>
+                        <!--<div class="btn-group" data-toggle="buttons">
+                            <label class="btn quiz_option_btn"><input type="radio" name="options" id="option1"> Option 1</label><br>
+                            <label class="btn btn-primary quiz_option_btn"><input type="radio" name="options" id="option2"> Option 2</label><br>
+                            <label class="btn btn-primary quiz_option_btn"><input type="radio" name="options" id="option3"> Option 3</label><br>
+                        </div>-->
+                        <input type="radio" name="{{question.id}}" id="ans_{{question.id}}_1" value="1"><label class="quiz_option_label" for="ans_{{question.id}}_1">{{question.option1}}</label><br>
+                        <input type="radio" name="{{question.id}}" id="ans_{{question.id}}_2" value="2"><label class="quiz_option_label" for="ans_{{question.id}}_2">{{question.option2}}</label><br>
+                        <input type="radio" name="{{question.id}}" id="ans_{{question.id}}_3" value="3"><label class="quiz_option_label" for="ans_{{question.id}}_3">{{question.option3}}</label><br>
+                        <input type="radio" name="{{question.id}}" id="ans_{{question.id}}_4" value="4"><label class="quiz_option_label" for="ans_{{question.id}}_4">{{question.option4}}</label><br>
+                    </div>
+                </li>
 	{%endfor%}
     </ol>
     
@@ -35,8 +46,24 @@
             <span title="Poor" id="rating_quiz_1">☆</span>
         </div>
     </div>
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
     
     <script type="text/javascript">
+        function check_form()
+        {
+            
+            {% for ques in question_list %}
+               var sss = typeof $('input[name={{ques.id}}]:checked', '#quiz_form').val();
+               if (sss == "undefined")
+               {
+                   $('.quiz_error_box').html("<div class='alert alert-danger alert-dismissable'><button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button><strong>Error!</strong> Please answer all questions before proceeding.</div>");
+                   $('.quiz_error_box').css('visibility', 'visible');
+                   $('.quiz_error_box').css('height', 'auto');
+                   return false;
+               }
+            {% endfor %}
+            return false;
+        }
         function change_rating(index)
             {
                 $('#rate').val(index);
@@ -59,8 +86,8 @@
             $('#rating_quiz_4').click(function() {change_rating(4);});
             $('#rating_quiz_5').click(function() {change_rating(5);});
     </script>
-<input type="submit" value="Submit">
-<input type="reset" value="Clear Choices">
+<input type="submit" class="btn btn-success" value="Submit">
+<input type="reset" class="btn btn-warning" value="Clear Choices">
 </form>
 
 {% endblock %}
