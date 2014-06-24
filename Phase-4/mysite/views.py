@@ -529,13 +529,12 @@ def concept_submenu_view(request, course_id):
 	student_name = Student.objects.get(user_id=request.session['login_id']).name
 	return render(request,'concept_submenu.html',{'student_name' : student_name})
 
-def pdf_view(request):
+def pdf_view(request, concept_id):
 	if 'logged_in' not in request.session:
 		return HttpResponseRedirect("/login-form")
 	if request.session['staff_mode'] == 1:
 		return HttpResponseRedirect("/staff_menu/")
-	if 'course_id' not in request.session:
-		return HttpResponseRedirect("/concept_menu") 
+	request.session['course_id'] = concept_id
 	
 	filename = str(Course.objects.get(id=request.session['course_id']).content)
 
@@ -562,14 +561,13 @@ def performance_view(request) :
 	student_name = Student.objects.get(user_id=request.session['login_id']).name
 	return render(request, 'performance.html', {'course_list':course_list,'state_list':state_list, 'student_name':student_name})
 
-def quiz_view(request):
+def quiz_view(request, concept_id):
 		
 	if 'logged_in' not in request.session:
 		return HttpResponseRedirect("/login-form")
 	if request.session['staff_mode'] == 1:
 		return HttpResponseRedirect("/staff_menu/")
-	if 'course_id' not in request.session:
-		return HttpResponseRedirect("/concept_menu")
+	request.session['course_id'] = concept_id
 	questionlist = Question.objects.filter(course_id = request.session['course_id'])
 	coursename = Course.objects.get(id = request.session['course_id']).name
 	student_name = Student.objects.get(user_id=request.session['login_id']).name
