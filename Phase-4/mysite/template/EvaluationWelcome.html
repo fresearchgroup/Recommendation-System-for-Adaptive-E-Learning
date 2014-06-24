@@ -1,23 +1,19 @@
 {% extends "base_staff.html"%}
 {% block body %}
-<h1><center><font color="white">Welcome to my evaluation model</font></center> </h1>
-<br><br><br><br><br>
-
-    <div id ="evaluation" class="top_menu">
-        <div class="link" id="evaluation_tech">
-            <a href = "/FeedbackEvaluation/" style="padding-left:10px">Evaluation techniques used</a>
+        <div class="masthead">
+            <h3 class="welcome">Welcome {{staff_name}}</h3>
+            <ul class="nav nav-justified">
+                <li><a href="/staff_menu/">Home</a></li>
+                <li class="active"><a href="/EvaluationWelcome/">Model Evaluation</a></li>
+                <li><a href="/logout/">Log Out</a></li>
+            </ul>
         </div>
-        
-        <div class="link" id="evaluation_tech">
-            <a href = "/FeedbackEvaluation/" style="padding-left:10px">Evaluate a student model</a>
+        <br><br>
+        <div class="evaluation_welcome_main jumbotron">
+            <h1>Evaluation Model</h1>
+            <p class="evaluation_jumbo_sub">Here you will find evaluation results of the system based mostly on Persiva Scheme</p>
+            <p><a class="btn btn-primary btn-lg" role="button" href="/FeedbackEvaluation/">Evaluate the Student Model &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;> </a></p>
+            <p><a class="btn btn-primary btn-lg" role="button" href="/MaterialEvaluation/">Evaluate the Study Material&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;></a></p>
+            <p><a class="btn btn-primary btn-lg" role="button" href="/EvaluationParameters/">Evaluation Parameters&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;></a></p>
         </div>
-
-        <div class="link" id="evaluation_material">
-            <a href = "/MaterialEvaluation/" style="padding-left:10px">Evaluate the study material</a>
-        </div>
-        
-        <div class="link" id="evaluation_material">
-            <a href = "/EvaluationParameters/" style="padding-left:10px">Evaluation parameters</a>
-        </div>
-    </div>
 {% endblock %}
