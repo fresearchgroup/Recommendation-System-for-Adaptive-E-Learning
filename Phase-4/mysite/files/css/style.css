@@ -166,9 +166,9 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ebe9f9', end
 
 .login_div{
     margin-top: 100px;
-    width: 34%;
-    margin-left: 33%;
-    margin-right: 33%;
+    width: 40%;
+    margin-left: 30%;
+    margin-right: 30%;
 }
 
 .login_form p{
@@ -185,7 +185,6 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ebe9f9', end
 
 .login_form input[type=text],.login_form input[type=password] {
   padding: 0 10px;
-  width: 300px;
   height: 40px;
   color: #bbb;
   text-shadow: 1px 1px 1px black;
@@ -204,7 +203,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ebe9f9', end
 
 .login_form label {
   float: left;
-  width: 100px;
+  width: 200px;
   line-height: 40px;
   padding-right: 10px;
   font-weight: 100;
