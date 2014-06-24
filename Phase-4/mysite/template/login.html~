@@ -10,7 +10,7 @@
 		UserName : <input type="text" name="username"><br />
         Password : <input type="password" name="password1"><br />
         <input type="submit" value="Submit"><br />
-		Click <a href="/signup/">here</a> for registeration.<br />
+	Click <a href="/signup/">here</a> for registeration.<br />
     </form>
 </body>
 </html>
