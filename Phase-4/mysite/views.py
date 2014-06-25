@@ -1089,8 +1089,7 @@ def add_stuff(request):
 		print concept.name
 		if concept.name == "Basics of C Programming":
 			print concept.name
-			q = Question(course=concept, question="""C programs are converted 
-into machine language with the help of""" , option1="Editor", option2="Compiler", option3="OS", option4="None of the above", answer=2)
+			q = Question(course=concept, question="""C programs are converted into machine language with the help of""" , option1="Editor", option2="Compiler", option3="OS", option4="None of the above", answer=2)
 			q.save()
 			q = Question(course=concept, question="""A character variable can at a time store""" , option1="1 character", option2="8 character", option3="256 characters", option4="None of the above", answer=1)
 			q.save()
@@ -1101,83 +1100,87 @@ into machine language with the help of""" , option1="Editor", option2="Compiler"
 
 		elif concept.name == "Decision making":
 			print concept.name
-			q = Question(course=concept, question="""What would be the output of the following program:  main( ) 
-		{ 
-			int a = 300, b = 0, c = 10 ; 
-			if ( a >= 400 ) 
-			b = 300 ; 
-			c = 200 ; 
-			printf ( "\n%d %d", b, c ) ; 		
-		}""", option1="0 10", option2="10 0", option3="0 200", option4="200 300", answer=3)
-			q.save()	
-			q = Question(course=concept, question="""What would be the output of the following program:
- main( ) 
-			{ 
-			int   x = 10, y = 20 ; 
-			x == 20 && y != 10 ? printf( "True" ) : printf( "False" ) ; 
-			}""", option1="true", option2="false", option3="compilation error", option4="none of the above", answer=2)
+			q = Question(course=concept, question="""What would be the output of the following program:  
+main( ) 
+{ 
+	int a = 300, b = 0, c = 10 ; 
+	if ( a >= 400 ) 
+		b = 300 ; 
+	c = 200 ; 
+	printf ( "\\n%d %d", b, c ) ; 		
+}""", option1="0 10", option2="10 0", option3="0 200", option4="200 300", answer=3)
 			q.save()	
 			q = Question(course=concept, question="""What would be the output of the following program:
 main( ) 
-			{  
-			int   k, num = 30 ;  
-			k = ( num > 5 ? ( num <= 10 ? 100 : 200 ) : 500 ) ;  
-			printf ( "\n%d", k ) ;
-			}""", option1="500", option2="30", option3="200", option4="100", answer=3)
+{ 
+	int   x = 10, y = 20 ; 
+	x == 20 && y != 10 ? printf( "True" ) : printf( "False" ) ; 
+}""", option1="true", option2="false", option3="compilation error", option4="none of the above", answer=2)
 			q.save()	
 			q = Question(course=concept, question="""What would be the output of the following program:
 main( ) 
-			{
-			int x = 2; 
-			if ( x == 2 && x != 0 ) 
-				{  
-				printf( "\nHello" ) ;  
-				} 
-			else   
-				printf( "Bye" ) ; }""", option1="Hello", option2="Bye", option3="Compilation error", option4="Segmentaion fault", answer=1)
+{  
+	int   k, num = 30 ;  
+	k = ( num > 5 ? ( num <= 10 ? 100 : 200 ) : 500 ) ;  
+	printf ( "\\n%d", k ) ;
+}""", option1="500", option2="30", option3="200", option4="100", answer=3)
+			q.save()	
+			q = Question(course=concept, question="""What would be the output of the following program:
+main( ) 
+{
+	int x = 2; 
+	if ( x == 2 && x != 0 ) 
+	{  
+		printf( "\\nHello" ) ;  
+	} 
+	else   
+		printf( "Bye" ) ; 
+}""", option1="Hello", option2="Bye", option3="Compilation error", option4="Segmentaion fault", answer=1)
 			q.save()	
 		elif concept.name == "Iterations":
 			print concept.name
 			q = Question(course=concept, question="""How many times does the for loop iterate?
-			for ( i = 0; i< 10 ; i = i+2)""", option1="5", option2="10", option3="6", option4="11", answer=1)
+			for ( i = 0; i< 10 ; i = i+2)
+			{
+			}""", option1="5", option2="10", option3="6", option4="11", answer=1)
 			q.save()
 			q = Question(course=concept, question="""In the following code :
-			do 
-			{
-				printf("Hello");
-			}
-			while ( 4<1);""", option1="hello will be printed", option2="hello will not be printed", option3="depends on compiler", option4="depends on interpreter", answer=2)
+do 
+{
+	printf("Hello");
+}while ( 4<1);""", option1="hello will be printed", option2="hello will not be printed", option3="depends on compiler", option4="depends on interpreter", answer=2)
 			q.save()
 			q = Question(course=concept, question="""Output of following code is
-                        main( )
-                        {  
-                        float  x = 11 ;
-                        char c = ""a"";
-                        while ( x == 11 )  
-                                {   
-                                        printf ( "\n %d %f",c, x ) ;  
-                                        x = x - 1 ; 
-                                }
-                        }
+main( )
+{  
+	float  x = 11 ;
+	char c = ""a"";
+	while ( x == 11 )  
+    {   
+    	printf ( "\\n %d %f",c, x ) ;  
+    	x = x - 1 ; 
+    }
+}
 """, option1="datatype mismatch error", option2="97 11.00", option3="65 1.10", option4="65 1.00", answer=2)
 			q.save()
 			q = Question(course=concept, question="""The value of variable " count" after the outer for loop is :	
-			int count = 0;	
-			for ( i = 0; i < 5 ; i++)
-				for ( j = 0; j<10; j++)
-					count++;""", option1="5", option2="10", option3="50", option4="100", answer=3)
+int count = 0;	
+for ( i = 0; i < 5 ; i++)
+	for ( j = 0; j<10; j++)
+		count++;""", option1="5", option2="10", option3="50", option4="100", answer=3)
 			q.save()
 		elif concept.name == "Arrays and Structures":
 			print concept.name
 			q = Question(course=concept, question="""What will be the output of following code :
 {
-		int  num[26], temp ;
-		num[0] = 100 ;  
-		num[25] = 200 ;
-		temp = num[25] ;
-		num[25] = num[0] ;
-		num[0] = temp ;
-		printf ( "\n%d %d", num[0], num[25] ) ; }""", option1="100 200", option2="200 100", option3="100 100", option4="200 200", answer=2)
+	int  num[26], temp ;
+	num[0] = 100 ;  
+	num[25] = 200 ;
+	temp = num[25] ;
+	num[25] = num[0] ;
+	num[0] = temp ;
+	printf ( "\\n%d %d", num[0], num[25] ) ; 
+}""", option1="100 200", option2="200 100", option3="100 100", option4="200 200", answer=2)
 			q.save()
 			q = Question(course=concept, question="""What is the starting index of an array?""", option1="1", option2="2", option3="3", option4="0", answer=4)
 			q.save()
