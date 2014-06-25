@@ -17,10 +17,12 @@
 			<td>Concept</td>
 		</tr>  
     {% for concept in concept_list %}
+	{% if concept.name != "foundation" %}
         <tr>
 			<td><input type="checkbox" name={{concept.id}} value=question></td>
 			<td>{{concept.name}}</td> 
 		</tr>
+	{% endif %}
     {% endfor %}
 	<br>
     

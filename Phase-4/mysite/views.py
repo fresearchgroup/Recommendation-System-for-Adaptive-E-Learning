@@ -748,13 +748,17 @@ def add_concept_view(request):
 		return HttpResponseRedirect("/concept_menu/")
 	if request.method == 'POST':
 		form = CourseAddForm(request.POST, request.FILES)
-		if request.FILES:		
-			instance = Course(name=request.POST.get('filename'), content=request.FILES['myfile'])		
-			instance.save()
-			return HttpResponse('Your file has been saved.Please <a href="/staff_menu/">click</a> to continue...')
+		if request.FILES:	
+			if request.POST.get('filename') != "":
+				instance = Course(name=request.POST.get('filename'), content=request.FILES['myfile'])		
+				instance.save()
+				return HttpResponse('Your file has been saved.Please <a href="/staff_menu/">click</a> to continue...')
+			else:
+				form = CourseAddForm()	
+				messages.error(request, "You haven't provided a name...")		
 		else:
 			form = CourseAddForm()	
-			messages.error(request, "You haven't selected anything..")		
+			messages.error(request, "You haven't selected anything...")		
 	else:
 		form = CourseAddForm()
 	staff_name = User.objects.get(id=request.session['login_id']).username
