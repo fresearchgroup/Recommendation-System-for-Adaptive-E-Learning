@@ -71,12 +71,19 @@ def Feedback_evaluation(request):
 		for j in range(0,num_feedback_categories.category):
 			temp4 = []
 			temp4.append(category_list[j])
-			sum_responses = Feedback.objects.all().filter(question = Feedback_Questions.objects.all().filter(category=j+1)).aggregate(Sum('response'))
-			num_students = Feedback.objects.all().filter(question = Feedback_Questions.objects.all().filter(category=j+1)).count()
+			feedback_ques =  Feedback_Questions.objects.filter(category=j+1)
+			sum_responses = 0
+			num_students = 0
+			for ques in feedback_ques:
+				agg = Feedback.objects.filter(question = ques).aggregate(Sum('response'))
+				if agg['response__sum'] is not None :
+					sum_responses = sum_responses + int(agg['response__sum'])
+					num_students = Feedback.objects.filter(question = ques).count()
+
 			if num_students == 0 :
 				avg = 0
 			else :
-				avg = sum_responses['response__sum']/num_students			
+				avg = sum_responses/num_students
 			
 			temp4.append("{0:.2f}".format(avg))
 			if avg <= 1.0 :
@@ -1005,6 +1012,7 @@ def add_stuff(request):
 
 	for concept in concept_list:
 		path = os.path.join(os.path.join(os.path.realpath(os.path.dirname(__file__)),'media'),str(concept.content))
+		print path
 		try:
 			os.remove(path)
 		except OSError:

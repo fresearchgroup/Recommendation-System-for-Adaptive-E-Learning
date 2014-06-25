@@ -54,6 +54,7 @@
             
             {% for ques in question_list %}
                var sss = typeof $('input[name={{ques.id}}]:checked', '#quiz_form').val();
+               alert(sss);
                if (sss == "undefined")
                {
                    $('.quiz_error_box').html("<div class='alert alert-danger alert-dismissable'><button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button><strong>Error!</strong> Please answer all questions before proceeding.</div>");
@@ -62,7 +63,7 @@
                    return false;
                }
             {% endfor %}
-            return false;
+            return true;
         }
         function change_rating(index)
             {
