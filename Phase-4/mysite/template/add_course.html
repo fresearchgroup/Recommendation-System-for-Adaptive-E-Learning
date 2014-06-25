@@ -10,7 +10,9 @@
         </div>
         <br><br>
 {% for message in messages %}
-        {% if 'error' in message.tags %}<p style="color: red;">{{ message }}</p>{% endif %}
+        {% if 'error' in message.tags %}
+            <p style="color: red;">{{ message }}</p>
+        {% endif %}
 {% endfor %}
 	<form method="post" enctype="multipart/form-data" class="content">
 		{% csrf_token %}
