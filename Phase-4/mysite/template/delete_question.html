@@ -11,22 +11,22 @@
         <br><br>
 <p> Check the question to delete it : </p><br><br>
     <form method="get" action="/question_deletion_handler/" enctype="text/plain"> 
-	<table style="width:auto" border="1"> 
+	<table border="1"> 
 		<tr>
-			<td>Check to delete</td>			
-			<td>Question Concept</td>
-			<td>Question</td>
-			<td>Option 1</td>
-			<td>Option 2</td>
-			<td>Option 3</td>
-			<td>Option 4</td>
-			<td>Answer</td>
+			<th>Check to delete</th>
+			<th>Question Concept</th>
+			<th>Question</th>
+			<th>Option 1</th>
+			<th>Option 2</th>
+			<th>Option 3</th>
+			<th>Option 4</th>
+			<th>Answer</th>
 		</tr>  
     {% for question in question_list %}
         <tr>
 			<td><input type="checkbox" name={{question.id}} value=question></td>
 			<td>{{question.course.name}}</td> 
-			<td>{{question.question}}</td>
+			<td><pre>{{question.question}}</pre></td>
 			<td>{{question.option1}}</td>
 			<td>{{question.option2}}</td>
 			<td>{{question.option3}}</td>
