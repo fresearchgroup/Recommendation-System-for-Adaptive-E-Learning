@@ -39,12 +39,12 @@
 		<th>Concept name</th>		
 		<th>Average Rating</th>
 	</tr>	
-	{% for con in mat_list2 %}
+	{% for con in concept_rating_array %}
 	<tr>
 		
 		<td>{{ con.0 }}</td>		
 		<td>{{ con.1 }}</td>        
-		<td>{{ con.2 }} %</td>
+		<td>{{ con.2 }}</td>
 	</tr>
 	{% endfor %}
 </table>

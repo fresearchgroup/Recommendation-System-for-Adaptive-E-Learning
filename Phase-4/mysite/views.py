@@ -104,7 +104,6 @@ def Feedback_evaluation(request):
 		message = "No feedbacks found!"
 		return HttpResponse(message)
 
-
 def cal_avg(a,b,c,d):
 	return (a+b+c)/d
 
@@ -147,58 +146,38 @@ def Material_evaluation(request):
 
 def Parameter_evaluation(request):
 
-    if 'logged_in' not in request.session:
-        return HttpResponseRedirect("/login-form")
-    if request.session['staff_mode'] == 0:
-        return HttpResponseRedirect("/concept_menu/")
+	if 'logged_in' not in request.session:
+		return HttpResponseRedirect("/login-form")
+	if request.session['staff_mode'] == 0:
+		return HttpResponseRedirect("/concept_menu/")
 
-    num_recomendations_displayed = 4
+	c_list = Course.objects.all()                # list of all concepts in the course
+	total_concepts = len(c_list)
+	num_recomendations_displayed = total_concepts - 1;
 
-    c_list = Course.objects.all()                # list of all concepts in the course
-    total_concepts = len(c_list)
+	concept_student_array = array('i',[])		# array to store the number of students who have rated a certain concept
+	concept_rating_array = []
+	good_recommendation_displayed_count = 0
 
-    # array to store the number of students who have rated a certain concept
+	for cor in c_list:
+		if cor.name == 'foundation':
+			continue
+		no_of_stud = Ratings.objects.filter(item = cor).count()
+		if no_of_stud > 0 :
+			total_rating = Ratings.objects.filter(item = cor).aggregate(Sum('rating'))['rating__sum']
+			cor_avg = cal_avg_rating(total_rating, no_of_stud)
+		else:
+			cor_avg = 0
 
-    concept_student_array = array('i',[])
+		temp = []
+		temp.append(cor.id)
+		temp.append(cor.name)
+		temp.append(cor_avg)
+		concept_rating_array.append(temp)
+		if cor_avg >= 4.0 :
+			good_recommendation_displayed_count += 1
 
-    for j in range(0,total_concepts):
-        concept_student_array.insert(j,Ratings.objects.filter(item_id=j+1).count())  
-
-    # array to store ratings of all concepts
-    
-    concept_rating_array = array('f',[])
-
-    for i in range(0,total_concepts):
-        temp_var = cal_avg_rating(Ratings.objects.filter(item_id=i+1).aggregate(Sum('rating'))['rating__sum'], concept_student_array[i])
-        round(temp_var,2)
-        
-        concept_rating_array.insert(i,Decimal(format(temp_var, '.2f')))
-
-
-    mat_list2 = []
-
-    for i in c_list:
-        if i.name == "foundation":
-                continue
-        temp2 = []
-        temp2.append(i.id)
-        temp2.append(i.name)
-        temp2.append(concept_rating_array[i.id-1]) 
-        mat_list2.append(temp2)     
-
-    
-    
-    num_good_recommendations = Ratings.objects.filter(rating__gte=4).count()
-
-    
-        
-    # calculate the number of recomendations which are good from total recommendations displayed
-    good_recommendation_displayed_count = 0   
-    for i in range(0,total_concepts):
-        if concept_rating_array[i]>=4 :
-           good_recommendation_displayed_count = good_recommendation_displayed_count + 1    
-
-    return render (request,'EvaluationParameters.html',{'num_recomendations_displayed':num_recomendations_displayed, 'num_good_recommendations':num_good_recommendations, 'concept_rating_array':concept_rating_array, 'mat_list2':mat_list2, 'good_recommendation_displayed_count':good_recommendation_displayed_count, 'staff_name':User.objects.get(id=request.session['login_id']).username})
+	return render (request,'EvaluationParameters.html',{'num_recomendations_displayed':num_recomendations_displayed, 'num_good_recommendations':good_recommendation_displayed_count, 'concept_rating_array':concept_rating_array, 'good_recommendation_displayed_count':good_recommendation_displayed_count, 'staff_name':User.objects.get(id=request.session['login_id']).username})
 
 
 def cal_avg_rating(a,b):
