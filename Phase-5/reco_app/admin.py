@@ -1,5 +1,5 @@
 from django.contrib import admin
-from firstapp.models import Student,Course,StudentState,CourseDependency, Question
+from reco_app.models import *
 
 # Register your models here.
 

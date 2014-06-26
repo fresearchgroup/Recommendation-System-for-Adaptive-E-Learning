@@ -1,5 +1,5 @@
 from django.conf.urls import patterns, include, url
-from mysite.views import *
+from reco_app.views import *
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
@@ -10,15 +10,11 @@ urlpatterns = patterns('',
     # url(r'^$', 'mysite.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
 
-   # changes made by sameer 
-
+	url(r'^$', login_form),
     url(r'^EvaluationWelcome/$',Evaluation_welcome),
     url(r'FeedbackEvaluation/$',Feedback_evaluation),
     url(r'MaterialEvaluation/$',Material_evaluation),
     url(r'EvaluationParameters/$',Parameter_evaluation),
-
-    # changes made by sameer end here
-
     url(r'^admin/', include(admin.site.urls)),
     url(r'^login-form/$', login_form), 
     url(r'^login/$', login_handler), 

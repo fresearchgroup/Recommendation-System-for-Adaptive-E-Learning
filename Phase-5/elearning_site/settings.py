@@ -1,5 +1,5 @@
 """
-Django settings for mysite project.
+Django settings for elearning_site project.
 
 For more information on this file, see
 https://docs.djangoproject.com/en/1.6/topics/settings/
@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
-MEDIA_ROOT = os.path.join(SITE_ROOT, 'media')
+MEDIA_ROOT = os.path.join(os.path.join(os.path.abspath(os.path.join(SITE_ROOT, os.pardir)),'reco_app/'),'media')
 MEDIA_URL = '/media/'
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
@@ -38,7 +38,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'djcelery',
-    'firstapp',
+    'reco_app',
 )
 
 import djcelery
@@ -48,7 +48,7 @@ djcelery.setup_loader()
 BROKER_URL = 'amqp://guest:guest@localhost:5672//'
 
 # List of modules to import when celery starts.
-CELERY_IMPORTS = ('firstapp.tasks')
+CELERY_IMPORTS = ('reco_app.tasks')
 
 CELERY_ANNOTATIONS = {'tasks.add': {'rate_limit': '10/s'}}
 
@@ -66,12 +66,12 @@ MIDDLEWARE_CLASSES = (
 )
 
 TEMPLATE_DIRS = (
-    os.path.join(SITE_ROOT, 'template')
+    os.path.join(os.path.join(os.path.join(SITE_ROOT, '..'),'reco_app'),'template')
 )
 
-ROOT_URLCONF = 'mysite.urls'
+ROOT_URLCONF = 'elearning_site.urls'
 
-WSGI_APPLICATION = 'mysite.wsgi.application'
+WSGI_APPLICATION = 'elearning_site.wsgi.application'
 
 
 # Database
@@ -80,9 +80,9 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 DATABASES = {
      'default': {
         'ENGINE': 'django.db.backends.mysql', 
-        'NAME': 'django_db',
-        'USER': 'devanshu',
-        'PASSWORD': '123456',
+        'NAME': 'elearning_reco_db',
+        'USER': 'root',
+        'PASSWORD': '',
         'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
         'PORT': '',
     }
@@ -107,9 +107,8 @@ USE_TZ = True
 
 PROJECT_PATH = os.path.dirname(os.path.abspath(__file__))
 STATIC_ROOT = 'staticfiles'
-STATIC_URL = os.path.join(PROJECT_PATH,'files/')
+STATIC_URL = os.path.join(os.path.join(os.path.abspath(os.path.join(PROJECT_PATH, os.pardir)),'reco_app/'),'files/')
 
 STATICFILES_DIRS = (
-    os.path.join(PROJECT_PATH, 'files'),
+    os.path.join(os.path.join(os.path.abspath(os.path.join(PROJECT_PATH, os.pardir)),'reco_app'),'files'),
 )
-

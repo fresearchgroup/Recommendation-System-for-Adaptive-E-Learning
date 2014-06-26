@@ -5,14 +5,14 @@ from django.template import RequestContext
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
-from firstapp.models import *
+from reco_app.models import *
 import datetime
 from django.shortcuts import render, render_to_response
-from firstapp.forms import CourseAddForm
+from reco_app.forms import CourseAddForm
 from django.contrib import messages
 from django.core.urlresolvers import reverse
 from django.db.models import Min, Q
-from firstapp.tasks import concept_map
+from reco_app.tasks import concept_map
 from random import *
 
 from array import *

@@ -2,7 +2,7 @@ from __future__ import absolute_import
 from celery import task
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
-from firstapp.models import *
+from reco_app.models import *
 from django.template import RequestContext
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth import authenticate, login, logout
