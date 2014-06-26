@@ -1,0 +1,200 @@
+{% extends "base.html"%}
+{% block body %}
+<script type='text/javascript'>
+var state = [];
+$(document).ready(function() {
+	state = [];
+	Highcharts.getOptions().colors = Highcharts.map(Highcharts.getOptions().colors, function(color) {
+		    return {
+		        radialGradient: { cx: 0.5, cy: 0.3, r: 0.7 },
+		        stops: [
+		            [0, color],
+		            [1, Highcharts.Color(color).brighten(-0.3).get('rgb')] // darken
+		        ]
+		    };
+		});
+	{% for state in state_list %}
+		{% if state.course.name != 'foundation' %}
+			var temp = ["{{state.course.name}}"];
+			temp.push("{{state.unknown}}");
+			temp.push("{{state.unsat_known}}");
+			temp.push("{{state.known}}");
+			temp.push("{{state.learned}}");
+			state.push(temp);
+		{% endif %}
+	{% endfor %}
+
+	all_knowledge_draw();
+	});
+function all_knowledge_draw()
+{
+	$('#knowledgechart').highcharts({
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: 'Knowledge Levels in All Concepts',
+				y: 30,
+				style: {
+					fontSize: '25px',
+					color: 'gold'
+				}
+            },
+            xAxis: {
+                type: 'category',
+                labels: {
+                    rotation: -25,
+                    style: {
+                        fontSize: '15px',
+                        fontFamily: 'Verdana, sans-serif',
+			color: 'lightgreen'
+                    }
+                },
+		title: {
+                    text: 'Concepts',
+                    style: {
+                        fontSize: '25px',
+                        fontFamily: 'Verdana, sans-serif',
+			color: 'red'
+                    }
+                }
+            },
+            yAxis: {
+                min: 0,
+				max: 1,
+                title: {
+                    text: 'Knowledge Gained',
+					style: {
+                        fontSize: '30px',
+                        fontFamily: 'Verdana, sans-serif',
+			color: 'red'
+                    }
+                },
+		labels: {
+                    rotation: 0,
+                    style: {
+                        fontSize: '20px',
+                        fontFamily: 'Verdana, sans-serif',
+			color: 'lightgreen'
+                    }
+				}
+            },
+            legend: {
+                enabled: false
+            },
+ 
+           tooltip: {
+                pointFormat: 'Knowledge Level: <b>{point.y:.2f}</b>',
+            },
+            series: [{
+                name: 'Knowledge',
+                data: [
+                    {% for state in state_list %}
+                        {% if state.course.name != 'foundation' %}
+                            ['{{state.course.name}}', {{state.KL}}],
+                        {% endif %}
+                    {% endfor %}
+                ],
+                dataLabels: {
+                    enabled: true,
+                    rotation: -90,
+                    color: '#FFFFFF',
+                    align: 'right',
+                    x: 4,
+                    y: 10,
+                    style: {
+                        fontSize: '13px',
+                        fontFamily: 'Verdana, sans-serif',
+                        textShadow: '0 0 3px black'
+                    }
+                }
+            }]
+        });
+}
+function concept_pie_draw(sel, course_name)
+{
+        var un = 0;
+        var uk =0;
+        var k = 0;
+        var l = 0;
+
+        for(i=0;i<state.length;i++)
+                if(state[i][0] == course_name)
+                {
+                        un = parseInt(state[i][1])*100;
+                        uk = parseInt(state[i][2])*100;
+                        k = parseInt(state[i][3])*100;
+                        l = 100 - un - uk - k;
+                        break;
+                }
+        // Build the chart
+        $('#knowledgechart').highcharts({
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false
+            },
+            title: {
+                text: 'Knowledge Level of concept - ' + course_name, 
+				style: {
+					color : 'red',
+					fontSize: '25px'
+				}
+            },
+            tooltip: {
+        	    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: true,
+                        format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                        style: {
+                            fontSize: '20px',
+                            color: 'gold'
+                        },
+                        connectorColor: 'silver'
+                    }
+                }
+            },
+            series: [{
+                type: 'pie',
+                name: 'Level',
+                data: [
+                    ['Unknown', un],
+                    ['Unsatisfactorily Known', uk],
+                    ['Known', k],
+                    ['Learned', l]
+                ]
+            }]
+        });
+}
+</script>
+        <div class="masthead">
+            <h3 class="welcome">Welcome {{student_name}}</h3>
+            <ul class="nav nav-justified">
+                <li><a href="/concept_menu/">Home</a></li>
+                <li class="active"><a href="/performance/">See Performance</a></li>
+                <li><a href="/logout/">Log Out</a></li>
+            </ul>
+        </div>
+        <br><br>
+<div>
+    <div class="dropdown">
+        <a id="dLabel" role="button" data-toggle="dropdown" data-target="#" href="" style="font-size: 25px;">
+        Choose A Concept <span class="caret"></span> </a>
+        <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel" style="width: fit-content;">
+            {% for course in course_list %}
+                {% if course.name != "foundation"%}
+                <li class="performance_drop_li" id="concept_draw_id_{{course.id}}" onclick="concept_pie_draw({{course.id}}, '{{course.name}}')">{{course.name}}</li>
+                {% endif %}
+            {% endfor %}
+            <li class="performance_drop_li" id="all_concept_draw" onclick="all_knowledge_draw(); return false;">All Concept</li>
+        </ul>
+    </div>
+    <br>
+    <br>
+<div id="knowledgechart" style="min-width: 500px; height: 500px; margin: 0 auto;"></div>
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends "base_staff.html"%}
+{% block body %}
+        <div class="masthead">
+            <h3 class="welcome">Welcome {{staff_name}}</h3>
+            <ul class="nav nav-justified">
+                <li><a href="/staff_menu/">Home</a></li>
+                <li><a href="/EvaluationWelcome/">Model Evaluation</a></li>
+                <li><a href="/logout/">Log Out</a></li>
+            </ul>
+        </div>
+        <br><br>
+{% for message in messages %}
+        {% if 'error' in message.tags %}
+            <p style="color: red;">{{ message }}</p>
+        {% endif %}
+{% endfor %}
+	<form method="post" enctype="multipart/form-data" class="content">
+		{% csrf_token %}
+	    Choose a File : <input type="file" name="myfile"/><br><br>
+	    Concept-Name : <input type="text" name="filename"/><br><br>
+
+	    <input type="submit" name="submit" value="Upload" />
+	</form>
+
+{% endblock %}

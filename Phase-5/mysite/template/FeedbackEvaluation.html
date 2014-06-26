@@ -1,0 +1,159 @@
+{% extends "base_staff.html"%}
+{% block body %}
+        <div class="masthead">
+            <h3 class="welcome">Welcome {{staff_name}}</h3>
+            <ul class="nav nav-justified">
+                <li><a href="/staff_menu/">Home</a></li>
+                <li class="active"><a href="/EvaluationWelcome/">Model Evaluation</a></li>
+                <li><a href="/logout/">Log Out</a></li>
+            </ul>
+        </div>
+        <br><br>
+<div id="container" style="min-width: 500px; height: 400px; margin: 0 auto"></div>
+<br>
+<h1 style="color: gold;"> Results of student feedback : </h1>
+<br>
+
+<center>
+    <div class='table-responsive'>
+<table class="table table-eval" style="width:85%">
+	<tr>
+		<th>Questions </th>
+		<th>Average rating</th>		
+		<th>Conclusion</th>
+	</tr>
+	{% for con in mat_list3 %}
+	<tr class="{{con.3}} table-eval-row">
+		
+		<td>{{ con.0 }}</td>		
+		<td>{{ con.1 }}</td>        
+		<td>{{ con.2 }} </td>
+	</tr>
+	{% endfor %}
+</table>
+    </div>
+</center>
+<h1 style="color: gold;">Model Evaluation :</h1>
+<br>
+<center>
+    <div class="table-responsive">
+<table class="table table-eval" style="width:85%; text-align: center;">
+	<tr>
+		<th>Criteria</th>
+		<th>Average rating</th>		
+		<th>Conclusion</th>
+	</tr>
+	{% for con in mat_list4 %}
+	<tr class="{{con.3}} table-eval-row">
+		
+		<td>{{ con.0 }}</td>		
+		<td>{{ con.1 }}</td>        
+		<td>{{ con.2 }} </td>
+	</tr>
+	{% endfor %}
+
+
+</table>
+    ​</div>
+</center>
+
+</font>
+
+<script type="text/javascript">
+
+
+$(function () {
+        $('#container').highcharts({
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: 'Learning Model Evaluation Results',
+                style: {
+                    fontSize: '20px',
+                    fontFamily: 'Verdana, sans-serif',
+                    color: 'gold'
+                }
+            },
+            subtitle: {
+                text: 'Average Ratings',
+                style:{
+                    fontSize: '15px',
+                    fontFamily: 'Verdana, sans-serif',
+                    color: 'white'
+                }
+            },
+            xAxis: {
+                type: 'category',
+                title: {
+                    text : 'Model Evaluation Criteria ---->',
+                    style:{
+                        color : 'red',
+                        fontSize: '15px',
+                        fontFamily: 'Verdana, sans-serif'
+                    }
+                },
+                labels: {
+                    rotation: 0,
+                    style: {
+                        fontSize: '13px',
+                        fontFamily: 'Verdana, sans-serif',
+                        color: 'lightgreen'
+                    }
+                }
+            },
+            yAxis: {
+                min: 0,
+                max: 5,
+                title: {
+                    text: 'Rating ---->',
+                    style:{
+                        color : 'red',
+                        fontSize: '15px',
+                        fontFamily: 'Verdana, sans-serif'
+                    }
+                },
+                labels: {
+                    rotation: 0,
+                    style: {
+                        fontSize: '13px',
+                        fontFamily: 'Verdana, sans-serif',
+                        color: 'lightgreen'
+                    }
+                }
+            },
+            legend: {
+                enabled: false
+            },
+            tooltip: {
+                pointFormat: 'Average rating : <b>{point.y:.1f} out of 5</b>',
+            },
+            series: [{
+                name: 'Learning model Characteristics',
+                data: [
+                    {% for con in mat_list4 %}
+                    ['{{ con.0 }}', {{ con.1 }}],
+                    {% endfor %} 
+                                        
+                ],
+                dataLabels: {
+                    enabled: true,
+                    rotation: 0,
+                    color: '#FFFFFF',
+                    align: 'center',
+                    x: 4,
+                    y: 18,
+                    style: {
+                        fontSize: '13px',
+                        fontFamily: 'Verdana, sans-serif',
+                        textShadow: '0 0 3px black'
+                    }
+                }
+            }]
+        });
+    });
+    
+
+
+</script>
+{% endblock %}

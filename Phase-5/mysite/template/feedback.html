@@ -1,0 +1,160 @@
+{% extends "base.html"%}
+{% block body %}
+        <div class="masthead">
+            <h3 class="welcome">Welcome {{student_name}}</h3>
+            <ul class="nav nav-justified">
+                <li><a href="/concept_menu/">Home</a></li>
+                <li><a href="/performance/">See Performance</a></li>
+                <li><a href="/logout/">Log Out</a></li>
+            </ul>
+        </div>
+        <br><br>
+{% for message in messages %}
+        {% if 'error' in message.tags %}<p style="color: red;">{{ message }}</p>{% endif %}
+{% endfor %}
+<p>Please fill the following recommendation form : (1 signifies completely disagree and 5 signifies completely agree)</p><br><br>
+<form method="get" action="/feedback_handler/" enctype="text/plain">
+    <ol>
+	<li>
+	    <P>Does the educational software meet your expectations?<BR>
+		<input type="radio" name="1" value="1">1<BR>
+		<input type="radio" name="1" value="2">2<BR>
+		<input type="radio" name="1" value="3">3<BR>
+		<input type="radio" name="1" value="4">4<BR>
+		<input type="radio" name="1" value="5">5<BR>
+	    </p>
+	</li>
+	<li>
+	    <P>Does the educational software help you understanding the logic of programming?<BR>
+		<input type="radio" name="2" value="1">1<BR>
+		<input type="radio" name="2" value="2">2<BR>
+		<input type="radio" name="2" value="3">3<BR>
+		<input type="radio" name="2" value="4">4<BR>
+		<input type="radio" name="2" value="5">5<BR>
+	    </p>
+	</li>
+	<li>
+	    <P>Do you think that this educational software is useful as an educational “tool”?<BR>
+		<input type="radio" name="3" value="1">1<BR>
+		<input type="radio" name="3" value="2">2<BR>
+		<input type="radio" name="3" value="3">3<BR>
+		<input type="radio" name="3" value="4">4<BR>
+		<input type="radio" name="3" value="5">5<BR>
+	    </p>
+	</li>
+	<li>
+	    <P>Does the program correspond to your knowledge level each time?<BR>
+		<input type="radio" name="4" value="1">1<BR>
+		<input type="radio" name="4" value="2">2<BR>
+		<input type="radio" name="4" value="3">3<BR>
+		<input type="radio" name="4" value="4">4<BR>
+		<input type="radio" name="4" value="5">5<BR>
+	    </p>
+	</li>
+	<li>
+	    <P>Does the program correspond to your educational needs level each time?<BR>
+		<input type="radio" name="5" value="1">1<BR>
+		<input type="radio" name="5" value="2">2<BR>
+		<input type="radio" name="5" value="3">3<BR>
+		<input type="radio" name="5" value="4">4<BR>
+		<input type="radio" name="5" value="5">5<BR>
+	    </p>
+	</li>
+	<li>
+	    <P>Does the test adapt to your educational needs?<BR>
+		<input type="radio" name="6" value="1">1<BR>
+		<input type="radio" name="6" value="2">2<BR>
+		<input type="radio" name="6" value="3">3<BR>
+		<input type="radio" name="6" value="4">4<BR>
+		<input type="radio" name="6" value="5">5<BR>
+	    </p>
+	</li>
+	<li>
+	    <P>Does the educational software affect positively your perception about computer programming?<BR>
+		<input type="radio" name="7" value="1">1<BR>
+		<input type="radio" name="7" value="2">2<BR>
+		<input type="radio" name="7" value="3">3<BR>
+		<input type="radio" name="7" value="4">4<BR>
+		<input type="radio" name="7" value="5">5<BR>
+	    </p>
+	</li>
+	<li>
+	    <P>Does the educational software draw your interest on computer programming?<BR>
+		<input type="radio" name="8" value="1">1<BR>
+		<input type="radio" name="8" value="2">2<BR>
+		<input type="radio" name="8" value="3">3<BR>
+		<input type="radio" name="8" value="4">4<BR>
+		<input type="radio" name="8" value="5">5<BR>
+	    </p>
+	</li>
+	<li>
+	    <P>Does the educational software motivate you to be involved in computer programming?<BR>
+		<input type="radio" name="9" value="1">1<BR>
+		<input type="radio" name="9" value="2">2<BR>
+		<input type="radio" name="9" value="3">3<BR>
+		<input type="radio" name="9" value="4">4<BR>
+		<input type="radio" name="9" value="5">5<BR>
+	    </p>
+	</li>
+	<li>
+	    <P>Does the educational software help you understanding better the logic of programming?<BR>
+		<input type="radio" name="10" value="1">1<BR>
+		<input type="radio" name="10" value="2">2<BR>
+		<input type="radio" name="10" value="3">3<BR>
+		<input type="radio" name="10" value="4">4<BR>
+		<input type="radio" name="10" value="5">5<BR>
+	    </p>
+	</li>
+	<li>
+	    <P>Does the educational software help you to learn other programming languages?<BR>
+		<input type="radio" name="11" value="1">1<BR>
+		<input type="radio" name="11" value="2">2<BR>
+		<input type="radio" name="11" value="3">3<BR>
+		<input type="radio" name="11" value="4">4<BR>
+		<input type="radio" name="11" value="5">5<BR>
+	    </p>
+	</li>
+	<li>
+	    <P>Does the educational software help you in your studies?<BR>
+		<input type="radio" name="12" value="1">1<BR>
+		<input type="radio" name="12" value="2">2<BR>
+		<input type="radio" name="12" value="3">3<BR>
+		<input type="radio" name="12" value="4">4<BR>
+		<input type="radio" name="12" value="5">5<BR>
+	    </p>
+	</li>
+	<li>
+	    <P>Do you think that your returns to a previous chapter in order to revise it are a waste of time? <BR>
+		<input type="radio" name="13" value="1">1<BR>
+		<input type="radio" name="13" value="2">2<BR>
+		<input type="radio" name="13" value="3">3<BR>
+		<input type="radio" name="13" value="4">4<BR>
+		<input type="radio" name="13" value="5">5<BR>
+	    </p>
+	</li>
+	<li>
+	    <P>Do the returns to a previous chapter correspond to your need for revision?<BR>
+		<input type="radio" name="14" value="1">1<BR>
+		<input type="radio" name="14" value="2">2<BR>
+		<input type="radio" name="14" value="3">3<BR>
+		<input type="radio" name="14" value="4">4<BR>
+		<input type="radio" name="14" value="5">5<BR>
+	    </p>
+	</li>
+	<li>
+	    <P>Does your return to a previous level, that happened each time the system discovered that you made errors of previous chapters,help you learning programming?<BR>
+		<input type="radio" name="15" value="1">1<BR>
+		<input type="radio" name="15" value="2">2<BR>
+		<input type="radio" name="15" value="3">3<BR>
+		<input type="radio" name="15" value="4">4<BR>
+		<input type="radio" name="15" value="5">5<BR>
+	    </p>
+	</li>
+
+
+    </ol>
+<input type="submit" value="Submit">
+<input type="reset" value="Clear Choices">
+</form>
+
+{% endblock %}
