@@ -122,22 +122,22 @@
 
 	<h4 class="concept_section_heading">Recommendation According to Similar Student</h4>
 	<div class="panel-group" id="accordion5">
-	{% for reco in ss_reco_list %}
-		{% if reco.concept not in passed_list and reco.concept.name != "foundation" %}
+	{% for concept in ss_reco_list %}
+		{% if concept not in passed_list and concept.name != "foundation" %}
 			<div class="panel concept_menu_panel_one">
-    		<div class="panel-heading concept_menu_panel_head" onclick="handler('sim', {{reco.concept.id}});return false;">
+    		<div class="panel-heading concept_menu_panel_head" onclick="handler('sim', {{concept.id}});return false;">
 				<h4 class="panel-title">
-			        <a data-toggle="collapse" data-parent="#accordion5" href="#panel_{{reco.concept.id}}">
-			          {{reco.concept.name}}
+			        <a data-toggle="collapse" data-parent="#accordion5" href="#panel_{{concept.id}}">
+			          {{concept.name}}
 			        </a>
 			    </h4>
 		    </div>
-	    	<div id="panel_sim_{{reco.concept.id}}" class="panel-collapse collapse">
+	    	<div id="panel_sim_{{concept.id}}" class="panel-collapse collapse">
 	    		<div class="panel-body concept_menu_panel_body">
 			        <ol>
-						<li><a href = "/material/{{reco.concept.id}}">Read the material</a></li>
-						<li><a href = "/quiz/{{reco.concept.id}}">Take a quiz</a></li>
-						<li><a href = "/concept_submenu/{{reco.concept.id}}">Visit the concept page</a></li>
+						<li><a href = "/material/{{concept.id}}">Read the material</a></li>
+						<li><a href = "/quiz/{{concept.id}}">Take a quiz</a></li>
+						<li><a href = "/concept_submenu/{{concept.id}}">Visit the concept page</a></li>
 					</ol>
 			    </div>
 		    </div>
