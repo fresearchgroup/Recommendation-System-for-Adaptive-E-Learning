@@ -36,110 +36,109 @@
         }
         $('#add_question_form input[name=answer]').val(idi);
     }
-</script>
-<script type="text/javascript">
-var idd = 2;
-var xx = "<div id='dependence_cc_" + idd + "'style='margin-top : 8px; margin-bottom: 8px;'>"
-    + "<div class='dropdown' id='course"+idd+"'>"
-        + "<button class='btn dropdown-toggle' type='button'  data-toggle='dropdown' style='background: plum; min-width: 50%; margin-bottom: 5px; margin-top: 12px;'>"
-            + "<span id='add_ques_cord_"+ idd +"'>Select Course</span>"
-            + "<span class='caret'></span>"
-        + "</button>"
-        + "<ul class='dropdown-menu' role='menu'>"
-            {% for course in course_list %}
-                 {% if course.name != 'foundation' %}
-                        + "<li role='presentation'><a role='menuitem' tabindex='-1' onclick='return course_"+idd+"_{{course.id}}();' style='cursor: pointer;'>{{course.name}}</a></li>"
-                        + "<script type='text/javascript'>"
-                            + "function course_"+idd+"_{{course.id}}()"
-                             + "{  $('#add_ques_cord_"+idd+"').html('{{course.name}}');"
-                                + "$('#hidden_c_"+idd+"').val('{{course.id}}');"
-                                + "}"
-                       + "<\/script>"
-                  {% endif %}
-             {% endfor %}
-        + "</ul>"
-    +"</div>"
-    +"<div class='dropdown' id='dpendency"+idd+"'>"
-     +"  <button class='btn dropdown-toggle' type='button' data-toggle='dropdown' style='background: darkgray; min-width: 50%; margin-top: 5px; margin-bottom: 12px;'>"
-        +"   <span id='add_ques_cordd_"+idd+"'>Select Dependency</span>"
-          +"  <span class='caret'></span>"
-        +"</button>"
-        +"<ul class='dropdown-menu' role='menu'>"
-            +"<li role='presentation'><a role='menuitem' tabindex='-1' onclick='return dep_"+idd+"(1);' style='cursor: pointer;'>Slightly Dependent</a></li>"
-            +"<li role='presentation'><a role='menuitem' tabindex='-1' onclick='return dep_"+idd+"(2);' style='cursor: pointer;'>Moderately Dependent</a></li>"
-            +"<li role='presentation'><a role='menuitem' tabindex='-1' onclick='return dep_"+idd+"(3);' style='cursor: pointer;'>Highly Dependent</a></li>"
-        +"</ul>"
-        +"<script type='text/javascript'>"
-            +"function dep_"+idd+"(ii)"
-            +"{"
-                +"if(ii==1) $('#add_ques_cordd_"+idd+"').html('Slightly Dependent');"
-                +"else if(ii==2) $('#add_ques_cordd_"+idd+"').html('Moderately Dependent');"
-                +"else if(ii==3) $('#add_ques_cordd_"+idd+"').html('Highly Dependent');"
-                +"$('#hidden_d_"+idd+"').val(ii);"
-           +"}"
-        +"<\/script>"
-    +"</div>"
-    +"<input type='hidden' name='course"+idd+"' id='hidden_c_"+idd+"' value='0'>"
-    +"<input type='hidden' name='dependency"+idd+"' id='hidden_d_"+idd+"' value='0'>"
-+"</div>";
-function add_dependency_div()
-{
-    for(lim=1;;lim++)
+    var idd = 2;
+    var xx = "<div id='dependence_cc_" + idd + "'style='margin-top : 8px; margin-bottom: 8px;'>"
+        + "<div class='dropdown' id='course"+idd+"'>"
+            + "<button class='btn dropdown-toggle' type='button'  data-toggle='dropdown' style='background: plum; min-width: 50%; margin-bottom: 5px; margin-top: 12px;'>"
+                + "<span id='add_ques_cord_"+ idd +"'>Select Course</span>"
+                + "<span class='caret'></span>"
+            + "</button>"
+            + "<ul class='dropdown-menu' role='menu'>"
+                {% for course in course_list %}
+                     {% if course.name != 'foundation' %}
+                            + "<li role='presentation'><a role='menuitem' tabindex='-1' onclick='return course_"+idd+"_{{course.id}}();' style='cursor: pointer;'>{{course.name}}</a></li>"
+                            + "<script type='text/javascript'>"
+                                + "function course_"+idd+"_{{course.id}}()"
+                                 + "{  $('#add_ques_cord_"+idd+"').html('{{course.name}}');"
+                                    + "$('#hidden_c_"+idd+"').val('{{course.id}}');"
+                                    + "}"
+                           + "<\/script>"
+                      {% endif %}
+                 {% endfor %}
+            + "</ul>"
+        +"</div>"
+        +"<div class='dropdown' id='dpendency"+idd+"'>"
+         +"  <button class='btn dropdown-toggle' type='button' data-toggle='dropdown' style='background: darkgray; min-width: 50%; margin-top: 5px; margin-bottom: 12px;'>"
+            +"   <span id='add_ques_cordd_"+idd+"'>Select Dependency</span>"
+              +"  <span class='caret'></span>"
+            +"</button>"
+            +"<ul class='dropdown-menu' role='menu'>"
+                +"<li role='presentation'><a role='menuitem' tabindex='-1' onclick='return dep_"+idd+"(1);' style='cursor: pointer;'>Slightly Dependent</a></li>"
+                +"<li role='presentation'><a role='menuitem' tabindex='-1' onclick='return dep_"+idd+"(2);' style='cursor: pointer;'>Moderately Dependent</a></li>"
+                +"<li role='presentation'><a role='menuitem' tabindex='-1' onclick='return dep_"+idd+"(3);' style='cursor: pointer;'>Highly Dependent</a></li>"
+            +"</ul>"
+            +"<script type='text/javascript'>"
+                +"function dep_"+idd+"(ii)"
+                +"{"
+                    +"if(ii==1) $('#add_ques_cordd_"+idd+"').html('Slightly Dependent');"
+                    +"else if(ii==2) $('#add_ques_cordd_"+idd+"').html('Moderately Dependent');"
+                    +"else if(ii==3) $('#add_ques_cordd_"+idd+"').html('Highly Dependent');"
+                    +"$('#hidden_d_"+idd+"').val(ii);"
+               +"}"
+            +"<\/script>"
+        +"</div>"
+        +"<input type='hidden' name='course"+idd+"' id='hidden_c_"+idd+"' value='0'>"
+        +"<input type='hidden' name='dependency"+idd+"' id='hidden_d_"+idd+"' value='0'>"
+    +"</div>";
+    function add_dependency_div()
     {
-        var $chk = $('#dependence_cc_'+lim.toString());
-        
-        if($chk.length == 0)
+        for(lim=1;;lim++)
         {
-            break;
-        }
-        
-        if($('#hidden_c_' + lim.toString()).val() == 0 || $('#hidden_d_' + lim.toString()).val() == 0)
-        {
-            $('#add_ques_error_div').html("<center><div class='alert alert-danger alert-dismissable'><button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button><strong>Error!</strong> Add All Dependency Before Adding New Ones !! </div></center>");
-            $(document).scrollTop(0);
-            return false;
-        }
-    }
-    
-    $('#dep_addition').append(xx);
-    idd++;
-}
+            var $chk = $('#dependence_cc_'+lim.toString());
 
-function check_multiple_dependency()
-{
-    for(lim=1;;lim++)
-    {
-        var $chk = $('#dependence_cc_'+lim.toString());
-        
-        if($chk.length == 0)
-        {
-            break;
-        }
-        
-        if($('#hidden_c_' + lim.toString()).val() == 0 || $('#hidden_d_' + lim.toString()).val() == 0)
-        {
-            $('#add_ques_error_div').html("<center><div class='alert alert-danger alert-dismissable'><button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button><strong>Error!</strong> Add All Dependency Before Submitting !! </div></center>");
-            $(document).scrollTop(0);
-            return false;
-        }
-    }
-    
-    for(i=1;i<lim;i++)
-    {
-        var elei = $('#hidden_c_' + i.toString());
-        for(j=i+1;j<=lim;j++)
-        {
-            var elej = $('#hidden_c_' + i.toString());
-            if (elei.val() == elej.val())
+            if($chk.length == 0)
             {
-                $('#add_ques_error_div').html("<center><div class='alert alert-danger alert-dismissable'><button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button><strong>Error!</strong> Multiple Dependency Value for Same Course !! </div></center>")
+                break;
+            }
+
+            if($('#hidden_c_' + lim.toString()).val() == 0 || $('#hidden_d_' + lim.toString()).val() == 0)
+            {
+                $('#add_ques_error_div').html("<center><div class='alert alert-danger alert-dismissable'><button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button><strong>Error!</strong> Add All Dependency Before Adding New Ones !! </div></center>");
                 $(document).scrollTop(0);
                 return false;
             }
         }
+
+        $('#dep_addition').append(xx);
+        idd++;
     }
-    return true;
-}
+
+    function check_multiple_dependency()
+    {
+        for(lim=1;;lim++)
+        {
+            var $chk = $('#dependence_cc_'+lim.toString());
+
+            if($chk.length == 0)
+            {
+                lim--;
+                break;
+            }
+
+            if($('#hidden_c_' + lim.toString()).val() == 0 || $('#hidden_d_' + lim.toString()).val() == 0)
+            {
+                $('#add_ques_error_div').html("<center><div class='alert alert-danger alert-dismissable'><button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button><strong>Error!</strong> Add All Dependency Before Submitting !! </div></center>");
+                $(document).scrollTop(0);
+                return false;
+            }
+        }
+        alert(lim);
+        for(i=1;i<lim;i++)
+        {
+            var elei = $('#hidden_c_' + i.toString());
+            for(j=i+1;j<=lim;j++)
+            {
+                var elej = $('#hidden_c_' + j.toString());
+                if (elei.val() == elej.val())
+                {
+                    $('#add_ques_error_div').html("<center><div class='alert alert-danger alert-dismissable'><button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button><strong>Error!</strong> Multiple Dependency Value for Same Course !! </div></center>")
+                    $(document).scrollTop(0);
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 </script>
         <div class="add_question_main jumbotron">
             <h1>Add Question</h1>
@@ -266,7 +265,7 @@ function check_multiple_dependency()
                             <td></td>
                             <td>
                                 <button class="btn btn-info btn-lg" onclick="add_dependency_div(); return false;" id="new">Add new dependency</button>
-                                <input class="btn btn-success btn-lg" onclick="check_multiple_dependency(); return false;" type="submit" value="Submit">
+                                <input class="btn btn-success btn-lg" onclick="return check_multiple_dependency();" type="submit" value="Submit">
                             </td>
                         </tr>
                     </table>
@@ -277,4 +276,3 @@ function check_multiple_dependency()
         </div>
     <script>
 {% endblock %}
-

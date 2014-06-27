@@ -1153,9 +1153,10 @@ main( )
 		elif concept.name == "Iterations":
 			print concept.name
 			q = Question(course=concept, question="""How many times does the for loop iterate?
-			for ( i = 0; i< 10 ; i = i+2)
-			{
-			}""", option1="5", option2="10", option3="6", option4="11", answer=1)
+for ( i = 0; i< 10 ; i = i+2)
+{
+
+}""", option1="5", option2="10", option3="6", option4="11", answer=1)
 			q.save()
 			q = Question(course=concept, question="""In the following code :
 do 

@@ -372,3 +372,30 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fceabb', end
     margin-bottom: 10px;
     padding-bottom: 10px;
 }
+
+.delete_question_main{
+    background: rgb(239,236,201); /* Old browsers */
+    background: -moz-linear-gradient(top,  rgba(239,236,201,1) 0%, rgba(254,182,69,1) 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(239,236,201,1)), color-stop(100%,rgba(254,182,69,1))); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  rgba(239,236,201,1) 0%,rgba(254,182,69,1) 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  rgba(239,236,201,1) 0%,rgba(254,182,69,1) 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  rgba(239,236,201,1) 0%,rgba(254,182,69,1) 100%); /* IE10+ */
+    background: linear-gradient(to bottom,  rgba(239,236,201,1) 0%,rgba(254,182,69,1) 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#efecc9', endColorstr='#feb645',GradientType=0 ); /* IE6-9 */
+}
+
+.delete_question_main h1{
+    color: darkmagenta;
+}
+
+.delete_question_jumbo_sub{
+    color: crimson;
+}
+.del_ques_row label{
+    font-weight: normal;
+}
+.del_ques_answer{
+    color: green;
+    text-shadow: 0px 0px 5px chartreuse;
+    text-align: center;
+}

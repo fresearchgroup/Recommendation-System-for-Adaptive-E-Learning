@@ -9,35 +9,81 @@
             </ul>
         </div>
         <br><br>
-<p> Check the question to delete it : </p><br><br>
-    <form method="get" action="/question_deletion_handler/" enctype="text/plain"> 
-	<table border="1"> 
-		<tr>
-			<th>Check to delete</th>
-			<th>Question Concept</th>
-			<th>Question</th>
-			<th>Option 1</th>
-			<th>Option 2</th>
-			<th>Option 3</th>
-			<th>Option 4</th>
-			<th>Answer</th>
-		</tr>  
-    {% for question in question_list %}
-        <tr>
-			<td><input type="checkbox" name={{question.id}} value=question></td>
-			<td>{{question.course.name}}</td> 
-			<td><pre>{{question.question}}</pre></td>
-			<td>{{question.option1}}</td>
-			<td>{{question.option2}}</td>
-			<td>{{question.option3}}</td>
-			<td>{{question.option4}}</td>
-			<td>Option No. {{question.answer}}</td>
-		</tr>
-    {% endfor %}
-	<br>
-    
-	</table>
-	<br>
-	<input type="submit" value="Submit">
-    </form>
+        <script type='text/javascript'>
+            $(document).ready(function(){
+                alert($(this).closest('table').find("td").css("font-weight"));
+                $("label").each(function(){
+                    $(this).css("font-weight", "normal");
+                    $(this).css("border-color", "blue");
+                });
+                $(this).closest('table').find("td").css("font-weight", "normal");
+                $(this).closest('form').find("td").css("border-color", "blue");
+            });
+            function reset_all()
+            {
+                $("label").each(function(){
+                    $(this).css("font-weight", "normal");
+                });
+                $("input[type=checkbox]").each(function(){
+                    $(this).prop("checked", false);
+                });
+            }
+            function select_all()
+            {
+                $("label").each(function(){
+                    $(this).css("font-weight", "bold");
+                });
+                $("input[type=checkbox]").each(function(){
+                    $(this).prop("checked", true);
+                });
+            }
+        </script>
+        <div class="delete_question_main jumbotron">
+            <h1>Delete Question</h1>
+            <p class="delete_question_jumbo_sub">Here you can select all the questions that you want to delete. Just Mark all the questions you wish to delete and hit submit. All the question-dependencies will also be deleted and model will be updated. Beware changes made here cannot be rolled back !!</p>
+            <form method="get" action="/question_deletion_handler/" enctype="text/plain"> 
+                    <div style="max-height: 300px; overflow: auto;" class="table-responsive">
+                        <table class='table'> 
+                            <tr style='color: brown;'>
+                                <th style="text-align: center; border-color: blue;">Check</th>
+                                <th style="text-align: center; border-color: blue;">Concept</th>
+                                <th style="text-align: center; border-color: blue;">Question</th>
+                                <th style="text-align: center; border-color: blue;">Option 1</th>
+                                <th style="text-align: center; border-color: blue;">Option 2</th>
+                                <th style="text-align: center; border-color: blue;">Option 3</th>
+                                <th style="text-align: center; border-color: blue;">Option 4</th>
+                            </tr>  
+                            {% for question in question_list %}
+                            <tr style='color: black;' id='tab_row_{{question.id}}'>
+                                <td><center><input type="checkbox" name='{{question.id}}' value='{{question}}' id='inp_id_{{question.id}}'></center></td>
+                                <td><center><label for='inp_id_{{question.id}}'>{{question.course.name}}</label></center></td> 
+                                <td><label for='inp_id_{{question.id}}'><pre style='width: 500px; background: none; border-color: deeppink;'>{{question.question}}</pre></label></td>
+                                {% if question.answer == 1 %} <td class="del_ques_answer"> {% else %} <td style='text-align: center;'> {% endif %} <label for='inp_id_{{question.id}}'>{{question.option1}}</label></td>
+                                {% if question.answer == 2 %} <td class="del_ques_answer"> {% else %} <td style='text-align: center;'> {% endif %} <label for='inp_id_{{question.id}}'>{{question.option2}}</label></td>
+                                {% if question.answer == 3 %} <td class="del_ques_answer"> {% else %} <td style='text-align: center;'> {% endif %} <label for='inp_id_{{question.id}}'>{{question.option3}}</label></td>
+                                {% if question.answer == 4 %} <td class="del_ques_answer"> {% else %} <td style='text-align: center;'> {% endif %} <label for='inp_id_{{question.id}}'>{{question.option4}}</label></td>
+                            </tr>
+                            <script type='text/javascript'>
+                                $('#inp_id_{{question.id}}').change(function(){
+                                    if($('#inp_id_{{question.id}}').prop("checked"))
+                                    {
+                                        $('#tab_row_{{question.id}}').find("label").css("font-weight", "bold");
+                                    }
+                                    else
+                                    {
+                                        $('#tab_row_{{question.id}}').find("label").css("font-weight", "normal");
+                                    }
+                                });
+                            </script>
+                            {% endfor %}
+                        <br>
+                        </table>
+                    </div>
+                <center>
+                    <input type="submit" value="Submit" class='btn btn-success btn-lg'>
+                    <input type="reset" value="Reset" class='btn btn-info btn-lg' onclick="reset_all();return false;">
+                    <button class='btn btn-warning btn-lg' onclick="select_all(); return false;">Select All</button>
+                </center>
+            </form>
+        </div>
 {% endblock %}
