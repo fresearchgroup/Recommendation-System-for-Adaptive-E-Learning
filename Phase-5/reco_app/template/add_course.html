@@ -1,5 +1,21 @@
 {% extends "base_staff.html"%}
 {% block body %}
+<script type="text/javascript">
+    function check_form()
+    {
+        if($('#myfile').val() === '')
+        {
+            $('#error_box').html("<center><div class='alert alert-danger alert-dismissable'><button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button><strong>Error!</strong> Please Choose File !! </div></center>");
+            return false;
+        }
+        if($('#filename').val() === '')
+        {
+            $('#error_box').html("<center><div class='alert alert-danger alert-dismissable'><button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button><strong>Error!</strong> Please Enter Concept-Name !! </div></center>");
+            return false;
+        }
+        return true;
+    }
+</script>
         <div class="masthead">
             <h3 class="welcome">Welcome {{staff_name}}</h3>
             <ul class="nav nav-justified">
@@ -9,17 +25,39 @@
             </ul>
         </div>
         <br><br>
+        <div id="error_box">
 {% for message in messages %}
         {% if 'error' in message.tags %}
-            <p style="color: red;">{{ message }}</p>
+            <center>
+                <div class='alert alert-danger alert-dismissable'>
+                    <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
+                    <strong>Error!</strong> {{message}} 
+                </div>
+            </center>
         {% endif %}
 {% endfor %}
-	<form method="post" enctype="multipart/form-data" class="content">
-		{% csrf_token %}
-	    Choose a File : <input type="file" name="myfile"/><br><br>
-	    Concept-Name : <input type="text" name="filename"/><br><br>
+        </div>
+            <div class="add_concept_main jumbotron">
+                <h1>Add Concept</h1>
+                <p class="evaluation_jumbo_sub">Here you can add a new Concept. Just choose the learning material file and enter the concept name !!</p>
+            <form method="post" id= "login_div" enctype="multipart/form-data" action="" class="login_form" onsubmit="return check_form();">
+                {% csrf_token %}
+                <p>
+                    <label for="myfile">Choose File : </label>
+                    <input type="file" name="myfile" id="myfile" class="btn btn-default" style="position: relative; display: inline-block;">
+                </p>
 
-	    <input type="submit" name="submit" value="Upload" />
-	</form>
+                <p>
+                    <label for="filename">Concept Name : </label>
+                    <input type="text" name="filename" id="filename" style="width: 300px;">
+                </p>
+
+                <p class="login-submit">
+                    <input type="submit" name="submit" value="Upload" class="btn btn-success btn-lg" style="margin-right: 10px; margin-left: 250px;">
+                    <button type="reset" class="btn btn-warning btn-lg" style="margin-left: 10px;">Reset</button>
+                </p>
+            </form>
+            </div>
+        
 
 {% endblock %}

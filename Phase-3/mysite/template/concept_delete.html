@@ -1,0 +1,36 @@
+{% extends "base_staff.html"%}
+{% block body %}
+        <div class="masthead">
+            <h3 class="welcome">Welcome {{staff_name}}</h3>
+            <ul class="nav nav-justified">
+                <li><a href="/staff_menu/">Home</a></li>
+                <li><a href="/EvaluationWelcome/">Model Evaluation</a></li>
+                <li><a href="/logout/">Log Out</a></li>
+            </ul>
+        </div>
+        <br><br>
+<p> Check the concept to delete it : </p><br><br>
+    <form method="get" action="/concept_deletion_handler/" enctype="text/plain"> 
+	<table style="width:auto" border="1"> 
+		<tr>
+			<td>Check to delete</td>			
+			<td>Concept</td>
+		</tr>  
+    {% for concept in concept_list %}
+	{% if concept.name != "foundation" %}
+        <tr>
+			<td><input type="checkbox" name={{concept.id}} value=question></td>
+			<td>{{concept.name}}</td> 
+		</tr>
+	{% endif %}
+    {% endfor %}
+	<br>
+    
+	</table>
+	<br>
+	<input type="submit" value="Submit">
+    </form>
+
+
+{% endblock %}
+

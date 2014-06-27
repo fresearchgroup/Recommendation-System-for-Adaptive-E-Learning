@@ -9,61 +9,272 @@
             </ul>
         </div>
         <br><br>
-{% for message in messages %}
-        {% if 'error' in message.tags %}<p style="color: red;">{{ message }}</p>{% endif %}
-{% endfor %}
-<script type="text/javascript" src="http://code.jquery.com/jquery.js"></script>
-<script>
-	var id = 2;
-	function addnew()
-	{
-		$("#dependence").append("<select name='course" + id + "' id='course" + id + "'>{% for course in course_list %}{% if course.name != 'foundation' %} <option value={{course.id}}>{{course.name}}</option>{% endif %}{% endfor %}</select> <select name='dependency" + id + "' id='dependency" + id + "'><option value='1'>Slightly dependent</option>	<option value='2'>Moderately dependent</option><option value='3'>Highly dependent</option></select><br>");
-		id ++;
-	}
+        <div id="add_ques_error_div">
+            {% for message in messages %}
+                    {% if 'error' in message.tags %}
+                        <center>
+                            <div class='alert alert-danger alert-dismissable'>
+                                <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
+                                <strong>Error!</strong> {{ message }} </div>
+                        </center>
+                    {% endif %}
+            {% endfor %}
+        </div>
+<script type="text/javascript">
+    function radio_changer(idi)
+    {
+        for(i=1;i<=4;i++)
+        {
+            if(i==idi)
+            {
+                $("#answer_label_".concat(i.toString())).css("background", "lightgreen");
+            }
+            else
+            {
+                $("#answer_label_".concat(i.toString())).css("background", "white");
+            }
+        }
+        $('#add_question_form input[name=answer]').val(idi);
+    }
 </script>
-<form action="/question_upload_handler/" method="get">
- 	Course : <select name="course">
- 			 {% for course in course_list %}
+<script type="text/javascript">
+var idd = 2;
+var xx = "<div id='dependence_cc_" + idd + "'style='margin-top : 8px; margin-bottom: 8px;'>"
+    + "<div class='dropdown' id='course"+idd+"'>"
+        + "<button class='btn dropdown-toggle' type='button'  data-toggle='dropdown' style='background: plum; min-width: 50%; margin-bottom: 5px; margin-top: 12px;'>"
+            + "<span id='add_ques_cord_"+ idd +"'>Select Course</span>"
+            + "<span class='caret'></span>"
+        + "</button>"
+        + "<ul class='dropdown-menu' role='menu'>"
+            {% for course in course_list %}
+                 {% if course.name != 'foundation' %}
+                        + "<li role='presentation'><a role='menuitem' tabindex='-1' onclick='return course_"+idd+"_{{course.id}}();' style='cursor: pointer;'>{{course.name}}</a></li>"
+                        + "<script type='text/javascript'>"
+                            + "function course_"+idd+"_{{course.id}}()"
+                             + "{  $('#add_ques_cord_"+idd+"').html('{{course.name}}');"
+                                + "$('#hidden_c_"+idd+"').val('{{course.id}}');"
+                                + "}"
+                       + "<\/script>"
+                  {% endif %}
+             {% endfor %}
+        + "</ul>"
+    +"</div>"
+    +"<div class='dropdown' id='dpendency"+idd+"'>"
+     +"  <button class='btn dropdown-toggle' type='button' data-toggle='dropdown' style='background: darkgray; min-width: 50%; margin-top: 5px; margin-bottom: 12px;'>"
+        +"   <span id='add_ques_cordd_"+idd+"'>Select Dependency</span>"
+          +"  <span class='caret'></span>"
+        +"</button>"
+        +"<ul class='dropdown-menu' role='menu'>"
+            +"<li role='presentation'><a role='menuitem' tabindex='-1' onclick='return dep_"+idd+"(1);' style='cursor: pointer;'>Slightly Dependent</a></li>"
+            +"<li role='presentation'><a role='menuitem' tabindex='-1' onclick='return dep_"+idd+"(2);' style='cursor: pointer;'>Moderately Dependent</a></li>"
+            +"<li role='presentation'><a role='menuitem' tabindex='-1' onclick='return dep_"+idd+"(3);' style='cursor: pointer;'>Highly Dependent</a></li>"
+        +"</ul>"
+        +"<script type='text/javascript'>"
+            +"function dep_"+idd+"(ii)"
+            +"{"
+                +"if(ii==1) $('#add_ques_cordd_"+idd+"').html('Slightly Dependent');"
+                +"else if(ii==2) $('#add_ques_cordd_"+idd+"').html('Moderately Dependent');"
+                +"else if(ii==3) $('#add_ques_cordd_"+idd+"').html('Highly Dependent');"
+                +"$('#hidden_d_"+idd+"').val(ii);"
+           +"}"
+        +"<\/script>"
+    +"</div>"
+    +"<input type='hidden' name='course"+idd+"' id='hidden_c_"+idd+"' value='0'>"
+    +"<input type='hidden' name='dependency"+idd+"' id='hidden_d_"+idd+"' value='0'>"
++"</div>";
+function add_dependency_div()
+{
+    for(lim=1;;lim++)
+    {
+        var $chk = $('#dependence_cc_'+lim.toString());
+        
+        if($chk.length == 0)
+        {
+            break;
+        }
+        
+        if($('#hidden_c_' + lim.toString()).val() == 0 || $('#hidden_d_' + lim.toString()).val() == 0)
+        {
+            $('#add_ques_error_div').html("<center><div class='alert alert-danger alert-dismissable'><button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button><strong>Error!</strong> Add All Dependency Before Adding New Ones !! </div></center>");
+            $(document).scrollTop(0);
+            return false;
+        }
+    }
+    
+    $('#dep_addition').append(xx);
+    idd++;
+}
+
+function check_multiple_dependency()
+{
+    for(lim=1;;lim++)
+    {
+        var $chk = $('#dependence_cc_'+lim.toString());
+        
+        if($chk.length == 0)
+        {
+            break;
+        }
+        
+        if($('#hidden_c_' + lim.toString()).val() == 0 || $('#hidden_d_' + lim.toString()).val() == 0)
+        {
+            $('#add_ques_error_div').html("<center><div class='alert alert-danger alert-dismissable'><button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button><strong>Error!</strong> Add All Dependency Before Submitting !! </div></center>");
+            $(document).scrollTop(0);
+            return false;
+        }
+    }
+    
+    for(i=1;i<lim;i++)
+    {
+        var elei = $('#hidden_c_' + i.toString());
+        for(j=i+1;j<=lim;j++)
+        {
+            var elej = $('#hidden_c_' + i.toString());
+            if (elei.val() == elej.val())
+            {
+                $('#add_ques_error_div').html("<center><div class='alert alert-danger alert-dismissable'><button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button><strong>Error!</strong> Multiple Dependency Value for Same Course !! </div></center>")
+                $(document).scrollTop(0);
+                return false;
+            }
+        }
+    }
+    return true;
+}
+</script>
+        <div class="add_question_main jumbotron">
+            <h1>Add Question</h1>
+            <p style="color: darkred;">Here you can add a question. Select the concept, enter the statement, four choices and the correct answer. You also need to provide the dependency of the question on other concepts. Be careful with the dependency value as it will affect the concept-mapping !!</p>
+            <form action="/question_upload_handler/" method="get" id="add_question_form">
+                <br>
+                <div class="dropdown">
+                    <button class="btn dropdown-toggle" type="button" data-toggle="dropdown" style="background: blue;">
+                        <span id="add_ques_sel_c">Select Course</span>
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                        {% for course in course_list %}
 				{% if course.name != 'foundation' %} 
-			<option value={{course.id}}>{{course.name}}</option>
+                                    <li role="presentation"><a role="menuitem" tabindex="-1" onclick="return course_{{course.id}}();" style="cursor: pointer;">{{course.name}}</a></li>
+                                    <script type="text/javascript">
+                                        function course_{{course.id}}()
+                                        {
+                                            $('#add_ques_hidden_course').val("{{course.id}}");
+                                            $('#add_ques_sel_c').html("{{course.name}}");
+                                            $('#add_ques_option_div').css("visibility", "visible");
+                                            $('#add_ques_option_div').css("height", "auto");
+                                        }
+                                    </script>
 				{% endif %}
 			 {% endfor %}
-		 </select><br> 	
-	Question : <input type="text" name="question"><br />
-        Option 1 : <input type="text" name="option1"><br />
-        Option 2 : <input type="text" name="option2"><br />
-        Option 3 : <input type="text" name="option3"><br />
-        Option 4 : <input type="text" name="option4"><br />
-        Answer   : <input type="text" name="answer"><br /><br />
-
-		<div name="dependence" id="dependence">
-			<select name='course1' id='course1'>
-				{% for course in course_list %}
-					{% if course.name != 'foundation' %} 
-						<option value={{course.id}}>
-							{{course.name}}
-						</option>
-					{% endif %}
-				{% endfor %}
-			</select>
-			<select name='dependency1' id='dependency1'>
-				<option value='1'>
-					Slightly dependent
-				</option>
-				<option value='2'>
-					Moderately dependent
-				</option>
-				<option value='3'>
-					Highly dependent
-				</option>
-			</select><br>
-		</div><br>
-
-	    
-
-<button onclick="addnew(); return false;" id="new">Add new dependency</button>
-
-		<input type="submit" value="Submit">
-</form>
-	
+                    </ul>
+                </div>
+                <input type="hidden" name="course" id="add_ques_hidden_course">
+                <br>
+                <div class="add_ques_option_div" id="add_ques_option_div">
+                <div class="add_question_wrapper_div">
+                    <table class="add_ques_table">
+                        <tr>
+                            <td><label for="question" class="add_ques_label">Question :</label></td>
+                            <td><textarea name="question" cols="50" rows="10" id="question"></textarea></td>
+                        </tr>
+                        <tr>
+                            <td><label for="option1" class="add_ques_label">First Option :</label></td>
+                            <td><input type="text" name="option1" id="option1"></td>
+                        </tr>
+                        <tr>
+                            <td><label for="option2" class="add_ques_label">Second Option :</label></td>
+                            <td><input type="text" name="option2" id="option2"></td>
+                        </tr>
+                        <tr>
+                            <td><label for="option3" class="add_ques_label">Third Option :</label></td>
+                            <td><input type="text" name="option3" id="option3"></td>
+                        </tr>
+                        <tr>
+                            <td><label for="option4" class="add_ques_label">Fourth Option :</label></td>
+                            <td><input type="text" name="option4" id="option4"></td>
+                        </tr>
+                        <tr>
+                            <td><label class="add_ques_label" >Correct Answer :</label></td>
+                            <td>
+                                <div class="btn-group" data-toggle="buttons">
+                                    <label id="answer_label_1" class="btn btn-default" onclick="return radio_changer(1);">
+                                        <input type="radio" name="answer" id="corr_answer_1" value="1"> 1
+                                    </label>
+                                    <label id="answer_label_2" class="btn btn-default" onclick="return radio_changer(2);">
+                                        <input type="radio" name="answer" id="corr_answer_2" value="2"> 2
+                                    </label>
+                                    <label id="answer_label_3" class="btn btn-default" onclick="return radio_changer(3);">
+                                        <input type="radio" name="answer" id="corr_answer_3" value="3"> 3
+                                    </label>
+                                    <label id="answer_label_4" class="btn btn-default" onclick="return radio_changer(4);">
+                                        <input type="radio" name="answer" id="corr_answer_4" value="4"> 4
+                                    </label>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label class='add_ques_label'>Course Dependencies :</label></td>
+                            <td id='dep_addition'>
+                                <div id='dependence_cc_1' style='margin-top: 8px; margin-bottom: 8px;'>
+                                    <div class='dropdown' id='course1'>
+                                        <button class='btn dropdown-toggle' type='button'  data-toggle='dropdown' style='background: plum; min-width: 50%; margin-bottom: 10px;'>
+                                            <span id='add_ques_cord_1'>Select Course</span>
+                                            <span class='caret'></span>
+                                        </button>
+                                        <ul class='dropdown-menu' role='menu'>
+                                            {% for course in course_list %}
+                                                    {% if course.name != 'foundation' %} 
+                                                        <li role='presentation'><a role='menuitem' tabindex='-1' onclick='return course_1_{{course.id}}();' style='cursor: pointer;'>{{course.name}}</a></li>
+                                                        <script type='text/javascript'>
+                                                            function course_1_{{course.id}}()
+                                                            {
+                                                                $('#add_ques_cord_1').html('{{course.name}}');
+                                                                $('#hidden_c_1').val('{{course.id}}');
+                                                            }
+                                                        </script>
+                                                    {% endif %}
+                                             {% endfor %}
+                                        </ul>
+                                    </div>
+                                    <div class='dropdown' id='dpendency1'>
+                                        <button class='btn dropdown-toggle' type='button' data-toggle='dropdown' style='background: darkgray; min-width: 50%;'>
+                                            <span id="add_ques_cordd_1">Select Dependency</span>
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class='dropdown-menu' role='menu'>
+                                            <li role='presentation'><a role='menuitem' tabindex='-1' onclick='return dep_1(1);' style='cursor: pointer;'>Slightly Dependent</a></li>
+                                            <li role='presentation'><a role='menuitem' tabindex='-1' onclick='return dep_1(2);' style='cursor: pointer;'>Moderately Dependent</a></li>
+                                            <li role='presentation'><a role='menuitem' tabindex='-1' onclick='return dep_1(3);' style='cursor: pointer;'>Highly Dependent</a></li>
+                                        </ul>
+                                        <script type='text/javascript'>
+                                            function dep_1(ii)
+                                            {
+                                                if(ii==1) $('#add_ques_cordd_1').html('Slightly Dependent');
+                                                else if(ii==2) $('#add_ques_cordd_1').html('Moderately Dependent');
+                                                else if(ii==3) $('#add_ques_cordd_1').html('Highly Dependent');
+                                                $('#hidden_d_1').val(ii);
+                                            }
+                                        </script>
+                                    </div>
+                                    <input type='hidden' name='course1' id='hidden_c_1' value='0'>
+                                    <input type='hidden' name='dependency1' id='hidden_d_1' value='0'>
+                                </div>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td></td>
+                            <td>
+                                <button class="btn btn-info btn-lg" onclick="add_dependency_div(); return false;" id="new">Add new dependency</button>
+                                <input class="btn btn-success btn-lg" onclick="check_multiple_dependency(); return false;" type="submit" value="Submit">
+                            </td>
+                        </tr>
+                    </table>
+                <br>
+                </div>
+                </div>
+            </form>
+        </div>
+    <script>
 {% endblock %}
+

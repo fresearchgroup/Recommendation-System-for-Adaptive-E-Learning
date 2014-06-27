@@ -9,28 +9,55 @@
             </ul>
         </div>
         <br><br>
-<p> Check the concept to delete it : </p><br><br>
-    <form method="get" action="/concept_deletion_handler/" enctype="text/plain"> 
-	<table style="width:auto" border="1"> 
-		<tr>
-			<td>Check to delete</td>			
-			<td>Concept</td>
-		</tr>  
-    {% for concept in concept_list %}
-	{% if concept.name != "foundation" %}
-        <tr>
-			<td><input type="checkbox" name={{concept.id}} value=question></td>
-			<td>{{concept.name}}</td> 
-		</tr>
-	{% endif %}
-    {% endfor %}
-	<br>
-    
-	</table>
-	<br>
-	<input type="submit" value="Submit">
-    </form>
-
-
+        
+        <div class="concept_delete_main jumbotron">
+            <h1 style="color: indigo;">Delete Concept</h1>
+            <p style="color: saddlebrown;">Here you can select the concepts you want to delete. Beware !! Changes made here cannot be rolled back.</p>
+            <form method="get" action="/concept_deletion_handler/" enctype="text/plain">
+                <center>
+                <div style="max-height: 200px; overflow: auto;" class="table-responsive">
+                    <table style="width:auto; min-width: 600px;" class="table"> 
+                    <tr style="color: blue;">
+                        <td>Check</td>			
+                        <td>Concept</td>
+                    </tr>
+                    {% for concept in concept_list %}
+                        {% if concept.name != "foundation" %}
+                        <tr>
+                            <td><input type="checkbox" name="{{concept.id}}" value="question" id="del_con{{concept.id}}" class="del_con_check"></td>
+                            <td><label for="del_con{{concept.id}}" id="del_con_lab{{concept.id}}" style="color: black; font-weight: normal;">{{concept.name}}</label></td> 
+                            <script type="text/javascript">
+                                $('#del_con{{concept.id}}').change(function() {
+                                    if($('#del_con{{concept.id}}').prop("checked"))
+                                    {
+                                        $('#del_con_lab{{concept.id}}').css("font-weight", "bold");
+                                    }
+                                    else
+                                    {
+                                        $('#del_con_lab{{concept.id}}').css("font-weight", "normal");
+                                    }
+                                });
+                            </script>
+                        </tr>
+                        {% endif %}
+                    {% endfor %}
+                    </table>
+                </div>
+                    <br>
+                <input type="submit" value="Submit" class="button btn-success btn-lg" style="margin-right: 10px;">
+                <button id= "del_con_reset" onclick="return false;" class="button btn-warning btn-lg" style="margin-left: 10px; margin-right: 10px;">Reset</button>
+                <button id= "del_con_check_all" onclick="return false;" class="button btn-info btn-lg" style="margin-left: 10px;">Check All</button>
+                <script type="text/javascript">
+                    $('#del_con_reset').click(function () {
+                        $(this).closest('form').find("input[type=checkbox]").prop("checked", false);
+                        $(this).closest('form').find("label").css("font-weight", "normal");
+                    });
+                    $('#del_con_check_all').click(function () {
+                        $(this).closest('form').find("input[type=checkbox]").prop("checked", true);
+                        $(this).closest('form').find("label").css("font-weight", "bold");
+                    });
+                </script>
+                </center>
+            </form>
+            </div>
 {% endblock %}
-
