@@ -13,7 +13,7 @@
     <h1 style="color: gold;"> Analysis of student scores :</h1>
     <br>
     <center>
-        <table class="table" style="width:80%">
+        <table class="table table-mat-eval" style="width:80%">
             <tr>
                 <th>Serial No</th>
                 <th>Concept name</th>
@@ -22,7 +22,7 @@
                 <th>Accuracy</th>
             </tr>
             {% for con in mat_list%}
-            <tr>
+            <tr class='{{con.5}}'>
                 <td>{{ forloop.counter }}</td>
                 <td>{{ con.0 }}</td>		
                 <td>{{ con.2 }}</td>
@@ -35,14 +35,14 @@
     <h1 style="color: gold;">Analysis of learning material :</h1>
     <br>
     <center>
-        <table class="table" style='width: 60%;'>
+        <table class="table table-mat-eval" style='width: 60%;'>
             <tr>
-                <th>Concept ID</th>
+                <th>Serial No</th>
                 <th>Concept name</th>		
                 <th>Relation between material and quiz</th>
             </tr>
             {% for con in mat_list %}
-            <tr>
+            <tr class='{{con.5}}'>
                 <td>{{ forloop.counter }}</td>
                 <td>{{ con.0 }}</td>		
                 <td>{{ con.4 }}</td>

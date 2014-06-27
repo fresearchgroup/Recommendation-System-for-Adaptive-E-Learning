@@ -146,12 +146,16 @@ def Material_evaluation(request):
         temp.append("{0:.2f}".format(pertemp))
         if pertemp <= 25 :
             temp.append("Poor")
+            temp.append("danger")
         elif pertemp <= 50 :
             temp.append("Average")
+            temp.append("warning")
         elif pertemp <= 75 :
             temp.append("Good")
+            temp.append("info")
         elif pertemp <= 100 :
             temp.append("Excellent")
+            temp.append("success")
         mat_list.append(temp)
     return render (request,'MaterialEvaluation.html',{'num_concepts':num_concepts, 'mat_list':mat_list, 'staff_name':User.objects.get(id=request.session['login_id']).username })
 

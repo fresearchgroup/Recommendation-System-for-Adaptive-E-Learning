@@ -16,21 +16,21 @@
 
 <center>
     <div class='table-responsive'>
-<table class="table table-eval" style="width:85%">
-	<tr>
-		<th>Questions </th>
-		<th>Average rating</th>		
-		<th>Conclusion</th>
-	</tr>
-	{% for con in mat_list3 %}
-	<tr class="{{con.3}} table-eval-row">
-		
-		<td>{{ con.0 }}</td>		
-		<td>{{ con.1 }}</td>        
-		<td>{{ con.2 }} </td>
-	</tr>
-	{% endfor %}
-</table>
+        <table class="table table-eval" style="width:85%">
+            <tr>
+                    <th>Questions </th>
+                    <th>Average rating</th>		
+                    <th>Conclusion</th>
+            </tr>
+            {% for con in mat_list3 %}
+            <tr class="{{con.3}} table-eval-row">
+
+                    <td>{{ con.0 }}</td>		
+                    <td>{{ con.1 }}</td>        
+                    <td>{{ con.2 }} </td>
+            </tr>
+            {% endfor %}
+        </table>
     </div>
 </center>
 <h1 style="color: gold;">Model Evaluation :</h1>
