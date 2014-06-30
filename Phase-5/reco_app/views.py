@@ -229,7 +229,7 @@ def login_handler(request):
 			request.session['login_id'] = user.id
 			request.session['staff_mode'] = user.is_staff
 			if user.is_staff==0: 
-				return HttpResponseRedirect("/student_home/")
+				return HttpResponseRedirect("/concept_menu/")
 			else:
 				return HttpResponseRedirect("/staff_menu/")
 		else:
@@ -242,14 +242,6 @@ def login_handler(request):
 
 def registeration_form(request):
 	return render(request, 'registeration.html', {'error1':False})
-
-def student_home(request):
-	if 'logged_in' not in request.session:
-		return HttpResponseRedirect("/login-form/")
-	if request.session['staff_mode'] == 1:
-		return HttpResponseRedirect("/staff_menu/")
-
-	return render(request, 'StudentDashboard.html', {'student_name':Student.objects.get(user_id=request.session['login_id']).name})
 
 def logout_handler(request):
 	if 'logged_in' in request.session : 	
@@ -510,7 +502,9 @@ def concept_menu_view(request):
 	for item in sorted_importance:
 		question_recco.append(item[0])	
 
-	return render(request, 'concept_menu.html',{'concept_list':clist, 'passed_list':plist, 'student_name' : student.name, 'cf_predict_list' : predict_course_list, 'ss_reco_list':ss_reco_list, 'question_recco':question_recco})
+	List = Course.objects.all()
+
+	return render(request, 'concept_menu.html',{'concept_list':clist, 'passed_list':plist, 'student_name' : student.name, 'cf_predict_list' : predict_course_list, 'ss_reco_list':ss_reco_list, 'question_recco':question_recco, 'all':List})
 
 def concept_submenu_view(request, course_id):
 	if 'logged_in' not in request.session:
@@ -664,10 +658,13 @@ def evaluate_quiz_view(request):
 	curr_stu = Student.objects.get(user_id=request.session['login_id'])
 
 	if (curr_stu.prev_course.id != request.session['course_id']) :
-		dep = CourseDependency.objects.get(course_source_id = curr_stu.prev_course.id, course_target_id = request.session['course_id'])
-		dep.average_change = ((float(dep.average_change)*float(dep.total_stu)) + diff)/ (float(dep.total_stu) + 1) 
-		dep.total_stu = dep.total_stu + 1;
-		dep.save()
+		try:
+			dep = CourseDependency.objects.get(course_source_id = curr_stu.prev_course.id, course_target_id = request.session['course_id'])
+			dep.average_change = ((float(dep.average_change)*float(dep.total_stu)) + diff)/ (float(dep.total_stu) + 1) 
+			dep.total_stu = dep.total_stu + 1;
+			dep.save()
+		except :
+			print "same course"
 
 	if knowledge >= 0.5 : 
 		curr_stu.prev_course = Course.objects.get(id = request.session['course_id'])
@@ -1366,4 +1363,4 @@ def update_student_state(studentstate):
 	studentstate.known = u_k
 	studentstate.learned = u_l
 	studentstate.save()
-
+    
