@@ -229,7 +229,7 @@ def login_handler(request):
 			request.session['login_id'] = user.id
 			request.session['staff_mode'] = user.is_staff
 			if user.is_staff==0: 
-				return HttpResponseRedirect("/concept_menu/")
+				return HttpResponseRedirect("/student_home/")
 			else:
 				return HttpResponseRedirect("/staff_menu/")
 		else:
@@ -242,6 +242,14 @@ def login_handler(request):
 
 def registeration_form(request):
 	return render(request, 'registeration.html', {'error1':False})
+
+def student_home(request):
+	if 'logged_in' not in request.session:
+		return HttpResponseRedirect("/login-form/")
+	if request.session['staff_mode'] == 1:
+		return HttpResponseRedirect("/staff_menu/")
+
+	return render(request, 'StudentDashboard.html', {'student_name':Student.objects.get(user_id=request.session['login_id']).name})
 
 def logout_handler(request):
 	if 'logged_in' in request.session : 	
