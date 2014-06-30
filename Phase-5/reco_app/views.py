@@ -161,11 +161,6 @@ def Material_evaluation(request):
 
 def Parameter_evaluation(request):
 
-	if 'logged_in' not in request.session:
-		return HttpResponseRedirect("/login-form")
-	if request.session['staff_mode'] == 0:
-		return HttpResponseRedirect("/concept_menu/")
-
 	c_list = Course.objects.all()                # list of all concepts in the course
 	total_concepts = len(c_list)
 	num_recomendations_displayed = total_concepts - 1;
@@ -192,7 +187,7 @@ def Parameter_evaluation(request):
 		if cor_avg >= 4.0 :
 			good_recommendation_displayed_count += 1
 
-	return render (request,'EvaluationParameters.html',{'num_recomendations_displayed':num_recomendations_displayed, 'num_good_recommendations':good_recommendation_displayed_count, 'concept_rating_array':concept_rating_array, 'good_recommendation_displayed_count':good_recommendation_displayed_count, 'staff_name':User.objects.get(id=request.session['login_id']).username})
+	return render (request,'EvaluationParameters.html',{'num_recomendations_displayed':num_recomendations_displayed, 'num_good_recommendations':good_recommendation_displayed_count, 'concept_rating_array':concept_rating_array, 'good_recommendation_displayed_count':good_recommendation_displayed_count})
 
 
 def cal_avg_rating(a,b):
@@ -334,7 +329,7 @@ def signup_handler(request):
 		request.session['logged_in'] = 1
 		request.session['staff_mode'] = 0
 
-		return HttpResponseRedirect('/concept_menu')
+		return HttpResponseRedirect('/student_home')
 
 	else:
 		return render(request, 'registeration.html', {'error1':True})	
@@ -526,7 +521,7 @@ def concept_submenu_view(request, course_id):
 		raise Http404()
 	request.session['course_id'] = course_id
 	student_name = Student.objects.get(user_id=request.session['login_id']).name
-	return render(request,'concept_submenu.html',{'student_name' : student_name})
+	return render(request,'concept_submenu.html',{'student_name' : student_name, 'course_id':course_id})
 
 def pdf_view(request, concept_id):
 	if 'logged_in' not in request.session:
@@ -752,6 +747,11 @@ def evaluate_quiz_view(request):
 		ques.append(Feedback_Questions.objects.get(id = item))
 
 	return render(request, 'quiz_result.html', {'score':score, 'question_list':ques})
+
+def all_feedback_view(request):
+	student_name = Student.objects.get(user_id=request.session['login_id']).name
+	question_list = Feedback_Questions.objects.all()
+	return render(request, 'feedback.html', {'student_name':student_name, 'question_list':question_list})
 
 def feedback_handler(request) :
 	if 'logged_in' not in request.session:
@@ -1023,10 +1023,6 @@ def question_deletion_handler(request):
 			
 	staff_name = User.objects.get(id=request.session['login_id']).username
 	return render(request, 'result_staff_question_delete.html',{'staff_name':staff_name, 'save_question' : "1", 'delete_question' : "0"})
-
-def feedback_view(request):
-	student_name = Student.objects.get(user_id=request.session['login_id']).name
-	return render(request, 'feedback.html',{'student_name':student_name})
 
 def add_stuff(request):
 

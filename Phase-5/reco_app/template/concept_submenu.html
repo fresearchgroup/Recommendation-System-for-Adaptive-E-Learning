@@ -3,14 +3,15 @@
 <div class="masthead">
             <h3 class="welcome">Welcome {{student_name}}</h3>
             <ul class="nav nav-justified">
-                <li><a href="/concept_menu/">Home</a></li>
+                <li><a href="/student_home/">Home</a></li>
                 <li><a href="/performance/">See Performance</a></li>
                 <li><a href="/logout/">Log Out</a></li>
+                <li><a href="/all_feedback/">Give feedback</a></li>
             </ul>
         </div>
         <br><br>
     <ol class="concept_content_ol">
-	<li><a href = "/material/">Read the material</a></li>
-	<li><a href = "/quiz/">Take a quiz</a></li>
+	<li><a href = "/material/{{course_id}}">Read the material</a></li>
+	<li><a href = "/quiz/{{course_id}}">Take a quiz</a></li>
     </ol>
 {% endblock %}
