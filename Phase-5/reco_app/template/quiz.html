@@ -20,7 +20,7 @@
 	{%for question in question_list %}
 		<li>
                     <div class="quiz_question_block">
-                        <pre><span class="quiz_question">{{question.question}}</span></pre><br>
+                        <pre style="background: none; border: 1px solid grey;"><span class="quiz_question">{{question.question}}</span></pre><br>
                         <!--<div class="btn-group" data-toggle="buttons">
                             <label class="btn quiz_option_btn"><input type="radio" name="options" id="option1"> Option 1</label><br>
                             <label class="btn btn-primary quiz_option_btn"><input type="radio" name="options" id="option2"> Option 2</label><br>
@@ -54,7 +54,6 @@
             
             {% for ques in question_list %}
                var sss = typeof $('input[name={{ques.id}}]:checked', '#quiz_form').val();
-               alert(sss);
                if (sss == "undefined")
                {
                    $('.quiz_error_box').html("<div class='alert alert-danger alert-dismissable'><button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button><strong>Error!</strong> Please answer all questions before proceeding.</div>");
