@@ -57,7 +57,7 @@
         
         <h4 class="concept_section_heading">Courses available</h4>
 	<div class="panel-group" id="accordion6">
-	{% for concept in concept_list %}
+	{% for concept in all %}
 		{% if concept.name != "foundation" %}
 		<div class="panel concept_menu_panel_one">
     		<div class="panel-heading concept_menu_panel_head" onclick="handler('available', {{concept.id}});return false;">
