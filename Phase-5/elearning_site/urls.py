@@ -11,6 +11,7 @@ urlpatterns = patterns('',
     # url(r'^blog/', include('blog.urls')),
 
 	url(r'^$', login_form),
+	url(r'^student_home/$',student_home),
     url(r'^EvaluationWelcome/$',Evaluation_welcome),
     url(r'FeedbackEvaluation/$',Feedback_evaluation),
     url(r'MaterialEvaluation/$',Material_evaluation),
