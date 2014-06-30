@@ -55,12 +55,12 @@ def concept_map(course_id, student):
 		change1 = object1.value - object1.prev	   # 1 for wrong to right
 												   # -1 for right to wrong
 												   # 0 for no change
-		
+
 	#	print "question1 = " + str(question1.id)
 
 		List = Q1Q2RightWrong.objects.filter(Q(question_x=question1)|Q(question_y=question1))
 	#	print len(List)
-		#print "length of the list: " + str(len(List))	
+	#	print "length of the list: " + str(len(List))	
 	
 		for object3 in List:
 			#print "1"			
@@ -77,11 +77,15 @@ def concept_map(course_id, student):
 												   # -1 for right to wrong
 												   # 0 for no change
 
+			print "question1 " + str(question1.id) + " change1 " + str(change1)
+			print "question2 " + str(question2.id) + " change2 " + str(change2)
+
+
 			if change1 == 0 and change2 == 0:
 				continue
 
 			if change1 == 1:
-				if prev2 == 0:
+				if prev2 + change2 == 0:
 					object3.wrong = object3.wrong - 1
 				#	print "changing"
 				if prev2 + change2 == 1:
@@ -91,7 +95,7 @@ def concept_map(course_id, student):
 				if prev2 + change2 == 0:
 					object3.wrong = object3.wrong + 1
 				#	print "changing"
-				if prev2 == 1:
+				if prev2 + change2 == 1:
 					object3.right = object3.right - 1
 				#	print "changing"
 						
@@ -121,7 +125,7 @@ def concept_map(course_id, student):
 				continue
 
 			if change1 == 1:
-				if prev2 == 0:
+				if prev2 + change2 == 0:
 					object3.wrong = object3.wrong - 1
 				#	print "changing"
 				if prev2 + change2 == 1:
@@ -131,7 +135,7 @@ def concept_map(course_id, student):
 				if prev2 + change2 == 0:
 					object3.wrong = object3.wrong + 1
 				#	print "changing"
-				if prev2 == 1:
+				if prev2 + change2 == 1:
 					object3.right = object3.right - 1
 				#	print "changing"
 						
@@ -177,17 +181,17 @@ def concept_map(course_id, student):
 				scoreSourceWrong = 1
 				scoreTargetWrong = 1
 
-	#		print "----------------------------"
-	#		print "Q1 = " + str(question1.id)
-	#		print "Q2 = " + str(question2.id)
+			print "----------------------------"
+			print "Q1 = " + str(question1.id)
+			print "Q2 = " + str(question2.id)
 
 
-	#		print "scoreRight = " + str(scoreRight)
-	#		print "scoreWrong = " + str(scoreWrong)
-	#		print "scoreSourceRight = " + str(scoreSourceRight)
-	#		print "scoreSourceWrong = " + str(scoreSourceWrong)
-	#		print "scoreTargetRight = " + str(scoreTargetRight)
-	#		print "scoreTargetWrong = " + str(scoreTargetWrong)
+			print "scoreRight = " + str(scoreRight)
+			print "scoreWrong = " + str(scoreWrong)
+			print "scoreSourceRight = " + str(scoreSourceRight)
+			print "scoreSourceWrong = " + str(scoreSourceWrong)
+			print "scoreTargetRight = " + str(scoreTargetRight)
+			print "scoreTargetWrong = " + str(scoreTargetWrong)
 			
 			#print "testing time end1"
 			value1 = float(scoreRight)/float(scoreSourceRight)
