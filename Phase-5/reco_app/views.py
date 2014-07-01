@@ -135,14 +135,15 @@ def Material_evaluation(request):
                 continue
         temp = []
         temp.append(i.name)
-        temp.append(Grade.objects.all().filter(conceptID=Course.objects.get(id=i.id)).aggregate(Sum('value')))
+        temp.append(Grade.objects.filter(conceptID=Course.objects.get(id=i.id)).aggregate(Sum('value')))
         if temp[1]['value__sum'] is None:
             temp[1]['value__sum']=0
-        temp.append(Grade.objects.all().filter(conceptID=Course.objects.get(id=i.id)).count())
+        temp.append(Grade.objects.filter(conceptID=Course.objects.get(id=i.id)).count())
         if temp[2] == 0:
-            temp[2] = 1
-
-        pertemp = (float(temp[1]['value__sum']*100))/float(temp[2])
+        	pertemp = 0
+        else:
+            pertemp = (float(temp[1]['value__sum']*100))/float(temp[2])
+            
         temp.append("{0:.2f}".format(pertemp))
         if pertemp <= 25 :
             temp.append("Poor")
@@ -301,10 +302,12 @@ def signup_handler(request):
 			rr.save()
 		questionList = Question.objects.all()
 		for question in questionList:
+			print "question.id" + str(question.id)
 			grade = Grade(studentID=student,questionID=question,value=0,prev=0,conceptID=question.course, attempted=0)
 			grade.save()
 		
-		questionList = Question.objects.all()		
+		questionList = Question.objects.all()	
+		print "no. of questions in the database : " + str(questionList.count())	
 		length = len(questionList)
 		i = 0
 		while i < length:
