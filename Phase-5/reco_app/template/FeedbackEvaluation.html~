@@ -25,7 +25,7 @@
             </tr>
             {% for con in mat_list3 %}
             <tr class="{{con.3}} table-eval-row">
-		    <td>{{con.4}}</td>
+		    <td>{{con.3}}</td>
                     <td>{{ con.0 }}</td>		
                     <td>{{ con.1 }}</td>        
                     <td>{{ con.2 }} </td>

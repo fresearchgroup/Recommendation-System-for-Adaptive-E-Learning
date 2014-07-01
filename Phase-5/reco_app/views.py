@@ -45,6 +45,7 @@ def Feedback_evaluation(request):
 		mat_list3 = []
 		mat_list4 = []
 		category_list = ['Effectiveness of system','Adaptivity of system','State on Computer Programming','Students progress in future','Necessity of revision']
+		category_list1 = {'1':'Effectiveness of system','2':'Adaptivity of system','3':'State on Computer Programming','4':'Students progress in future','5':'Necessity of revision'}
 		for i in question_list :
 			temp3 = []
 			temp3.append(i.ques)
@@ -72,6 +73,8 @@ def Feedback_evaluation(request):
 			else :
 				temp3.append("Very much")
 				temp3.append("success")
+			print category_list1[str(i.category)]
+			temp3.append(category_list1[str(i.category)])
 			mat_list3.append(temp3)
 		
 		for j in range(0,num_feedback_categories.category):
