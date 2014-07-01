@@ -19,7 +19,7 @@
                 <th>Concept name</th>
                 <th>Total Questions attempted by all students</th>		
                 <th>Questions solved correctly</th>
-                <th>Success %</th>
+                <th>Success</th>
 		<th>Relationship between material and quiz</th>
             </tr>
             {% for con in mat_list%}
