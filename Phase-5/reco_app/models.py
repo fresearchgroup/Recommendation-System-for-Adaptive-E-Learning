@@ -73,10 +73,10 @@ class CourseDependency(models.Model):
 class Question(models.Model):
     course = models.ForeignKey(Course)
     question = models.CharField(max_length=600)
-    option1 = models.CharField(max_length=40)
-    option2 = models.CharField(max_length=40)
-    option3 = models.CharField(max_length=40)
-    option4 = models.CharField(max_length=40)
+    option1 = models.CharField(max_length=100)
+    option2 = models.CharField(max_length=100)
+    option3 = models.CharField(max_length=100)
+    option4 = models.CharField(max_length=100)
     answer = models.IntegerField()
     def __unicode__(self):
 	return self.question

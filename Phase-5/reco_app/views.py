@@ -486,7 +486,7 @@ def concept_menu_view(request):
 	attempted_wrongly_grade_list = attempted_wrongly_grade_list1.filter(~Q(attempted = 0)) 
 
 	concept_list = Course.objects.all()
-	num_questions = Question.objects.all().count()
+	num_questions = 0
 	wrong_concept_importance = []
 	num_attempted = 0
 	dep_sum = 0
@@ -495,13 +495,15 @@ def concept_menu_view(request):
 	for concept in concept_list:
 		num_attempted = 0
 		dep_sum = 0
+		num_questions1 = Question_Concept.objects.filter(concept=concept)
+		num_questions = num_questions1.filter(~Q(value = 0))
 
 		for object1 in attempted_wrongly_grade_list:
 			qc = Question_Concept.objects.get(question=object1.questionID, concept=concept)
 			if qc.value > 0:
 				num_attempted = num_attempted + object1.attempted
 				dep_sum = dep_sum + qc.value
-		if num_attempted < 0.3*num_questions:
+		if num_attempted < 0.3*(num_questions.count()):
 			continue
 		importance = 0.5 * float(num_attempted) + 0.5 * float(dep_sum)
 		wrong_concept_importance.append((concept,importance))
@@ -637,27 +639,27 @@ def evaluate_quiz_view(request):
 		if (studentstate.course_id is not request.session['course_id']) and (studentstate.course.name != 'foundation'):
 			dependency = CourseDependency.objects.filter(course_source_id=request.session['course_id'],course_target_id=studentstate.course_id)
 			if dependency:
-					print "dependency : " + str(dependency[0].value)
-					if oldKL==0:
-						if dependency[0].value != 0:
-							change = knowledge*float(dependency[0].value)
-							studentstate.KL = change
+					if float(dependency[0].value) != 0:
+						print "dependency : " + str(dependency[0].value)
+						if oldKL==0:
+								change = knowledge*float(dependency[0].value)
+								studentstate.KL = change
+								if studentstate.KL>1:
+									studentstate.KL = 1
+								if studentstate.KL<0:
+									studentstate.KL = 0
+								studentstate.save()
+								update_student_state(studentstate)
+						else:
+							change = (knowledge-oldKL)*(float(dependency[0].value))/oldKL
+							studentstate.KL = float(studentstate.KL)
+							studentstate.KL = (studentstate.KL) + (studentstate.KL)*change
 							if studentstate.KL>1:
 								studentstate.KL = 1
 							if studentstate.KL<0:
-								studentstate.KL = 0
+								studentstate.KL = 0						
 							studentstate.save()
 							update_student_state(studentstate)
-					else:
-						change = (knowledge-oldKL)*(float(dependency[0].value))/oldKL
-						studentstate.KL = float(studentstate.KL)
-						studentstate.KL = (studentstate.KL) + (studentstate.KL)*change
-						if studentstate.KL>1:
-							studentstate.KL = 1
-						if studentstate.KL<0:
-							studentstate.KL = 0						
-						studentstate.save()
-						update_student_state(studentstate)
 
 	sumFL = 0
 	for studentstate in StudentState.objects.filter(student_id=studentid) :
@@ -1117,6 +1119,34 @@ def add_stuff(request):
 	new_file = Course(name=name)
 	new_file.content = DjangoFile(file(path))
 	new_file.save()
+	
+	name = "Multi-dimensional Arrays"
+	SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
+	path = os.path.join(os.path.join(os.path.join(os.path.join(SITE_ROOT,'..'),'media'),'documents'),'part_8.pdf')
+	new_file = Course(name=name)
+	new_file.content = DjangoFile(file(path))
+	new_file.save()
+
+	name = "Pointers"
+	SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
+	path = os.path.join(os.path.join(os.path.join(os.path.join(SITE_ROOT,'..'),'media'),'documents'),'part_5.pdf')
+	new_file = Course(name=name)
+	new_file.content = DjangoFile(file(path))
+	new_file.save()
+
+	name = "Functions"
+	SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
+	path = os.path.join(os.path.join(os.path.join(os.path.join(SITE_ROOT,'..'),'media'),'documents'),'part_6.pdf')
+	new_file = Course(name=name)
+	new_file.content = DjangoFile(file(path))
+	new_file.save()
+
+	name = "File Handling"
+	SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
+	path = os.path.join(os.path.join(os.path.join(os.path.join(SITE_ROOT,'..'),'media'),'documents'),'part_7.pdf')
+	new_file = Course(name=name)
+	new_file.content = DjangoFile(file(path))
+	new_file.save()
 
 	concept_list = Course.objects.all()
 	for concept in concept_list:
@@ -1130,6 +1160,108 @@ def add_stuff(request):
 			q = Question(course=concept, question="""The maximum value that an integer constant can have is""" , option1="-32767", option2="32767", option3="1.7014e+38", option4="depends on the machine", answer=4)
 			q.save()
 			q = Question(course=concept, question="""Which of the following is not a keyword in C ?""" , option1="for", option2="char", option3="print", option4="case", answer=3)
+			q.save()
+
+		elif concept.name == "Multi-dimensional Arrays":
+			print concept.name
+			q = Question(course=concept, question="""int a[10][20]; 
+which is true for a: """ , option1="a is true two-dimensional array", option2="200 int-sized locations have been set aside", option3="Conventional rectangular subscript calculation 20*row+col is used to find element a[row,col]", option4="All of the mentioned", answer=4)
+			q.save()
+			q = Question(course=concept, question="""int *b[10]; 
+which is true for b""" , option1="The definition only allocates 10 pointers and does not initialize them", option2="Initialization must be done explicitly", option3="Both a and b", option4="Error", answer=3)
+			q.save()
+			q = Question(course=concept, question="""What is the output of this C code?
+#include <stdio.h>
+void main()
+{
+    char a[10][5] = {"hi", "hello", "fellows"};
+    printf("%s", a[2]);
+}""" , option1="fellows", option2="fellow", option3="fello", option4="fell", answer=3)
+			q.save()
+			q = Question(course=concept, question="""What is the output of the following code?
+#include <stdio.h>
+void main()
+{
+	int i,j,a[3][3]={{1,2,3},{4,5,6},{7,8,9}};
+	for(i=0;i<5;i++)
+		for(j=0;j<5;j++)
+			if ((i*j)%2 = 0)
+				printf("%d",a[i][j]);
+}""" , option1="123456789", option2="12346789", option3="13456789", option4="12345679", answer=2)
+			q.save()
+
+		elif concept.name == "File Handling":
+			print concept.name
+			q = Question(course=concept, question="""The first and second arguments of fopen are : """ , option1="A character string containing the name of the file & the second argument is the mode.", option2=" A character string containing the name of the user & the second argument is the mode.", option3="A character string containing file poniter & the second argument is the mode.", option4="None of the above", answer=1)
+			q.save()
+			q = Question(course=concept, question="""For binary files, a ___ must be appended to the mode string.""" , option1="Nothing", option2="b", option3="binary", option4="01", answer=2)
+			q.save()
+			q = Question(course=concept, question="""If there is any error while opening a file, fopen will return : """ , option1="Nothing", option2="EOF", option3="NULL", option4="depends on compiler", answer=3)
+			q.save()
+			q = Question(course=concept, question="""FILE is of type ______ ?""" , option1="int type", option2="char * type", option3="struct type", option4="none of the mentioned", answer=3)
+			q.save()
+			q = Question(course=concept, question="""What is the meant by a in the following operation?
+fp = fopen(Random.txt, a);""" , option1="attach", option2="append", option3="apprehend", option4="add", answer=2)
+			q.save()
+			q = Question(course=concept, question="""Which of the following mode argument is used to truncate?""" , option1="a", option2="f", option3="w", option4="t", answer=3)
+			q.save()
+			q = Question(course=concept, question="""Which type of file cannot be opened using fopen() in C?""" , option1=".txt", option2=".bin", option3=".c", option4="none of the above", answer=4)
+			q.save()
+
+		elif concept.name == "Functions":
+			print concept.name
+			q = Question(course=concept, question="""Correct syntax of  addition function definition in C  is :""" , option1="""
+addition int (int a, int b)
+{
+
+}""", option2="""
+int addition (int a, int b)
+{
+
+}""", option3="""
+int addition (a : int, b : int)
+{
+
+}""", option4="""
+addition ( a:int , b:int ) int:
+{
+
+}""", answer=2)
+			q.save()
+			q = Question(course=concept, question="""The number of expressions that can be included in the return statement is :""" , option1="1", option2="2", option3="3", option4="can be many", answer=1)
+			q.save()
+			q = Question(course=concept, question="""In call by reference to a function, """ , option1="Value of actual and formal parameters change", option2="Value of actual parameter changes", option3="value of formal parameter changes", option4="Value of actual and formal parameters do not change", answer=3)
+			q.save()
+			q = Question(course=concept, question="""If the following function is called repeatedly 3 times, the output will be :				
+display_number()
+{
+	static int number = 2;
+	printf("number = %d", number);
+	number ++;
+}""" , option1="2 2 2", option2="2 3 4", option3="2 4 6", option4="2 3 3", answer=2)
+			q.save()
+
+		elif concept.name == "Pointers":
+			print concept.name
+			q = Question(course=concept, question="""Output of the following program is :
+#include <stdio.h>
+const int MAX = 3 ;
+int main ()
+{
+	int var[] = { 100 , 120 , 200 };
+	int i, *ptr;
+	ptr = var;
+
+	printf("Value of var[0] = %d\n", *ptr );
+	return 0;
+}
+""" , option1="120", option2="100", option3="200", option4="garbage value", answer=2)
+			q.save()
+			q = Question(course=concept, question="""When a pointer variable is created, its value is initialized by default to :""" , option1="zero", option2="null", option3="grabage value", option4="not set to any value", answer=4)
+			q.save()
+			q = Question(course=concept, question="""When a pointer is passed to a function, the changes to it in the function are :""" , option1="temporary i.e. not effective outside the scope of the function", option2="permanent i.e. value is changed globally", option3="changes cannot be made to the value of the pointer", option4="none of the above", answer=2)
+			q.save()
+			q = Question(course=concept, question="""A pointer to variable 'a' points to  :""" , option1="value of 'a'", option2="address of 'a'", option3="datatype of 'a'", option4="none of the above", answer=2)
 			q.save()
 
 		elif concept.name == "Decision making":

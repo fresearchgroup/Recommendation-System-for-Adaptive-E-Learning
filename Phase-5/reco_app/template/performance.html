@@ -121,12 +121,13 @@ function concept_pie_draw(sel, course_name)
         for(i=0;i<state.length;i++)
                 if(state[i][0] == course_name)
                 {
-                        un = parseInt(state[i][1])*100;
-                        uk = parseInt(state[i][2])*100;
-                        k = parseInt(state[i][3])*100;
+                        un = parseInt(state[i][1]*100);
+                        uk = parseInt(state[i][2]*100);
+                        k = parseInt(state[i][3]*100);
                         l = 100 - un - uk - k;
                         break;
                 }
+
         // Build the chart
         $('#knowledgechart').highcharts({
             chart: {
