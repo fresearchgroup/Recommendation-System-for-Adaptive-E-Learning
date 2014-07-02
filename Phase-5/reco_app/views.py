@@ -637,15 +637,17 @@ def evaluate_quiz_view(request):
 		if (studentstate.course_id is not request.session['course_id']) and (studentstate.course.name != 'foundation'):
 			dependency = CourseDependency.objects.filter(course_source_id=request.session['course_id'],course_target_id=studentstate.course_id)
 			if dependency:
+					print "dependency : " + str(dependency[0].value)
 					if oldKL==0:
-						change = knowledge*float(dependency[0].value)
-						studentstate.KL = change
-						if studentstate.KL>1:
-							studentstate.KL = 1
-						if studentstate.KL<0:
-							studentstate.KL = 0
-						studentstate.save()
-						update_student_state(studentstate)
+						if dependency[0].value != 0:
+							change = knowledge*float(dependency[0].value)
+							studentstate.KL = change
+							if studentstate.KL>1:
+								studentstate.KL = 1
+							if studentstate.KL<0:
+								studentstate.KL = 0
+							studentstate.save()
+							update_student_state(studentstate)
 					else:
 						change = (knowledge-oldKL)*(float(dependency[0].value))/oldKL
 						studentstate.KL = float(studentstate.KL)
